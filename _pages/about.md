@@ -20,8 +20,8 @@ redirect_from:
 I am a 4th-year Ph.D candidate at University of Science and Technology of China (USTC), under the supervision of [Dong Liu](https://faculty.ustc.edu.cn/dongeliu/).
 
 I'm generally interested in video self-supervised learning. In particular, on topics:
-- learning generalizable representations with unlabled videos
-- generative models for representation and synthesis, e.g., diffusion models, Masked Image Modeling. 
+- learning generalizable representations with large-scale unlabled videos
+- large-scale generative models for representation and synthesis, e.g., diffusion models, Masked Image Modeling. 
 - designing self-supervised methods for video-related tasks to get rid of the human annotations 
 
 

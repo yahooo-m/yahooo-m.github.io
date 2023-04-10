@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-Rui Li is a 4th-year Ph.D candidate at University of Science and Technology of China (USTC). He is under the supervision of [Dong Liu](https://faculty.ustc.edu.cn/dongeliu/).
+I am a 4th-year Ph.D candidate at University of Science and Technology of China (USTC), under the supervision of [Dong Liu](https://faculty.ustc.edu.cn/dongeliu/).
 
 I'm generally interested in video self-supervised learning. In particular, on topics:
 - learning generalizable representations with unlabled videos
@@ -57,7 +57,7 @@ Motion-Focused Contrastive Learning of Video Representations  [[pdf](https://ope
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
 - Leverage motion information to boost self-supervised video representation learning
-- Selected as <font color=red>Oral Presentation (top 10\%)</font> on ICCV 2021
+- Selected as <font color=red>Oral Presentation (top 10%)</font> on ICCV 2021
 </div>
 </div>
 
@@ -75,10 +75,12 @@ Xusong Chen, Dong Liu, Chenyi Lei, **Rui Li**, Zheng-Jun Zha, Zhiwei Xiong.
 </div>
 
 
+# 🎖 Services
+Reviewer of CVPR 2023, CVPR 2022, and TMM.
 
-# 🎖 Honors and Awards
+<!-- # 🎖 Honors and Awards
 - *2021.10* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.09* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
+- *2021.09* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  -->
 
 <!-- # 📖 Educations
 - *2019.06 - 2022.04 (now)*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 

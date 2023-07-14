@@ -28,6 +28,7 @@ I'm generally interested in video self-supervised learning. In particular, on to
 
 
 # 🔥 News
+- *2023.07*: &nbsp;🎉🎉 One paper is accepted to ICCV 2023
 - *2023.02*: &nbsp;🎉🎉 One paper is accepted to CVPR 2023
 - *2021.06*: &nbsp;🎉🎉 One paper is accepted to ICCV 2021 as <font color=red>Oral Presentation</font>
 - *2019.09*: &nbsp;🎉🎉 One paper is accepted to ACM MM 2019

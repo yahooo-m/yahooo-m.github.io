@@ -80,7 +80,7 @@ Motion-Focused Contrastive Learning of Video Representations  [[pdf](https://ope
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM MM 2019</div><img src='images/framework_mm2019.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-BERT4SessRec: Content-based video relevance prediction with bidirectional encoder representations from transformer  [[pdf](https://dl.acm.org/doi/pdf/10.1145/3343031.3356051)[code](https://github.com/cbvrp-acmmm-2019/cbvrp-acmmm-2019)
+BERT4SessRec: Content-based video relevance prediction with bidirectional encoder representations from transformer  [[pdf](https://dl.acm.org/doi/pdf/10.1145/3343031.3356051)] [[code](https://github.com/cbvrp-acmmm-2019/cbvrp-acmmm-2019)]
 
 Xusong Chen, Dong Liu, Chenyi Lei, **Rui Li**, Zheng-Jun Zha, Zhiwei Xiong.
 

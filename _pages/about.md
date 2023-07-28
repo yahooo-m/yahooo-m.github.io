@@ -74,7 +74,7 @@ Motion-Focused Contrastive Learning of Video Representations  [[pdf](https://ope
 
 **Rui Li**, Yiheng Zhang, Zhaofan Qiu, Ting Yao, Dong Liu, and Tao Mei 
 
-IEEE/CVF International Conference on Computer Vision **(ICCV)** 2021  <font color=red>(Oral, top 3%)</font>
+IEEE/CVF International Conference on Computer Vision **(ICCV)** 2021
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
 - Leverage motion information to boost self-supervised video representation learning

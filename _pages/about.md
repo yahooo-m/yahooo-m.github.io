@@ -41,7 +41,7 @@ Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](http
 
 **Rui Li**,  Shenglong Zhou, and Dong Liu
 
-International Conference on Computer Vision **(ICCV)**, 2023
+IEEE/CVF International Conference on Computer Vision **(ICCV)** 2023
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
 - Learn the fine-grained features for pixel-level video correspondences by training on a mixture of labeled synthetic data and unlabeled real data

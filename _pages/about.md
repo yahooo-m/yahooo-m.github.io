@@ -88,7 +88,7 @@ IEEE/CVF International Conference on Computer Vision **(ICCV)** 2021
 
 BERT4SessRec: Content-based video relevance prediction with bidirectional encoder representations from transformer  [[pdf](https://dl.acm.org/doi/pdf/10.1145/3343031.3356051)] [[code](https://github.com/cbvrp-acmmm-2019/cbvrp-acmmm-2019)]
 
-Xusong Chen, Dong Liu, Chenyi Lei, **Rui Li**, Zheng-Jun Zha, Zhiwei Xiong.
+Xusong Chen, Dong Liu, Chenyi Lei, **Rui Li**, Zheng-Jun Zha, and Zhiwei Xiong
 
 ACM Multimedia **(MM)** 2019
 

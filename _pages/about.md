@@ -40,6 +40,7 @@ I'm generally interested in video self-supervised learning. In particular, on to
 Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]
 
 **Rui Li**,  Shenglong Zhou, and Dong Liu
+
 International Conference on Computer Vision **(ICCV)**, 2023
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
@@ -56,6 +57,7 @@ International Conference on Computer Vision **(ICCV)**, 2023
 Spatial-then-Temporal Self-Supervised Learning for Video Correspondence  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]
 
 **Rui Li**,  Dong Liu
+
 IEEE/CVF Conference on Computer Vision and Pattern Recognition **(CVPR)** 2023
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
@@ -71,7 +73,8 @@ IEEE/CVF Conference on Computer Vision and Pattern Recognition **(CVPR)** 2023
 Motion-Focused Contrastive Learning of Video Representations  [[pdf](https://openaccess.thecvf.com/content/ICCV2021/papers/Li_Motion-Focused_Contrastive_Learning_of_Video_Representations_ICCV_2021_paper.pdf)][[code](https://github.com/YihengZhang-CV/MCL-Motion-Focused-Contrastive-Learning)]
 
 **Rui Li**, Yiheng Zhang, Zhaofan Qiu, Ting Yao, Dong Liu, and Tao Mei 
-IEEE/CVF International Conference on Computer Vision **(ICCV)** 2021  <font color=red>**(Oral, top 3%)**</font>
+
+IEEE/CVF International Conference on Computer Vision **(ICCV)** 2021  <font color=red>(Oral, top 3%)</font>
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
 - Leverage motion information to boost self-supervised video representation learning
@@ -86,6 +89,7 @@ IEEE/CVF International Conference on Computer Vision **(ICCV)** 2021  <font colo
 BERT4SessRec: Content-based video relevance prediction with bidirectional encoder representations from transformer  [[pdf](https://dl.acm.org/doi/pdf/10.1145/3343031.3356051)] [[code](https://github.com/cbvrp-acmmm-2019/cbvrp-acmmm-2019)]
 
 Xusong Chen, Dong Liu, Chenyi Lei, **Rui Li**, Zheng-Jun Zha, Zhiwei Xiong.
+
 ACM Multimedia **(MM)** 2019
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>

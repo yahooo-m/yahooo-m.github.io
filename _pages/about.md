@@ -49,7 +49,7 @@ Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](http
 
 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/vos2.gif' width = "320" height = "240"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/vos1.gif' width = "320" height = "240"></div></div>
 <div class='paper-box-text' markdown="1">
 
 Spatial-then-Temporal Self-Supervised Learning for Video Correspondence  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]

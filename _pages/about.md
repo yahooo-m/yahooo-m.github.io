@@ -34,7 +34,7 @@ I'm generally interested in video self-supervised learning. In particular, on to
 - *2019.09*: &nbsp;🎉🎉 One paper is accepted to ACM MM 2019
 
 # 📝 Publications 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICCV 2023</div><img src='images/pt1.gif' width = "320" height = "240"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICCV 2023</div><img src='images/pt1.gif' width = "240" height = "160"></div></div>
 <div class='paper-box-text' markdown="1">
 
 Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]
@@ -49,7 +49,7 @@ Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](http
 
 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/vos1.gif' width = "320" height = "240"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/vos1.gif' width = "240" height = "160"></div></div>
 <div class='paper-box-text' markdown="1">
 
 Spatial-then-Temporal Self-Supervised Learning for Video Correspondence  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]
@@ -72,7 +72,7 @@ Motion-Focused Contrastive Learning of Video Representations  [[pdf](https://ope
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
 - Leverage motion information to boost self-supervised video representation learning
-- Selected as <font color=red>Oral Presentation (top 10%)</font> on ICCV 2021
+- Selected as <font color=red>Oral Presentation (top 3%)</font> on ICCV 2021
 </div>
 </div>
 
@@ -80,7 +80,7 @@ Motion-Focused Contrastive Learning of Video Representations  [[pdf](https://ope
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM MM 2019</div><img src='images/framework_mm2019.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-BERT4SessRec: Content-based video relevance prediction with bidirectional encoder representations from transformer  [[pdf](https://dl.acm.org/doi/pdf/10.1145/3343031.3356051)]
+BERT4SessRec: Content-based video relevance prediction with bidirectional encoder representations from transformer  [[pdf](https://dl.acm.org/doi/pdf/10.1145/3343031.3356051)[code](https://github.com/cbvrp-acmmm-2019/cbvrp-acmmm-2019)
 
 Xusong Chen, Dong Liu, Chenyi Lei, **Rui Li**, Zheng-Jun Zha, Zhiwei Xiong.
 

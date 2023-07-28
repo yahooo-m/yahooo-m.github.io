@@ -34,7 +34,7 @@ I'm generally interested in video self-supervised learning. In particular, on to
 - *2019.09*: &nbsp;🎉🎉 One paper is accepted to ACM MM 2019
 
 # 📝 Publications 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICCV 2023</div><img src='images/pt1.gif' width = "320" height = "240"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICCV 2023</div><img src='images/pt1.gif' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]
@@ -51,7 +51,7 @@ International Conference on Computer Vision **(ICCV)**, 2023
 
 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/vos1.gif' width = "320" height = "240"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/vos1.gif' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 Spatial-then-Temporal Self-Supervised Learning for Video Correspondence  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]

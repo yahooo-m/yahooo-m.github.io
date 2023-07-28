@@ -34,6 +34,20 @@ I'm generally interested in video self-supervised learning. In particular, on to
 - *2019.09*: &nbsp;🎉🎉 One paper is accepted to ACM MM 2019
 
 # 📝 Publications 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICCV 2023</div><img src='images/pt1.gif' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+Learning Fine-Grained Features for Pixel-wise Video Correspondences  [[pdf](https://arxiv.org/pdf/2209.07778.pdf)][[code](https://github.com/qianduoduolr/Spa-then-Temp)]
+
+**Rui Li**,  Shenglong Zhou, and Dong Liu
+
+<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
+- Learn the fine-grained features for pixel-level video correspondences by training on a mixture of labeled synthetic data and unlabeled real data
+
+</div>
+</div>
+
+
 
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">CVPR 2023</div><img src='images/framework_cvpr2023.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">

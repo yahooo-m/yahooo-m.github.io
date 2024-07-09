@@ -28,12 +28,29 @@ I'm generally interested in video self-supervised learning. In particular, on to
 
 
 # 🔥 News
+- *2024.07*: &nbsp;🎉🎉 One paper is accepted to ECCV 2024
 - *2023.07*: &nbsp;🎉🎉 One paper is accepted to ICCV 2023
 - *2023.02*: &nbsp;🎉🎉 One paper is accepted to CVPR 2023
 - *2021.06*: &nbsp;🎉🎉 One paper is accepted to ICCV 2021 as <font color=red>Oral Presentation</font>
 - *2019.09*: &nbsp;🎉🎉 One paper is accepted to ACM MM 2019
 
 # 📝 Publications 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2024</div><img src='images/framework_eccv2024.png' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+Decomposition Betters Tracking Everything Everywhere [[pdf](https://github.com/qianduoduolr/DecoMotion)][[code](https://github.com/qianduoduolr/DecoMotion)]
+
+**Rui Li**, Dong Liu
+
+European Conference on Computer Vision **(ECCV)** 2024
+
+<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
+- Learn the fine-grained features for pixel-level video correspondences by training on a mixture of labeled synthetic data and unlabeled real data
+
+</div>
+</div>
+
+
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICCV 2023</div><img src='images/pt1.gif' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 

@@ -19,10 +19,10 @@ redirect_from:
 
 I am a 4th-year Ph.D candidate at University of Science and Technology of China (USTC), under the supervision of [Dong Liu](https://faculty.ustc.edu.cn/dongeliu/).
 
-I'm generally interested in video self-supervised learning. In particular, on topics:
+<!-- I'm generally interested in video self-supervised learning. In particular, on topics:
 - video correspondence learning with downstream tasks including video object segmentation, point tracking, etc.
 - learning generalizable representations with large-scale unlabled videos
-- large-scale generative models for representation and synthesis, e.g., diffusion models, Masked Image Modeling.  
+- large-scale generative models for representation and synthesis, e.g., diffusion models, Masked Image Modeling.   -->
 
 
 
@@ -45,7 +45,7 @@ Decomposition Betters Tracking Everything Everywhere [[pdf](https://github.com/q
 European Conference on Computer Vision **(ECCV)** 2024
 
 <strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
-- Learn the fine-grained features for pixel-level video correspondences by training on a mixture of labeled synthetic data and unlabeled real data
+- We propose a new test-time optimization method, named DecoMotion, for estimating per-pixel and long-range motion. DecoMotion explicitly decomposes video content into static scenes and dynamic objects for motion and appearance rendering
 
 </div>
 </div>

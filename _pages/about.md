@@ -50,7 +50,7 @@ European Conference on Computer Vision **(ECCV)** 2024
 </div>
 
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2024</div><img src='images/TMM.png' alt="sym" width="70%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TMM</div><img src='images/TMM.png' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 Context-Guided Black-Box Attack for Visual Tracking [[pdf](https://ieeexplore.ieee.org/abstract/document/10489919/)]

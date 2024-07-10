@@ -37,7 +37,7 @@ I am a 2th-year Ph.D candidate at Harbin Institute of Technology (Shenzhen), und
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2024</div><img src='images/framework6.jpg' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-Spatial-Temporal Multi-level Association for Video Object Segmentation [[pdf](https://arxiv.org/abs/2404.06265)][[code]]
+Spatial-Temporal Multi-level Association for Video Object Segmentation [[pdf](https://arxiv.org/abs/2404.06265)]
 
 **Deshui Miao**, Xin Li, Zhenyu He, Huchuan Lu, Ming-Hsuan Yang
 
@@ -50,7 +50,20 @@ European Conference on Computer Vision **(ECCV)** 2024
 </div>
 
 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2024</div><img src='images/TMM.png' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1">
 
+Context-Guided Black-Box Attack for Visual Tracking [[pdf](https://ieeexplore.ieee.org/abstract/document/10489919/)]
+
+Xingsen Huang, **Deshui Miao**, Hongpeng Wang, Yaowei Wang, Xin Li
+
+IEEE Transactions on Multimedia **(TMM)** 
+
+<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
+- We propose a context-guided black-box attack method to investigate the robustness of recent advanced deep trackers against spatial and temporal interference. 
+
+</div>
+</div>
 
 # 🎖 Services
 Reviewer of NIPS 2024.

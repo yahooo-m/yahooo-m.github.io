@@ -68,10 +68,13 @@ IEEE Transactions on Multimedia **(TMM)**
 # 🎖 Services
 Reviewer of NIPS 2024.
 
-<!-- # 🎖 Honors and Awards
-- *2021.10* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.09* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  -->
+# 🎖 Honors and Awards
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of CVPR 2023 PVUW workshop</div><img src='images/MOSEWinner.jpg' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1"> 
+1st Place Solution for MOSE Track in CVPR 2024 PVUW Workshop: Complex Video Object Segmentation [[pdf](https://arxiv.org/pdf/2406.17005)] [[code](https://github.com/yahooo-m/VOS-Solution)]
 
+</div>
+</div>
 <!-- # 📖 Educations
 - *2019.06 - 2022.04 (now)*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
 - *2015.09 - 2019.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  -->

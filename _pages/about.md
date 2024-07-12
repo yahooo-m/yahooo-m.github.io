@@ -34,6 +34,21 @@ I am a 2th-year Ph.D candidate at Harbin Institute of Technology (Shenzhen), und
 - *2023.08*: &nbsp;🎉🎉 2nd Place of 5th LSVOS Challenge
 
 # 📝 Publications 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Arxiv</div><img src='images/overall8.jpg' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+Learning Spatial-Semantic Features for Robust Video Object Segmentation [[pdf](https://arxiv.org/abs/2407.07760)][[code](https://github.com/yahooo-m/VOS-Solution)]
+
+**Xin Li**, **Deshui Miao**, Zhenyu He, Yaowei Wang, Huchuan Lu, Ming-Hsuan Yang
+
+
+<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
+- In this paper, we propose a robust video object segmentation framework equipped with spatial-semantic features and discriminative object queries to address the above issues. Specifically, we construct a spatial-semantic network comprising a semantic embedding block and spatial dependencies modeling block to associate the pretrained ViT features with global semantic features and local spatial features, providing a comprehensive target representation. In addition, we develop a masked cross-attention module to generate object queries that focus on the most discriminative parts of target objects during query propagation, alleviating noise accumulation and ensuring effective long-term query propagation. 
+
+</div>
+</div>
+
+
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2024</div><img src='images/framework6.jpg' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 

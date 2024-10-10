@@ -86,6 +86,22 @@ IEEE Transactions on Multimedia **(TMM)**
 Reviewer of NIPS 2024.
 
 # 🎖 Honors and Awards
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of LSVOSV6 workshop VOS Track</div><img src='images/lsvos_winner.jpg' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1"> 
+Discriminative Spatial-Semantic VOS Solution: 1st Place Solution for 6th LSVOS [[pdf](https://arxiv.org/abs/2408.16431)] [[code](https://github.com/yahooo-m/VOS-Solution)]
+
+</div>
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of VOTS2024 workshop</div><img src='images/vots2024-winner.jpg' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1"> 
+Learning Spatial-Semantic Features for Robust Video Object Segmentation [[pdf](https://prints.vicos.si/publications/450)] [[code](https://github.com/yahooo-m/VOS-Solution)]
+
+</div>
+</div>
+
+
+
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of CVPR 2024 PVUW workshop</div><img src='images/MOSEWinner.jpg' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1"> 
 1st Place Solution for MOSE Track in CVPR 2024 PVUW Workshop: Complex Video Object Segmentation [[pdf](https://arxiv.org/pdf/2406.17005)] [[code](https://github.com/yahooo-m/VOS-Solution)]

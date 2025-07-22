@@ -28,6 +28,7 @@ I am a 3nd-year Ph.D. candidate at Harbin Institute of Technology (Shenzhen), un
 
 
 # 🔥 News
+- *2025.07*: &nbsp;🎉🎉 Winner of the VOTS 2025 Challenge (VOTS Track, VOTS-RT Track, VOTSt Track)
 - *2025.01*: &nbsp;🎉🎉 One paper is accepted to ICLR 2025
 - *2024.08*: &nbsp;🎉🎉 Winner of the LSVOS V6 Challenge (VOS Track)
 - *2024.07*: &nbsp;🎉🎉 Winner of the VOTS 2024 Challenge (VOTS Track)

@@ -17,7 +17,7 @@ redirect_from:
 
 <span class='anchor' id='about-me'></span>
 
-I am a 3nd-year Ph.D. candidate at Harbin Institute of Technology (Shenzhen), under the supervision of [Zhenyu He](https://faculty.hitsz.edu.cn/hezhenyu). Now I am doing research under the supervision of [Xin Li](https://sites.google.com/view/xinli-homepage) and [Ming-Hsuan Yang](https://faculty.ucmerced.edu/mhyang/).
+I am a 4th-year Ph.D. candidate at Harbin Institute of Technology (Shenzhen), under the supervision of [Zhenyu He](https://faculty.hitsz.edu.cn/hezhenyu). Now I am doing research under the supervision of [Xin Li](https://sites.google.com/view/xinli-homepage) and [Ming-Hsuan Yang](https://faculty.ucmerced.edu/mhyang/).
 
 <!-- I'm generally interested in video self-supervised learning. In particular, on topics:
 - video correspondence learning with downstream tasks including video object segmentation, point tracking, etc.

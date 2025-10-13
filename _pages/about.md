@@ -131,4 +131,4 @@ Learning Spatial-Semantic Features for Robust Video Object Segmentation [[pdf](h
 - *2021.03 - 2022.06*, Sensetime, Beijing, China.
 - *2021.06 - 2022.05*, Alibaba AI Research (GaoDe map), Beijing, China.
 - *2022.09 - 2025.04*, PengCheng Laboratory (supervised by [Xin Li](https://sites.google.com/view/xinli-homepage)),Shenzhen, China.
-- *2025.05 - 2022.08*, Tencent 青云计划, Shenzhen, China.
+- *2025.05 - 2025.08*, Tencent 青云计划, Shenzhen, China.

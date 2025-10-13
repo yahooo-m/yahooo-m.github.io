@@ -38,6 +38,21 @@ I am a 4th-year Ph.D. candidate at Harbin Institute of Technology (Shenzhen), un
 - *2023.08*: &nbsp;🎉🎉 2nd Place of 5th LSVOS Challenge
 
 # 📝 Publications 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">arxiv</div><img src='images/overall.jpg' alt="sym" width="70%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+Referring and Reasoning Segmentation via Learning Contextual Instructions [[pdf]][[code]]
+
+**Deshui Miao**, Yameng Gu, Zhenyu He, Xin Li, Qingfang Zheng, Ming-Hsuan Yang
+
+
+<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
+- Existing methods for language-based referring and reasoning segmentation rely heavily on a single token ([seg] or [trk]) to represent the object in an image or an entire video, inadequately capturing spatial complexity and temporal consistency. Additionally, the relationship between language and visuals is only explored in Multi-modal Large Language Models (MLLMs), neglecting fine-grained interactions and encountering challenges with dynamic scene variations. To overcome these challenges, we explore the learning of contextual spatial details and consistent temporal aggregation in an end-to-end manner. Specifically, we propose a context filter for aggregating object-level information on semantic, spatial, and temporal dimensions to inject rich spatial-temporal features into the MLLMs. Subsequently, we develop a visual language correlation to effectively capture local and global spatial details. In addition, we introduce a propagation module with an object query memory to enhance inter-frame consistency for maintaining the previous target representation. The proposed model, named ContextSeg, achieves state-of-the-art performance in various image and video segmentation tasks, showcasing its spatial understanding and temporal reasoning abilities.
+
+
+</div>
+</div>
+
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICLR 2025</div><img src='images/overall8.jpg' alt="sym" width="70%"></div></div>
 <div class='paper-box-text' markdown="1">
 

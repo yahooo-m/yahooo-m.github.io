@@ -1,0 +1,26 @@
+[
+  {
+    "id": "aprvos",
+    "title": "APRVOS: 1st Place Winner of 5th PVUW MeViS-Audio Track",
+    "paper_url": "https://arxiv.org/abs/2604.18665",
+    "summary": "An audio-conditioned referring video segmentation pipeline combines transcription, visual presence verification and agent-guided mask refinement."
+  },
+  {
+    "id": "agentrvos",
+    "title": "AgentRVOS for MeViS-Text Track of 5th PVUW Challenge: 3rd Method",
+    "paper_url": "https://arxiv.org/abs/2604.22836",
+    "summary": "A multi-agent loop verifies target presence, searches temporal evidence and refines Sa2VA video masks with SAM3."
+  },
+  {
+    "id": "oamvos",
+    "title": "OAMVOS:2nd Report for 5th PVUW MOSE Track",
+    "paper_url": "https://arxiv.org/abs/2604.22837",
+    "summary": "Reliability-aware memory control and branch recovery improve SAM-based video tracking under occlusion and reappearance."
+  },
+  {
+    "id": "pvuw-2026-overview",
+    "title": "Report of the 5th PVUW Challenge: Towards More Diverse Modalities in Pixel-Level Understanding",
+    "paper_url": "https://arxiv.org/abs/2604.26031",
+    "summary": "The CVPR 2026 PVUW overview compares solutions across MOSE, MeViS-Text and the new MeViS-Audio track."
+  }
+]

@@ -7,7 +7,7 @@
 
 # Site Settings
 title                    : "Deshui Miao"
-description              : "Currentlly PhD student at HiTSZ. "
+description              : "Ph.D. candidate at HIT Shenzhen researching video segmentation, generative video editing and streaming video understanding."
 repository               : "yahooo-m/yahooo-m.github.io"
 google_scholar_stats_use_cdn : true
 
@@ -23,8 +23,8 @@ baidu_site_verification  :  # get baidu_site_verification from https://ziyuan.ba
 author:
   name             : "Deshui Miao"
   avatar           : "images/111.jpg"
-  bio              : "Harbin Institute of Technology (ShenZhen)"
-  location         : "ShenZhen, China"
+  bio              : "Harbin Institute of Technology (Shenzhen)"
+  location         : "Shenzhen, China"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.com/citations?user=NjEOpBEAAAAJ"

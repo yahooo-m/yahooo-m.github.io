@@ -1,149 +1,106 @@
 ---
 permalink: /
 title: ""
-excerpt: ""
+excerpt: "Deshui Miao's research in video segmentation, generative video editing and streaming video understanding."
 author_profile: true
-redirect_from: 
+redirect_from:
   - /about/
   - /about.html
 ---
 
-{% if site.google_scholar_stats_use_cdn %}
-{% assign gsDataBaseUrl = "https://cdn.jsdelivr.net/gh/" | append: site.repository | append: "@" %}
-{% else %}
-{% assign gsDataBaseUrl = "https://raw.githubusercontent.com/" | append: site.repository | append: "/" %}
-{% endif %}
-{% assign url = gsDataBaseUrl | append: "google-scholar-stats/gs_data_shieldsio.json" %}
+<span class="anchor" id="about-me"></span>
 
-<span class='anchor' id='about-me'></span>
+I am a Ph.D. candidate at Harbin Institute of Technology (Shenzhen), advised by [Haijun Zhang](https://www.dl2link.com/). I also work with [Xin Li](https://sites.google.com/view/xinli-homepage) and [Ming-Hsuan Yang](https://faculty.ucmerced.edu/mhyang/).
 
-I am a 4th-year Ph.D. candidate at Harbin Institute of Technology (Shenzhen), under the supervision of [Haijun Zhang](https://www.dl2link.com/). Now I am doing research under the supervision of [Xin Li](https://sites.google.com/view/xinli-homepage) and [Ming-Hsuan Yang](https://faculty.ucmerced.edu/mhyang/).
-
-<!-- I'm generally interested in video self-supervised learning. In particular, on topics:
-- video correspondence learning with downstream tasks including video object segmentation, point tracking, etc.
-- learning generalizable representations with large-scale unlabeled videos
-- large-scale generative models for representation and synthesis, e.g., diffusion models, Masked Image Modeling.   -->
-
-
-
+My research focuses on **video segmentation, generative video editing, and streaming video understanding**. I am currently an algorithm research intern at **ByteDance**.
 
 # 🔥 News
-- *2025.07*: &nbsp;🎉🎉 Winner of the VOTS 2025 Challenge (VOTS Track, VOTS-RT Track, VOTSt Track)
-- *2025.01*: &nbsp;🎉🎉 One paper is accepted to ICLR 2025
-- *2024.08*: &nbsp;🎉🎉 Winner of the LSVOS V6 Challenge (VOS Track)
-- *2024.07*: &nbsp;🎉🎉 Winner of the VOTS 2024 Challenge (VOTS Track)
-- *2024.07*: &nbsp;🎉🎉 One paper is accepted to ECCV 2024
-- *2024.06*: &nbsp;🎉🎉 Winner of the 3th PVUW workshop (MOSE Track)
-- *2024.03*: &nbsp;🎉🎉 One paper is accepted to TMM
-- *2023.08*: &nbsp;🎉🎉 2nd Place of 5th LSVOS Challenge
+{: #news}
 
-# 📝 Publications 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">arxiv</div><img src='images/overall.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1">
+- **2026.10**: New papers and project pages: [DeOverlay / DVTE-Bench](https://yahooo-m.github.io/DVTE-Bench/), [TCoVP](https://victor-wjw.github.io/TCoVP/), and [DeltaStreamer](https://bbbbchan.github.io/DeltaStreamer/).
+- **2026.06**: 🏆 Our [APRVOS](https://arxiv.org/abs/2604.18665) solution won **1st place in the MeViS-Audio track** of the [5th PVUW Challenge at CVPR 2026](https://pvuw.github.io/).
+- **2026.05**: [GeoWeaver](https://arxiv.org/abs/2605.22558) and [RCoT-Seg](https://arxiv.org/abs/2605.07334) are available on arXiv.
+- **2026.02**: [SGAFuse](https://doi.org/10.1016/j.neunet.2026.108779) was published online in *Neural Networks*.
+- **2025.07**: 🏆 Winner of the VOTS 2025 Challenge (VOTS, VOTS-RT, and VOTSt tracks).
+- **2025.01**: One paper accepted to **ICLR 2025**.
+- **2024.08**: 🏆 Winner of the LSVOS V6 Challenge (VOS track).
+- **2024.07**: 🏆 Winner of the VOTS 2024 Challenge; one paper accepted to **ECCV 2024**.
+- **2024.06**: 🏆 Winner of the 3rd PVUW Challenge at CVPR 2024 (MOSE track).
+- **2024.03**: One paper accepted to **IEEE TMM**.
+- **2023.08**: 2nd place in the 5th LSVOS Challenge (VOS track).
 
-Referring and Reasoning Segmentation via Learning Contextual Instructions [[pdf]][[code]]
+# 📝 Publications
+{: #publications}
 
-**Deshui Miao**, Yameng Gu, Zhenyu He, Xin Li, Qingfang Zheng, Ming-Hsuan Yang
+{% assign publication_year = 0 %}
+{% for paper in site.data.publications %}
+{% if paper.year != publication_year %}
+<h2 class="publication-year">{{ paper.year }}</h2>
+{% assign publication_year = paper.year %}
+{% endif %}
+{% include research-item.html paper=paper %}
+{% endfor %}
 
+<details class="earlier-manuscript">
+<summary>Earlier research manuscript</summary>
+<p><strong>Referring and Reasoning Segmentation via Learning Contextual Instructions</strong></p>
+<p class="research-authors"><strong>Deshui Miao</strong>, Yameng Gu, Zhenyu He, Xin Li, Qingfang Zheng, Ming-Hsuan Yang</p>
+<p>ContextSeg studies contextual spatial information and temporal aggregation for referring and reasoning segmentation.</p>
+</details>
 
-<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
-- We explore the learning of contextual spatial details and consistent temporal aggregation in an end-to-end manner. Specifically, we propose a context filter for aggregating object-level information on semantic, spatial, and temporal dimensions to inject rich spatial-temporal features into the MLLMs. Subsequently, we develop a visual language correlation to effectively capture local and global spatial details. In addition, we introduce a propagation module with an object query memory to enhance inter-frame consistency for maintaining the previous target representation. The proposed model, named ContextSeg, achieves state-of-the-art performance in various image and video segmentation tasks, showcasing its spatial understanding and temporal reasoning abilities.
+# 🧩 Projects
+{: #projects}
 
-
+<div class="project-grid">
+  <article class="project-card">
+    <a href="https://yahooo-m.github.io/ReST/" aria-label="ReST project page"><img src="{{ '/images/research/rest.webp' | relative_url }}" alt="ReST subtitle, title and watermark erasure examples" loading="lazy" width="640" height="360"></a>
+    <div class="project-card-body">
+      <h2><a href="https://yahooo-m.github.io/ReST/">ReST</a></h2>
+      <p class="project-subtitle">One-Step Video Subtitle Erasure · ByteDance</p>
+      <p>Residual spatio-temporal diffusion removes video subtitles while retaining source appearance and motion.</p>
+      <p class="research-links"><a href="https://yahooo-m.github.io/ReST/">Project &amp; demos ↗</a></p>
+    </div>
+  </article>
+  <article class="project-card">
+    <a href="https://yahooo-m.github.io/DVTE-Bench/" aria-label="DeOverlay and DVTE-Bench project page"><img src="{{ '/images/research/dvte-benchmark.png' | relative_url }}" alt="DVTE-Bench construction pipeline and eight text-overlay categories" loading="lazy" width="640" height="360"></a>
+    <div class="project-card-body">
+      <h2><a href="https://yahooo-m.github.io/DVTE-Bench/">DeOverlay + DVTE-Bench</a></h2>
+      <p class="project-subtitle">Video Overlay Removal</p>
+      <p>Explore paired videos and recorded removal results across eight text-overlay categories, with 1,631 clips and 136,090 frames.</p>
+      <p class="research-links"><a href="https://yahooo-m.github.io/DVTE-Bench/">Project &amp; benchmark explorer ↗</a></p>
+    </div>
+  </article>
 </div>
-</div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ICLR 2025</div><img src='images/overall8.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1">
+# 📄 Technical Reports
+{: #technical-reports}
 
-Learning Spatial-Semantic Features for Robust Video Object Segmentation [[pdf](https://arxiv.org/abs/2407.07760)][[code](https://github.com/yahooo-m/VOS-Solution)]
+<ul class="report-list">
+{% for report in site.data.technical_reports %}
+  <li><a href="{{ report.paper_url }}"><strong>{{ report.title | escape }}</strong></a><p>{{ report.summary | escape }}</p></li>
+{% endfor %}
+</ul>
 
-**Xin Li**, **Deshui Miao**, Zhenyu He, Yaowei Wang, Huchuan Lu, Ming-Hsuan Yang
+# 🏆 Honors and Awards
+{: #honors-and-awards}
 
-**(ICLR)** 2025
-
-<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
-- In this paper, we propose a robust video object segmentation framework equipped with spatial-semantic features and discriminative object queries to address the above issues. Specifically, we construct a spatial-semantic network comprising a semantic embedding block and spatial dependencies modeling block to associate the pretrained ViT features with global semantic features and local spatial features, providing a comprehensive target representation. In addition, we develop a masked cross-attention module to generate object queries that focus on the most discriminative parts of target objects during query propagation, alleviating noise accumulation and ensuring effective long-term query propagation. 
-
-</div>
-</div>
-
-
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">ECCV 2024</div><img src='images/framework6.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1">
-
-Spatial-Temporal Multi-level Association for Video Object Segmentation [[pdf](https://arxiv.org/abs/2404.06265)][[code](https://github.com/yahooo-m/VOS-Solution)]
-
-**Deshui Miao**, Xin Li, Zhenyu He, Huchuan Lu, Ming-Hsuan Yang
-
-European Conference on Computer Vision **(ECCV)** 2024
-
-<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
-- we propose a spatial-temporal memory to assist feature association and temporal ID assignment and correlation. We evaluate the proposed method by conducting extensive experiments on numerous video object segmentation datasets, including DAVIS 2016/2017 val, DAVIS 2017 test-dev, and YouTube-VOS 2018/2019 val. The favorable performance against the state-of-the-art methods demonstrates the effectiveness of our approach. 
-
-</div>
-</div>
-
-
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">TMM</div><img src='images/TMM.png' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1">
-
-Context-Guided Black-Box Attack for Visual Tracking [[pdf](https://ieeexplore.ieee.org/abstract/document/10489919/)]
-
-Xingsen Huang, **Deshui Miao**, Hongpeng Wang, Yaowei Wang, Xin Li
-
-IEEE Transactions on Multimedia **(TMM)** 
-
-<strong><span class='show_paper_citations' data='DhtAFkwAAAAJ:ALROH1vI_8AC'></span></strong>
-- We propose a context-guided black-box attack method to investigate the robustness of recent advanced deep trackers against spatial and temporal interference. 
-
-</div>
-</div>
+- **2026 · CVPR PVUW — MeViS-Audio track, 1st place.** [APRVOS report](https://arxiv.org/abs/2604.18665) · [Official workshop](https://pvuw.github.io/)
+- **2025 · VOTS Challenge — Winner, VOTS / VOTS-RT / VOTSt tracks.**
+- **2024 · 6th LSVOS Challenge — VOS track, 1st place.** [Report](https://arxiv.org/abs/2408.16431) · [Certificate](/images/lsvos_winner.jpg)
+- **2024 · VOTS Challenge — VOTS track, Winner.** [Challenge report](https://prints.vicos.si/publications/450) · [Certificate](/images/vots2024-winner.jpg)
+- **2024 · CVPR PVUW — MOSE track, 1st place.** [Report](https://arxiv.org/abs/2406.04600) · [Certificate](/images/MOSEWinner.jpg)
+- **2023 · ICCV 5th LSVOS Challenge — VOS track, 2nd place.** [Report](https://youtube-vos.org/assets/challenge/2023/reports/VOS_2nd.pdf) · [Certificate](/images/LSVOS5.jpg)
 
 # 🎖 Services
-Reviewer of NIPS 2024.
+{: #services}
 
-# 🎖 Honors and Awards
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of LSVOSV6 workshop VOS Track</div><img src='images/lsvos_winner.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1"> 
-Discriminative Spatial-Semantic VOS Solution: 1st Place Solution for 6th LSVOS [[pdf](https://arxiv.org/abs/2408.16431)] [[code](https://github.com/yahooo-m/VOS-Solution)]
-
-</div>
-</div>
-
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of VOTS2024 workshop</div><img src='images/vots2024-winner.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1"> 
-Learning Spatial-Semantic Features for Robust Video Object Segmentation [[pdf](https://prints.vicos.si/publications/450)] [[code](https://github.com/yahooo-m/VOS-Solution)]
-
-</div>
-</div>
-
-
-
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Winner of CVPR 2024 PVUW workshop</div><img src='images/MOSEWinner.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1"> 
-1st Place Solution for MOSE Track in CVPR 2024 PVUW Workshop: Complex Video Object Segmentation [[pdf](https://arxiv.org/pdf/2406.17005)] [[code](https://github.com/yahooo-m/VOS-Solution)]
-
-</div>
-</div>
-
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">2nd of ICCV 2023 LSVOS workshop</div><img src='images/LSVOS5.jpg' alt="sym" width="70%"></div></div>
-<div class='paper-box-text' markdown="1"> 
-2nd Place Solution for the LSVOS Challenge 2023: Video Object Segmentation [[pdf](https://arxiv.org/pdf/2406.17005)]
-
-</div>
-</div>
-
-<!-- # 📖 Educations
-- *2019.06 - 2022.04 (now)*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2015.09 - 2019.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  -->
-
-<!-- # 💬 Invited Talks
-- *2021.06*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet. 
-- *2021.03*, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ornare aliquet ipsum, ac tempus justo dapibus sit amet.  \| [\[video\]](https://github.com/) -->
+Reviewer: **NeurIPS 2024**.
 
 # 💻 Internships
-- *2021.03 - 2022.06*, Sensetime, Beijing, China.
-- *2021.06 - 2022.05*, Alibaba AI Research (GaoDe map), Beijing, China.
-- *2022.09 - 2025.04*, PengCheng Laboratory (supervised by [Xin Li](https://sites.google.com/view/xinli-homepage)),Shenzhen, China.
-- *2025.05 - 2025.08*, Tencent 青云计划, Shenzhen, China.
+{: #internships}
+
+- **2025.10 – Present** · **ByteDance**, Algorithm Research Intern, Shenzhen, China.
+- **2025.05 – 2025.08** · **Tencent**, Qingyun Program (青云计划), Shenzhen, China.
+- **2022.09 – 2025.04** · **Peng Cheng Laboratory**, supervised by [Xin Li](https://sites.google.com/view/xinli-homepage), Shenzhen, China.
+- **2021.07 – 2022.05** · **Alibaba AI Research (Amap)**, Beijing, China.
+- **2021.05 – 2021.07** · **SenseTime**, Beijing, China.

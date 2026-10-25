@@ -1,0 +1,182 @@
+[
+  {
+    "id": "deoverlay",
+    "title": "DeOverlay: A Benchmark and Source-Anchored Flow for Video Overlay Removal",
+    "authors": [
+      "Deshui Miao",
+      "Yuhang Ma",
+      "Shaoyong Jia",
+      "Wenzhao Gao",
+      "Yue Zhang",
+      "Shaohui Jiao",
+      "Xin Li"
+    ],
+    "year": 2026,
+    "badge": "arXiv 2026",
+    "paper_url": "https://arxiv.org/abs/2610.26081",
+    "summary": "A source-anchored flow model removes video overlays, evaluated with DVTE-Bench across eight text-overlay categories.",
+    "project_url": "https://yahooo-m.github.io/DVTE-Bench/",
+    "image": "/images/research/deoverlay-framework.png",
+    "image_alt": "DeOverlay source-anchored flow and fixed-source conditioning framework"
+  },
+  {
+    "id": "tcovp",
+    "title": "Think Visually Across Space and Time: Grounded Reasoning for Video Segmentation",
+    "authors": [
+      "Junwei Wen",
+      "Deshui Miao",
+      "Guangming Lu",
+      "Ming-Hsuan Yang",
+      "Xin Li",
+      "Wenjie Pei"
+    ],
+    "year": 2026,
+    "badge": "arXiv 2026",
+    "paper_url": "https://arxiv.org/abs/2610.25090",
+    "summary": "Temporal Chain of Video Primitives connects entity identity, temporal support and spatial evidence for grounded video reasoning segmentation.",
+    "project_url": "https://victor-wjw.github.io/TCoVP/",
+    "image": "/images/research/tcovp.webp",
+    "image_alt": "TCoVP grounded video reasoning and segmentation preview"
+  },
+  {
+    "id": "deltastreamer",
+    "title": "DeltaStreamer: Towards Human-Like Agentic Streaming Video Understanding",
+    "authors": [
+      "Boyuan Sun",
+      "Deshui Miao",
+      "Wenzhao Gao",
+      "Shaoyong Jia",
+      "Shaohui Jiao",
+      "Chi Liu",
+      "Yan Shu",
+      "Derek Li",
+      "Bryan Dai",
+      "Shengsheng Qian",
+      "Qibin Hou"
+    ],
+    "year": 2026,
+    "badge": "arXiv 2026",
+    "paper_url": "https://arxiv.org/abs/2610.19849",
+    "summary": "An agent connects change-aware memory with question-driven planning and visual replay for streaming video understanding.",
+    "project_url": "https://bbbbchan.github.io/DeltaStreamer/",
+    "code_url": "https://github.com/BBBBchan/DeltaStreamer",
+    "image": "/images/research/deltastreamer.png",
+    "image_alt": "DeltaStreamer memory, planning and visual replay framework"
+  },
+  {
+    "id": "geoweaver",
+    "title": "GeoWeaver: Grounding Visual Tokens with Geometric Evidence before Scene Reasoning",
+    "authors": [
+      "Deshui Miao",
+      "Xingsen Huang",
+      "Yameng Gu",
+      "Xin Li",
+      "Haijun Zhang",
+      "Ming-Hsuan Yang"
+    ],
+    "year": 2026,
+    "badge": "arXiv 2026",
+    "paper_url": "https://arxiv.org/abs/2605.22558",
+    "summary": "Token-adaptive geometric evidence grounds visual representations before language-based spatial and temporal reasoning."
+  },
+  {
+    "id": "rcot-seg",
+    "title": "RCoT-Seg: Reinforced Chain-of-Thought for Video Reasoning and Segmentation",
+    "authors": [
+      "Junwei Wen",
+      "Deshui Miao",
+      "Guangming Lu",
+      "Xin Li",
+      "Wenjie Pei"
+    ],
+    "year": 2026,
+    "badge": "arXiv 2026",
+    "paper_url": "https://arxiv.org/abs/2605.07334",
+    "summary": "A reinforced video-of-thought framework separates temporal reasoning and keyframe selection from spatial target segmentation."
+  },
+  {
+    "id": "sgafuse",
+    "title": "SGAFuse: Semantic-guided adaptive fusion for RGB-thermal images via dynamic gating",
+    "authors": [
+      "Chao Yang",
+      "Deshui Miao",
+      "Chao Tian",
+      "Guoqing Zhu",
+      "Zhenyu He"
+    ],
+    "year": 2026,
+    "badge": "Neural Networks 2026",
+    "paper_url": "https://doi.org/10.1016/j.neunet.2026.108779",
+    "summary": "Semantic guidance and dynamic gating adapt RGB-thermal image fusion to the content of each scene."
+  },
+  {
+    "id": "fusing-in-3d",
+    "title": "Fusing in 3D: Free-Viewpoint Fusion Rendering with a 3D Infrared-Visible Scene Representation",
+    "authors": [
+      "Chao Yang",
+      "Deshui Miao",
+      "Chao Tian",
+      "Guoqing Zhu",
+      "Yameng Gu",
+      "Zhenyu He"
+    ],
+    "year": 2026,
+    "badge": "arXiv 2026",
+    "paper_url": "https://arxiv.org/abs/2601.12697",
+    "summary": "A Gaussian scene representation combines infrared and visible inputs to render fused images from new viewpoints."
+  },
+  {
+    "id": "s3",
+    "title": "Learning Spatial-Semantic Features for Robust Video Object Segmentation",
+    "authors": [
+      "Xin Li",
+      "Deshui Miao",
+      "Zhenyu He",
+      "Yaowei Wang",
+      "Huchuan Lu",
+      "Ming-Hsuan Yang"
+    ],
+    "year": 2025,
+    "badge": "ICLR 2025",
+    "paper_url": "https://arxiv.org/abs/2407.07760",
+    "code_url": "https://github.com/yahooo-m/S3",
+    "image": "/images/overall8.jpg",
+    "image_alt": "S3 spatial-semantic features and discriminative object-query framework",
+    "summary": "Spatial-semantic features and discriminative object queries support robust target representation and long-term video object segmentation."
+  },
+  {
+    "id": "stma",
+    "title": "Spatial-Temporal Multi-level Association for Video Object Segmentation",
+    "authors": [
+      "Deshui Miao",
+      "Xin Li",
+      "Zhenyu He",
+      "Huchuan Lu",
+      "Ming-Hsuan Yang"
+    ],
+    "year": 2024,
+    "badge": "ECCV 2024",
+    "paper_url": "https://arxiv.org/abs/2404.06265",
+    "repository_url": "https://github.com/yahooo-m/VOS-Solution",
+    "image": "/images/framework6.jpg",
+    "image_alt": "Spatial-temporal multi-level association framework for video object segmentation",
+    "summary": "Spatial-temporal memory supports feature association and consistent target identity across video frames."
+  },
+  {
+    "id": "context-attack",
+    "title": "Context-Guided Black-Box Attack for Visual Tracking",
+    "authors": [
+      "Xingsen Huang",
+      "Deshui Miao",
+      "Hongpeng Wang",
+      "Yaowei Wang",
+      "Xin Li"
+    ],
+    "year": 2024,
+    "badge": "IEEE TMM 2024",
+    "paper_url": "https://ieeexplore.ieee.org/abstract/document/10489919/",
+    "image": "/images/TMM.png",
+    "image_alt": "Context-guided black-box attack against visual tracking",
+    "summary": "A context-guided black-box attack studies the robustness of deep trackers under spatial and temporal interference."
+  }
+]

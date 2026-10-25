@@ -10,7 +10,7 @@ redirect_from:
 
 <span class="anchor" id="about-me"></span>
 
-I am a Ph.D. candidate at Harbin Institute of Technology (Shenzhen), advised by [Haijun Zhang](https://www.dl2link.com/). I also work with [Xin Li](https://sites.google.com/view/xinli-homepage) and [Ming-Hsuan Yang](https://faculty.ucmerced.edu/mhyang/).
+I am a Ph.D. candidate at Harbin Institute of Technology (Shenzhen), advised by [Haijun Zhang](https://www.dl2link.com/). I also work with [Xin Li](https://sites.google.com/view/xinli-homepage), [Ming-Hsuan Yang](https://faculty.ucmerced.edu/mhyang/), and [Huchuan Lu](https://faculty.dlut.edu.cn/huchuan_Lu/en/index.htm).
 
 My research focuses on **video segmentation, generative video editing, and streaming video understanding**. I am currently an algorithm research intern at **ByteDance**.
 

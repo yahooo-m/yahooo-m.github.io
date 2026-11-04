@@ -84,6 +84,7 @@ My research focuses on **video segmentation, generative video editing, and strea
 # 🏆 Honors and Awards
 {: #honors-and-awards}
 
+- **ByteDance Spot Bonus Award.**
 - **2026 · CVPR PVUW — MeViS-Audio track, 1st place.** [APRVOS report](https://arxiv.org/abs/2604.18665) · [Official workshop](https://pvuw.github.io/)
 - **2025 · VOTS Challenge — Winner, VOTS / VOTS-RT / VOTSt tracks.**
 - **2024 · 6th LSVOS Challenge — VOS track, 1st place.** [Report](https://arxiv.org/abs/2408.16431) · [Certificate](/images/lsvos_winner.jpg)

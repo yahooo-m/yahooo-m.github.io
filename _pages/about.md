@@ -52,6 +52,20 @@ My research focuses on **video segmentation, generative video editing, and strea
 {: #projects}
 
 <div class="project-grid">
+  <article class="project-card project-card-video" id="eraseanything">
+    <video controls playsinline preload="none" width="1920" height="1080"
+      poster="{{ '/images/research/eraseanything-poster.jpg' | relative_url }}"
+      aria-label="EraseAnything project demo">
+      <source src="{{ '/files/eraseanything-demo.mp4' | relative_url }}" type="video/mp4">
+      Your browser does not support embedded video.
+    </video>
+    <div class="project-card-body">
+      <h2>EraseAnything</h2>
+      <p class="project-subtitle">Unified Video Object and Overlay Removal</p>
+      <p>A single video editing model removes objects and their reflections, as well as overlays such as subtitles and logos.</p>
+      <p class="research-links"><a href="{{ '/files/eraseanything-demo.mp4' | relative_url }}">Open demo video ↗</a></p>
+    </div>
+  </article>
   <article class="project-card">
     <a href="https://yahooo-m.github.io/ReST/" aria-label="ReST project page"><img src="{{ '/images/research/rest.webp' | relative_url }}" alt="ReST subtitle, title and watermark erasure examples" loading="lazy" width="640" height="360"></a>
     <div class="project-card-body">

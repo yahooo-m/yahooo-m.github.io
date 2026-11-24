@@ -25,7 +25,6 @@
   const modeButtons = [...document.querySelectorAll('.stage-modes button')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const small = matchMedia('(max-width:680px)');
-  const modals = [...document.querySelectorAll('dialog')];
   const clock = new Intl.NumberFormat('en', {minimumIntegerDigits: 2});
   const stamp = s => Math.floor(s / 60) + ':' + clock.format(Math.floor(s % 60));
   let active = 0;
@@ -33,8 +32,8 @@
   let pickedLayout = false;
   let poster;
   let paintId;
+  let pendingSeek;
   let wantsPlayback = !motion.matches;
-  let onScreen = false;
   let manuallyStarted = false;
   const mayAdvance = () => !document.documentElement.classList.contains('motion-paused');
 
@@ -84,10 +83,20 @@
     animate();
   }
   function syncPlayback() {
-    if (wantsPlayback && (mayAdvance() || manuallyStarted) && onScreen && !document.hidden && !modals.some(dialog => dialog.open)) {
+    const scene = scenes[active];
+    if (pageVideos.allows('reel', true) && video.getAttribute('poster') !== scene.path + '.webp') {
+      video.poster = scene.path + '.webp';
+      poster = new Image();
+      poster.onload = draw;
+      poster.src = video.poster;
+    }
+    if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel', manuallyStarted)) {
+      pageVideos.attach(video, scene.path + '.mp4');
       video.play().catch(indicatePlayback);
-    } else {
+    } else if (!wantsPlayback && pageVideos.allows('reel', true)) {
       video.pause();
+    } else {
+      pageVideos.release(video);
     }
   }
   function progress() {
@@ -96,7 +105,6 @@
     const percent = duration ? elapsed * 100 / duration : 0;
     seek.value = percent;
     seek.style.setProperty('--played', percent + '%');
-    cards[active].style.setProperty('--scene-progress', percent / 100);
     cards[active].style.setProperty('--scene-progress', percent + '%');
     get('reel-clock').textContent = stamp(elapsed) + ' / ' + stamp(duration);
     seek.setAttribute('aria-valuetext', stamp(elapsed) + ' of ' + stamp(duration));
@@ -109,14 +117,18 @@
     thumb.className = 'scene-image';
     const img = new Image();
     img.alt = '';
-    img.src = scene.path + '.webp';
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.width = 320;
+    img.height = 180;
+    img.src = scene.path + '-thumb.webp';
     thumb.append(img);
     const title = document.createElement('strong');
     title.textContent = scene.title;
     const tag = document.createElement('small');
     tag.textContent = scene.tag;
     button.append(thumb, title, tag);
-    button.addEventListener('click', () => choose(i));
+    button.addEventListener('click', () => { pageVideos.prefer('reel'); choose(i); });
     button.addEventListener('keydown', event => {
       const dest = {ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: scenes.length - 1}[event.key];
       if (dest === undefined) return;
@@ -128,6 +140,8 @@
     return button;
   });
   function choose(index) {
+    pageVideos.release(video, false);
+    pendingSeek = undefined;
     active = (index + scenes.length) % scenes.length;
     const scene = scenes[active];
     get('premiere-title').textContent = scene.title;
@@ -144,16 +158,7 @@
       rail.scrollLeft += delta - (rail.clientWidth - card.offsetWidth) / 2;
     }
     video.setAttribute('aria-label', 'Original footage and EraseAnything output for ' + scene.title);
-    video.poster = scene.path + '.webp';
-    poster = new Image();
-    poster.onload = draw;
-    poster.src = video.poster;
-    if (video.getAttribute('src') !== scene.path + '.mp4') {
-      video.src = scene.path + '.mp4';
-      video.load();
-    } else if (video.readyState) {
-      video.currentTime = 0;
-    }
+    if (video.getAttribute('poster') !== scene.path + '.webp') poster = undefined;
     context.clearRect(0, 0, canvas.width, canvas.height);
     draw();
     progress();
@@ -165,14 +170,33 @@
   divider.addEventListener('input', setDivider);
   get('previous-scene').addEventListener('click', () => choose(active - 1));
   get('next-scene').addEventListener('click', () => choose(active + 1));
-  play.addEventListener('click', () => { wantsPlayback = video.paused; manuallyStarted = wantsPlayback; syncPlayback(); });
+  play.addEventListener('click', () => {
+    wantsPlayback = video.paused;
+    manuallyStarted = wantsPlayback;
+    if (manuallyStarted) pageVideos.prefer('reel');
+    syncPlayback();
+  });
   loop.addEventListener('click', () => {
     video.loop = !video.loop;
     loop.setAttribute('aria-pressed', String(video.loop));
   });
   seek.addEventListener('input', () => {
-    if (Number.isFinite(video.duration)) video.currentTime = Number(seek.value) * video.duration / 100;
-    progress();
+    const fraction = Number(seek.value) / 100;
+    if (Number.isFinite(video.duration)) {
+      video.currentTime = fraction * video.duration;
+    } else {
+      pendingSeek = fraction;
+      video.preload = 'metadata';
+      pageVideos.prefer('reel');
+      pageVideos.attach(video, scenes[active].path + '.mp4');
+    }
+  });
+  video.addEventListener('loadedmetadata', () => {
+    if (pendingSeek !== undefined && Number.isFinite(video.duration)) {
+      video.currentTime = pendingSeek * video.duration;
+      pendingSeek = undefined;
+      video.preload = 'none';
+    }
   });
   video.addEventListener('ended', () => { if (wantsPlayback && !video.loop && mayAdvance()) choose(active + 1); });
   for (const event of ['loadedmetadata', 'timeupdate', 'durationchange']) video.addEventListener(event, progress);
@@ -184,13 +208,8 @@
   });
   motion.addEventListener('change', () => { wantsPlayback = !motion.matches; syncPlayback(); });
   document.addEventListener('motionchange', () => { manuallyStarted = false; syncPlayback(); });
-  const observer = new MutationObserver(syncPlayback);
-  modals.forEach(dialog => observer.observe(dialog, {attributes: true, attributeFilter: ['open']}));
-  document.addEventListener('visibilitychange', syncPlayback);
-  new IntersectionObserver(([entry]) => {
-    onScreen = entry.isIntersecting;
-    syncPlayback();
-  }).observe(frame);
+  pageVideos.register('reel', frame);
+  document.addEventListener('previewchange', syncPlayback);
   setDivider();
   setLayout();
   choose(0);

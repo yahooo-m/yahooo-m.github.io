@@ -48,13 +48,14 @@ function runReveal() {
   revealFrame = requestAnimationFrame(sweep);
 }
 function playComparison() {
+  pageVideos.attach(video, activeExample.path + '.mp4');
   video.play().catch(error => {
     if (error.name !== 'AbortError' && clipDialog.open) status.textContent = 'Press play to start the clip, or drag the divider to compare the still frame.';
   });
 }
 function openClip(example) {
   activeExample = example;
-  video.src = example.path + '.mp4';
+  pageVideos.release(video, false);
   poster = new Image();
   poster.onload = drawComparison;
   poster.src = example.path + '.webp';
@@ -66,7 +67,7 @@ function openClip(example) {
   status.textContent = '';
   moveDivider(example.split);
   clipDialog.showModal();
-  if (!reducedMotion.matches) playComparison();
+  if (!reducedMotion.matches && !document.documentElement.classList.contains('motion-paused')) playComparison();
 }
 function paintMovingClip() {
   cancelAnimationFrame(videoFrame);
@@ -85,7 +86,12 @@ slider.addEventListener('pointerdown', () => cancelAnimationFrame(revealFrame));
 slider.addEventListener('input', () => { cancelAnimationFrame(revealFrame); moveDivider(Number(slider.value)); });
 document.querySelector('#reveal-comparison').addEventListener('click', runReveal);
 playButton.addEventListener('click', () => { if (video.paused) playComparison(); else video.pause(); });
-clipDialog.addEventListener('close', () => { cancelAnimationFrame(revealFrame); video.pause(); });
+clipDialog.addEventListener('close', () => {
+  if (clipDialog.open) return;
+  cancelAnimationFrame(revealFrame);
+  cancelAnimationFrame(videoFrame);
+  pageVideos.release(video, false);
+});
 
 const galleryLayer = document.createElement('span');
 galleryLayer.className = 'gallery-live';
@@ -95,6 +101,7 @@ galleryVideo.className = 'gallery-decoder';
 galleryVideo.muted = true;
 galleryVideo.defaultMuted = true;
 galleryVideo.playsInline = true;
+galleryVideo.preload = 'none';
 const galleryCanvas = document.createElement('canvas');
 const galleryContext = galleryCanvas.getContext('2d', {alpha:false});
 const gallerySeam = document.createElement('span');
@@ -148,15 +155,12 @@ function stopPreview() {
   previewCard.classList.remove('is-previewing');
   previewCard = undefined;
   galleryLayer.classList.remove('has-frame');
-  galleryVideo.pause();
-  galleryVideo.removeAttribute('src');
-  galleryVideo.load();
+  pageVideos.release(galleryVideo, false);
   galleryLayer.remove();
 }
 
 function syncPreview(advance = false) {
-  if (document.hidden || reducedMotion.matches || document.documentElement.classList.contains('motion-paused') ||
-      document.querySelector('dialog[open]')) {
+  if (!pageVideos.allows('gallery') || reducedMotion.matches || document.documentElement.classList.contains('motion-paused')) {
     stopPreview();
     return;
   }
@@ -177,7 +181,7 @@ function syncPreview(advance = false) {
   previewCard.classList.add('is-previewing');
   const picture = target.querySelector('.gallery-picture');
   picture.insertBefore(galleryLayer, picture.lastElementChild);
-  galleryVideo.src = target.dataset.path + '.mp4';
+  pageVideos.attach(galleryVideo, target.dataset.path + '.mp4');
   galleryVideo.play().catch(() => {});
 }
 
@@ -198,9 +202,9 @@ function makeCard(example) {
   const picture = document.createElement('span');
   picture.className = 'gallery-picture';
   const img = new Image();
-  img.loading = 'lazy';
+  img.decoding = 'async';
   img.alt = '';
-  img.src = example.path + '.webp';
+  img.dataset.src = example.path + '.webp';
   const play = document.createElement('span');
   play.className = 'gallery-action';
   play.setAttribute('aria-hidden','true');
@@ -229,6 +233,16 @@ function makeCard(example) {
 }
 const cards = showcaseExamples.map(makeCard);
 grid.append(...cards);
+pageVideos.register('gallery', grid);
+const nearbyPosters = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    const img = entry.target.querySelector('img');
+    img.src = img.dataset.src;
+    nearbyPosters.unobserve(entry.target);
+  }
+}, {rootMargin:'240px 0px'});
+cards.forEach(card => nearbyPosters.observe(card));
 const galleryObserver = new IntersectionObserver(entries => {
   for (const entry of entries) {
     const card = entry.target.closest('.gallery-card');
@@ -238,9 +252,7 @@ const galleryObserver = new IntersectionObserver(entries => {
   syncPreview();
 }, {threshold: [0, .25], rootMargin: '-54px 0px 0px'});
 cards.forEach(card => galleryObserver.observe(card.querySelector('.gallery-picture')));
-const galleryDialogs = new MutationObserver(() => syncPreview());
-document.querySelectorAll('dialog').forEach(dialog => galleryDialogs.observe(dialog, {attributes:true, attributeFilter:['open']}));
-document.addEventListener('visibilitychange', () => syncPreview());
+document.addEventListener('previewchange', () => syncPreview());
 document.addEventListener('motionchange', () => syncPreview());
 reducedMotion.addEventListener('change', () => syncPreview());
 function filterGallery() {
@@ -274,13 +286,30 @@ for (const link of document.querySelectorAll('a[data-film-title]')) {
   link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    if (film.src !== link.href) film.src = link.href;
+    pageVideos.attach(film, link.href);
     document.querySelector('#film-title').textContent = 'EraseAnything · ' + link.dataset.filmTitle;
     filmDialog.showModal();
     film.play().catch(() => {});
   });
 }
-filmDialog.addEventListener('close', () => { film.pause(); });
+filmDialog.addEventListener('close', () => { if (!filmDialog.open) pageVideos.release(film); });
+let hiddenPlayback;
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
+    if (media?.getAttribute('src')) {
+      hiddenPlayback = {media, path:media.getAttribute('src'), playing:!media.paused};
+      pageVideos.release(media);
+    }
+  } else if (hiddenPlayback) {
+    const {media, path, playing} = hiddenPlayback;
+    hiddenPlayback = undefined;
+    if (media.closest('dialog').open) {
+      pageVideos.attach(media, path);
+      if (playing) media.play().catch(() => {});
+    }
+  }
+});
 for (const dialog of document.querySelectorAll('dialog')) {
   dialog.addEventListener('click', event => {
     if (event.target !== dialog) return;

@@ -63,6 +63,14 @@
 
   const trajectory = get('trajectory-frames');
   const trajectoryCard = trajectory.closest('.trajectory-card');
+  const atlasObserver = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) showAtlas();
+  }, {rootMargin:'240px 0px'});
+  function showAtlas() {
+    trajectoryCard.dataset.atlasReady = '';
+    atlasObserver.disconnect();
+  }
+  atlasObserver.observe(trajectoryCard);
   const steps = [...trajectoryCard.querySelectorAll('[data-step]')];
   const taskButtons = [...trajectoryCard.querySelectorAll('[data-trajectory-task]')];
   const stateImage = get('state-image');
@@ -104,11 +112,13 @@
     interval: () => currentStep === 4 ? 2450 : 1300
   });
   steps.forEach((button, i) => button.addEventListener('click', () => {
+    showAtlas();
     trajectoryPlayer.hold();
     displayStep(i);
   }));
   taskButtons.forEach(button => button.addEventListener('click', () => {
     trajectory.dataset.task = button.dataset.trajectoryTask;
+    showAtlas();
     taskButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
     displayStep(currentStep);
     trajectoryPlayer.restartClock();

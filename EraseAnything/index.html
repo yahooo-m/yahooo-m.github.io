@@ -4,32 +4,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d1018">
+  <noscript><style>#hero-film, #reel-video { display:none; }</style></noscript>
   <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
   <title>EraseAnything · A Unified Video Eraser</title>
   <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
-  <link rel="stylesheet" href="./site/styles/styles.css?v=3">
+  <link rel="stylesheet" href="./site/styles/styles.css?v=4">
   <link rel="stylesheet" href="./site/styles/screening.css?v=4">
   <link rel="stylesheet" href="./site/styles/results.css?v=7">
   <link rel="stylesheet" href="./site/styles/qualitative-results.css?v=4">
-  <link rel="stylesheet" href="./site/styles/theater.css?v=6">
+  <link rel="stylesheet" href="./site/styles/theater.css?v=7">
   <link rel="stylesheet" href="./site/styles/nocturne.css?v=5">
   <link rel="stylesheet" href="./site/styles/motion.css?v=6">
-  <link rel="stylesheet" href="./site/styles/method-motion.css?v=6">
+  <link rel="stylesheet" href="./site/styles/method-motion.css?v=7">
   <link rel="stylesheet" href="./site/styles/gallery-motion.css?v=6">
   <link rel="stylesheet" href="./site/styles/results-tour.css?v=7">
   <link rel="stylesheet" href="./site/styles/task-previews.css?v=7">
-  <script defer src="./site/scripts/motion.js?v=6"></script>
-  <script defer src="./site/scripts/reel.js?v=6"></script>
+  <script defer src="./site/scripts/media-playback.js?v=1"></script>
+  <script defer src="./site/scripts/motion.js?v=7"></script>
+  <script defer src="./site/scripts/reel.js?v=7"></script>
   <script defer src="./site/scripts/score-data-object.js?v=4"></script>
   <script defer src="./site/scripts/score-data-overlay.js?v=4"></script>
   <script defer src="./site/scripts/score-data-studies.js?v=4"></script>
   <script defer src="./site/scripts/score-data-tasks.js?v=7"></script>
   <script defer src="./site/scripts/results.js?v=7"></script>
-  <script defer src="./site/scripts/task-previews.js?v=7"></script>
+  <script defer src="./site/scripts/task-previews.js?v=8"></script>
   <script defer src="./site/scripts/qualitative-results.js?v=4"></script>
   <script src="./site/scripts/showcase.js?v=5" defer></script>
-  <script src="./site/scripts/script.js?v=8" defer></script>
-  <script src="./site/scripts/method-motion.js?v=6" defer></script>
+  <script src="./site/scripts/script.js?v=9" defer></script>
+  <script src="./site/scripts/method-motion.js?v=7" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -66,7 +68,8 @@
         </div>
         <figure class="hero-monitor" aria-label="Automatic erasure comparison">
           <div class="hero-footage">
-            <video id="hero-film" controls muted playsinline loop preload="metadata" poster="./assets/hero-motion/poster.webp" src="./assets/hero-motion/sequence.mp4" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
+            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp" data-src="./assets/hero-motion/sequence.mp4" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
+            <noscript><video controls playsinline preload="none" poster="./assets/hero-motion/poster.webp" src="./assets/hero-motion/sequence.mp4" aria-label="Opening erasure comparisons"></video></noscript>
             <span class="footage-status" aria-hidden="true"><i></i><span id="hero-phase">Original</span></span>
           </div>
           <div class="hero-timeline" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -86,7 +89,8 @@
           <div class="scene-rail" id="scene-rail" role="group" aria-label="Choose a scene"></div>
           <div class="stage-well">
             <div class="projection" id="reel-frame" data-layout="pair">
-              <video id="reel-video" muted playsinline preload="metadata" controls poster="./assets/headliners/group-huddle.webp" src="./assets/headliners/group-huddle.mp4" aria-label="Synchronized footage and EraseAnything output."></video>
+              <video id="reel-video" muted playsinline preload="none" aria-label="Synchronized footage and EraseAnything output."></video>
+              <noscript><video controls playsinline preload="none" poster="./assets/headliners/group-huddle.webp" src="./assets/headliners/group-huddle.mp4" aria-label="Circle of faces: original and EraseAnything result"></video></noscript>
               <canvas id="reel-canvas" width="960" height="540" aria-hidden="true" hidden></canvas>
               <div class="screen-labels" aria-hidden="true"><span>Original</span><span>EraseAnything</span></div>
               <div class="wipe-mark" hidden aria-hidden="true"><span>‹ ›</span></div>

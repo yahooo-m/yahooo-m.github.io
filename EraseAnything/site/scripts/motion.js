@@ -39,7 +39,6 @@
     ['On the workbench', 'Remove the English overlays.']
   ];
   const shotDuration = 4.32;
-  let visible = false;
   let manualPlay = false;
   let localPause = false;
   let frameCallback;
@@ -76,10 +75,13 @@
   }
   function syncFilm() {
     const enabled = !root.classList.contains('motion-paused') || manualPlay;
-    if (enabled && !localPause && visible && !document.hidden && !document.querySelector('dialog[open]')) {
+    if (enabled && !localPause && pageVideos.allows('hero', manualPlay)) {
+      pageVideos.attach(film, film.dataset.src);
       film.play().catch(playbackUI);
-    } else {
+    } else if (pageVideos.allows('hero', true) && localPause) {
       film.pause();
+    } else {
+      pageVideos.release(film);
     }
   }
   heroPlay.hidden = false;
@@ -87,15 +89,14 @@
   heroPlay.addEventListener('click', () => {
     manualPlay = film.paused;
     localPause = !manualPlay;
+    if (manualPlay) pageVideos.prefer('hero');
     syncFilm();
   });
   for (const event of ['playing', 'pause', 'loadeddata']) film.addEventListener(event, playbackUI);
   film.addEventListener('timeupdate', () => { if (!film.requestVideoFrameCallback || film.paused) showTime(film.currentTime); });
-  new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; syncFilm(); }, {threshold:.05}).observe(stage);
+  pageVideos.register('hero', stage);
+  document.addEventListener('previewchange', syncFilm);
   document.addEventListener('motionchange', () => { manualPlay = false; syncFilm(); });
-  document.addEventListener('visibilitychange', syncFilm);
-  const modalObserver = new MutationObserver(syncFilm);
-  document.querySelectorAll('dialog').forEach(dialog => modalObserver.observe(dialog, {attributes:true, attributeFilter:['open']}));
   playbackUI();
 
   // All three marks use the same 0 to +4 dB scale as the printed gains.

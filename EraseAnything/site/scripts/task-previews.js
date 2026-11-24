@@ -18,11 +18,11 @@
   const context = canvas.getContext('2d', {alpha:false});
   const phase = find('.task-preview-phase'), slider = find('input'), play = find('#task-preview-play');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
-  let active = -1, poster, visible = false, hold = false, explicitPlay = false, raf = 0;
+  let active = -1, poster, hold = false, explicitPlay = false, raf = 0;
   let dragOverride = false, localChoice = false, cursor = 60, mediaLoaded = false;
 
   function allowed() {
-    return visible && !document.hidden && !document.querySelector('dialog[open]') && !hold &&
+    return pageVideos.allows('tasks', explicitPlay) && !hold &&
       (explicitPlay || (!document.documentElement.classList.contains('motion-paused') && !reduced.matches));
   }
   function paint() {
@@ -51,14 +51,19 @@
     if (!video.paused && !video.ended && allowed()) raf = requestAnimationFrame(frame);
   }
   function sync() {
+    const path = examples[active].path;
+    if (!poster && pageVideos.allows('tasks', true)) {
+      const image = new Image();
+      poster = image;
+      image.onload = () => { if (poster === image) paint(); };
+      image.src = path + '.webp';
+    }
     const enabled = allowed();
     play.textContent = enabled ? 'Pause tour' : 'Play tour';
     play.setAttribute('aria-label', enabled ? 'Pause task examples' : 'Play task examples');
     if (enabled) {
-      if (video.getAttribute('src') !== examples[active].path + '.mp4') {
-        video.src = examples[active].path + '.mp4';
-        video.load();
-      } else if (video.readyState >= 2) {
+      pageVideos.attach(video, path + '.mp4');
+      if (video.readyState >= 2) {
         mediaLoaded = true;
         if (video.ended) video.currentTime = 0;
       }
@@ -69,6 +74,10 @@
       });
     } else {
       video.pause();
+      if (!pageVideos.allows('tasks', true) || !hold) {
+        pageVideos.release(video);
+        mediaLoaded = false;
+      }
       cancelAnimationFrame(raf);
       paint();
     }
@@ -79,6 +88,7 @@
     button.textContent = example.tab;
     button.addEventListener('click', () => {
       localChoice = true;
+      pageVideos.prefer('tasks');
       select(i);
     });
     rail.append(button);
@@ -88,8 +98,9 @@
     if (active === index) return;
     active = index;
     const example = examples[index];
-    video.pause();
+    pageVideos.release(video, false);
     mediaLoaded = false;
+    poster = undefined;
     context.clearRect(0, 0, canvas.width, canvas.height);
     dragOverride = false;
     cursor = allowed() ? 100 : 56;
@@ -97,15 +108,12 @@
     find('#task-preview-note').textContent = example.note;
     canvas.setAttribute('aria-label', example.tab + ' task, ' + example.name + '. Original on the left, EraseAnything on the right.');
     buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-    const image = new Image();
-    poster = image;
-    image.onload = () => { if (poster === image) paint(); };
-    image.src = example.path + '.webp';
     sync();
   }
   play.addEventListener('click', () => {
     if (allowed()) { hold = true; explicitPlay = false; }
     else { hold = false; explicitPlay = true; dragOverride = false; localChoice = false; }
+    if (explicitPlay) pageVideos.prefer('tasks');
     sync();
   });
   slider.addEventListener('input', () => {
@@ -123,18 +131,13 @@
   });
   document.addEventListener('scoretaskchange', event => {
     const i = examples.findIndex(example => example.id === event.detail?.group);
-    if (i < 0 || (localChoice && visible && !event.detail?.manual)) return;
+    if (i < 0 || (localChoice && pageVideos.allows('tasks', true) && !event.detail?.manual)) return;
     localChoice = false;
     select(i);
   });
   document.addEventListener('motionchange', () => { explicitPlay = false; sync(); });
-  document.addEventListener('visibilitychange', sync);
-  const modals = new MutationObserver(sync);
-  document.querySelectorAll('dialog').forEach(dialog => modals.observe(dialog, {attributes:true, attributeFilter:['open']}));
+  document.addEventListener('previewchange', sync);
   root.hidden = false;
+  pageVideos.register('tasks', stage);
   select(0);
-  new IntersectionObserver(([entry]) => {
-    visible = entry.isIntersecting && entry.intersectionRatio >= .12;
-    sync();
-  }, {threshold:[0,.12]}).observe(stage);
 })();

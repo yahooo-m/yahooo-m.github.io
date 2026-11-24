@@ -75,7 +75,7 @@ body ::selection { color:#0c161c; background:#ade9dd; }
 .scene-item:hover { border-color:#8f9db2; }
 .scene-item[aria-pressed=true] { border-color:#92d8ca; background:#263630; color:#e7fcf4; }
 .scene-image { display:block; flex:none; aspect-ratio:3.65; overflow:hidden; position:relative; background:#1c222b; }
-.scene-image img { display:block; position:absolute; width:200%; max-width:none; height:auto; top:50%; transform:translateY(-50%); }
+.scene-image img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
 .scene-item strong,.scene-item small { display:block; margin:0 .43rem; line-height:1.25; }
 .scene-item strong { font-weight:650; font-size:.82rem; margin-top:.34rem; }
 .scene-item small { color:#a9b9c8; font:.63rem/1.4 var(--mono); margin-top:auto; padding-top:.12rem; margin-bottom:.31rem; }

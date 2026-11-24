@@ -1,0 +1,29 @@
+.qual-panel { margin-top:clamp(2rem,4vw,3rem); }
+.qual-heading { margin:0 0 1rem; font:700 clamp(1.45rem,3vw,2.1rem)/1.15 var(--display,system-ui); letter-spacing:-.035em; color:#1b2845; }
+.qual-toolbar,.qual-scenes { display:flex; align-items:center; flex-wrap:wrap; gap:.35rem; }
+.qual-toolbar { justify-content:space-between; gap:.5rem 1rem; }
+.qual-choice,.qual-zoom { padding:.42rem .8rem; border:1px solid #d1dbeb; border-radius:3rem; background:#fff; color:#455874; font-family:inherit; font-size:.87rem; font-weight:650; line-height:1.25; cursor:pointer; }
+.qual-choice:hover,.qual-zoom:hover { border-color:#8a9ec0; }
+.qual-choice[aria-pressed="true"] { color:#fff; background:#263e70; border-color:#263e70; }
+.qual-zoom[aria-pressed="true"] { color:#32477b; background:#e9effa; border-color:#aebfdd; }
+.qual-zoom::before { content:""; display:inline-block; box-sizing:border-box; width:.65rem; height:.65rem; margin:0 .37rem .01rem 0; border:1.5px solid currentColor; border-radius:.15rem; }
+.qual-zoom[aria-pressed=true]::before { background:currentColor; box-shadow:inset 0 0 0 1px #e9effa; }
+.qual-zoom[hidden] { display:none; }
+.qual-metadata { color:#52657d; font:.82rem/1.45 var(--mono,monospace); margin:.65rem 0 .75rem; }
+.qual-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.55rem .7rem; }
+.qual-tile { overflow:hidden; margin:0; border:1px solid #dce3ee; border-radius:.55rem; background:#f6f8fd; min-width:0; }
+.qual-name { padding:.29rem .6rem; font:.86rem/1.25 var(--display,system-ui); font-weight:650; color:#354765; }
+.qual-ours { border-color:#9caed4; }
+.qual-ours .qual-name { background:#e0e9fb; color:#243f74; }
+.qual-view { position:relative; aspect-ratio:16/9; background:#edf0f4; overflow:hidden; }
+.qual-image { display:block; width:100%; height:100%; max-width:none; }
+.qual-region { position:absolute; left:21.077283%; top:48.958333%; width:21.077283%; height:25%; border:1.5px solid #fe4444; }
+.qual-detail .qual-view { aspect-ratio:3/2; }
+.qual-detail .qual-image { position:absolute; width:474.444444%; height:400%; left:-100%; top:-195.833333%; }
+.qual-detail .qual-region { display:none; }
+.qual-observation { color:#41516a; margin:.65rem 0 0; line-height:1.5; font-size:.96rem; }
+@media (max-width:650px) {
+  .qual-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:.45rem; }
+  .qual-name { font-size:.78rem; padding:.24rem .42rem; }
+  .qual-choice,.qual-zoom { font-size:.8rem; padding:.38rem .65rem; }
+}

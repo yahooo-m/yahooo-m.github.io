@@ -1,0 +1,35 @@
+.trajectory-card { --atlas: url('../../assets/trajectory/overlay.webp'); }
+.trajectory-card[data-task=object] { --atlas: url('../../assets/trajectory/object.webp'); }
+.trajectory-steps { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(.3rem,.9vw,.75rem); }
+.trajectory-steps button { position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:flex-start; padding:.24rem .24rem .4rem; gap:.24rem; line-height:1.25; text-indent:.3rem; border-radius:.4rem; }
+.step-thumbnail { display:block; width:100%; aspect-ratio:416 / 240; border-radius:.2rem; background-image:var(--atlas); background-size:300% 300%; opacity:.72; }
+.trajectory-steps button[aria-pressed=true] .step-thumbnail, .trajectory-steps button:hover .step-thumbnail { opacity:1; }
+.trajectory-steps button::after, .method-tour-stages button::after { content:""; position:absolute; left:0; bottom:0; height:3px; width:100%; background:#9bede0; transform:scaleX(0); transform-origin:left; }
+.trajectory-card.motion-running .trajectory-steps button[aria-pressed=true]::after, .method-tour.motion-running .method-tour-stages button[aria-pressed=true]::after { animation:method-tick var(--tick-length) linear both; }
+@keyframes method-tick { from {transform:scaleX(0)} to {transform:scaleX(1)} }
+
+.method-tour-toolbar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.6rem; background:#181e2a; padding:.75rem 1rem; border-bottom:1px solid #374153; }
+.method-tour-stages { display:flex; gap:.35rem; flex-wrap:wrap; }
+.method-tour-stages button { position:relative; overflow:hidden; padding:.42rem .68rem; background:transparent; border:1px solid #465167; border-radius:.42rem; color:#c8d2e2; font-weight:620; font-size:.83rem; cursor:pointer; }
+.method-tour-stages button[aria-pressed=true] { color:#d4f9ee; background:#25423d; border-color:#629b90; }
+#play-method-tour,#replay-trajectory { min-height:2.15rem; padding:.38rem .72rem; font-size:.83rem; }
+.method-plate { display:block; position:relative; overflow:hidden; }
+.method-tour .method-plate img { display:block; width:100%; padding-top:0; }
+.method-spot { position:absolute; box-sizing:border-box; border:2px solid #3b746e; border-radius:.38rem; box-shadow:0 0 0 130vmax rgba(12,18,28,.25); pointer-events:none; transition: left .6s ease, top .6s ease, width .6s ease, height .6s ease; }
+.method-tour figcaption { min-height:3.1rem; }
+
+@media(max-width:680px) {
+  .trajectory-steps { gap:.24rem; }
+  .trajectory-steps button { padding:.11rem .11rem .28rem; text-indent:.12rem; font-size:.75rem; }
+  .method-tour-toolbar { padding:.5rem .42rem; gap:.38rem; }
+  .method-tour-stages { gap:.22rem; }
+  .method-tour-stages button { font-size:.69rem; padding:.32rem .35rem; }
+  #play-method-tour,#replay-trajectory { font-size:.73rem; padding:.32rem .45rem; min-height:1.95rem; }
+  .method-spot { border-width:1.5px; border-radius:.18rem; }
+  .method-tour figcaption { min-height:4.2rem; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .method-spot { transition:none; }
+  .motion-running .trajectory-steps button::after, .motion-running .method-tour-stages button::after { animation:none!important; }
+}
+html.motion-paused .method-spot { transition:none; }

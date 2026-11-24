@@ -1,0 +1,52 @@
+/* The moving preview composites both halves of one frame-matched video. */
+.gallery-live {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .16s ease-out;
+}
+.gallery-live.has-frame { opacity: 1; }
+.gallery-picture .gallery-decoder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  opacity: 0;
+}
+.gallery-live canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.gallery-live::before, .gallery-live::after {
+  position: absolute;
+  top: .55rem;
+  z-index: 1;
+  border-radius: .22rem;
+  padding: .2rem .4rem;
+  font: 600 .63rem/1.28 var(--mono);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.gallery-live::before { content: "Original"; left: .55rem; background: #10151ded; color: #f4f6fa; }
+.gallery-live::after { content: "Erased"; right: .55rem; background: #d6f8e9ed; color: #153c34; }
+.gallery-live[data-phase="result"]::before, .gallery-live[data-phase="original"]::after { visibility: hidden; }
+.gallery-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: #ccffef;
+  box-shadow: 0 0 6px #123e3590;
+}
+.gallery-live[data-phase="result"] .gallery-seam, .gallery-live[data-phase="original"] .gallery-seam { opacity: 0; }
+@media (max-width: 600px) {
+  .gallery-live::before, .gallery-live::after { top: .3rem; padding: .13rem .24rem; font-size: .53rem; }
+  .gallery-live::before { left: .3rem; }
+  .gallery-live::after { right: .3rem; }
+}
+@media (prefers-reduced-motion: reduce) { .gallery-live { transition: none; } }
+@media (max-width: 680px) {
+  .gallery-grid > .gallery-card { grid-column: span 2; }
+  .gallery-grid > .gallery-card:not([hidden]) ~ .gallery-card { grid-column: auto; }
+}

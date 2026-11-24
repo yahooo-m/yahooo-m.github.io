@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1018">
+  <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
+  <title>EraseAnything · A Unified Video Eraser</title>
+  <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
+  <link rel="stylesheet" href="./site/styles/styles.css?v=3">
+  <link rel="stylesheet" href="./site/styles/screening.css?v=4">
+  <link rel="stylesheet" href="./site/styles/results.css?v=7">
+  <link rel="stylesheet" href="./site/styles/qualitative-results.css?v=4">
+  <link rel="stylesheet" href="./site/styles/theater.css?v=6">
+  <link rel="stylesheet" href="./site/styles/nocturne.css?v=5">
+  <link rel="stylesheet" href="./site/styles/motion.css?v=6">
+  <link rel="stylesheet" href="./site/styles/method-motion.css?v=6">
+  <link rel="stylesheet" href="./site/styles/gallery-motion.css?v=6">
+  <link rel="stylesheet" href="./site/styles/results-tour.css?v=7">
+  <link rel="stylesheet" href="./site/styles/task-previews.css?v=7">
+  <script defer src="./site/scripts/motion.js?v=6"></script>
+  <script defer src="./site/scripts/reel.js?v=6"></script>
+  <script defer src="./site/scripts/score-data-object.js?v=4"></script>
+  <script defer src="./site/scripts/score-data-overlay.js?v=4"></script>
+  <script defer src="./site/scripts/score-data-studies.js?v=4"></script>
+  <script defer src="./site/scripts/score-data-tasks.js?v=7"></script>
+  <script defer src="./site/scripts/results.js?v=7"></script>
+  <script defer src="./site/scripts/task-previews.js?v=7"></script>
+  <script defer src="./site/scripts/qualitative-results.js?v=4"></script>
+  <script src="./site/scripts/showcase.js?v=5" defer></script>
+  <script src="./site/scripts/script.js?v=8" defer></script>
+  <script src="./site/scripts/method-motion.js?v=6" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="read-progress" aria-hidden="true"></div>
+    <div class="container header-inner">
+      <a class="brand" href="#top"><img src="./assets/figures/mascot.webp" alt="" width="32" height="32">EraseAnything</a>
+      <nav aria-label="Project">
+        <a href="#demo">Showreel</a><a href="#method">Method</a><a href="#benchmark">Benchmark</a><a href="#results">Results</a><a href="#citation">Citation</a>
+      </nav>
+      <details class="mobile-sections"><summary>Sections</summary><nav aria-label="Mobile project sections"><a href="#demo">Showreel</a><a href="#method">Method</a><a href="#benchmark">Benchmark</a><a href="#results">Results</a><a href="#citation">Citation</a></nav></details>
+      <div class="header-actions"><button type="button" id="page-motion" aria-label="Pause automatic motion" hidden><span class="transport-icon" aria-hidden="true"></span><span class="motion-text">Pause motion</span></button><a class="header-cite" href="https://github.com/yahooo-m/yahooo-m.github.io/tree/main/EraseAnything" aria-label="Project page source on GitHub">Page source</a></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="intro" id="top" aria-labelledby="project-title">
+      <div class="mast-surface">
+        <div class="hero-layout container">
+        <div class="masthead">
+          <h1 id="project-title">Erase<span>Anything</span></h1>
+          <p class="subtitle">A Unified Video Eraser for Objects and Overlays</p>
+          <div class="edit-line" aria-hidden="true"><span class="edit-glyph">›</span><span id="edit-command">Remove the player and ball.</span><span class="edit-caret"></span></div>
+          <div class="credits" aria-label="Authors and affiliations">
+            <p class="authors"><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao<sup>1</sup></a><a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei<sup>2</sup></a><a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang<sup>3</sup></a><a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang<sup>1</sup></a><a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li<sup>4</sup></a><a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang<sup>5,6</sup></a></p>
+            <p class="affiliations"><span><sup>1</sup> Harbin Institute of Technology, Shenzhen</span><span><sup>2</sup> Sun Yat-sen University, Shenzhen Campus</span><span><sup>3</sup> Hainan University</span><span><sup>4</sup> Peng Cheng Laboratory</span><span><sup>5</sup> University of California, Merced</span><span><sup>6</sup> Google</span></p>
+          </div>
+          <div class="resource-links">
+            <a class="pill active" data-film-title="Promo video" href="./assets/film/promo.mp4"><span class="play-icon" aria-hidden="true"></span>Watch trailer · 1:14</a>
+            <a class="pill" id="open-film" data-film-title="Research film" href="./assets/film/research-film.mp4"><span class="play-icon" aria-hidden="true"></span>Research film</a>
+            <a class="pill" href="#demo"><span class="icon-grid" aria-hidden="true"></span>Showreel</a>
+            <a class="pill" href="#results">Results</a>
+          </div>
+        </div>
+        <figure class="hero-monitor" aria-label="Automatic erasure comparison">
+          <div class="hero-footage">
+            <video id="hero-film" controls muted playsinline loop preload="metadata" poster="./assets/hero-motion/poster.webp" src="./assets/hero-motion/sequence.mp4" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
+            <span class="footage-status" aria-hidden="true"><i></i><span id="hero-phase">Original</span></span>
+          </div>
+          <div class="hero-timeline" aria-hidden="true"><i></i><i></i><i></i></div>
+          <figcaption class="hero-caption"><span><span id="hero-scene-no">01 / 03</span> <strong id="hero-name">Football at sunset</strong></span><button type="button" id="hero-play" aria-label="Play opening comparison" hidden><span class="transport-icon" aria-hidden="true"></span></button></figcaption>
+        </figure>
+        </div>
+      </div>
+      <div class="container theater-container">
+        <figure class="screening-deck" id="demo" aria-labelledby="premiere-title">
+          <figcaption class="deck-header">
+            <div><p id="scene-category">Natural High S4 · 现在就出发4</p><h2 id="premiere-title">Circle of faces</h2></div>
+            <div class="stage-modes" aria-label="Comparison layout" role="group">
+              <button type="button" data-mode="pair" aria-pressed="true">Side by side</button>
+              <button type="button" data-mode="wipe" aria-pressed="false">Wipe</button>
+            </div>
+          </figcaption>
+          <div class="scene-rail" id="scene-rail" role="group" aria-label="Choose a scene"></div>
+          <div class="stage-well">
+            <div class="projection" id="reel-frame" data-layout="pair">
+              <video id="reel-video" muted playsinline preload="metadata" controls poster="./assets/headliners/group-huddle.webp" src="./assets/headliners/group-huddle.mp4" aria-label="Synchronized footage and EraseAnything output."></video>
+              <canvas id="reel-canvas" width="960" height="540" aria-hidden="true" hidden></canvas>
+              <div class="screen-labels" aria-hidden="true"><span>Original</span><span>EraseAnything</span></div>
+              <div class="wipe-mark" hidden aria-hidden="true"><span>‹ ›</span></div>
+              <input id="wipe-position" type="range" min="0" max="100" value="50" aria-label="Original and result divider" hidden>
+            </div>
+          </div>
+          <div class="deck-controls">
+            <button type="button" id="reel-play" aria-label="Play showreel"><span aria-hidden="true"></span></button>
+            <label class="sr-only" for="reel-seek">Featured clip position</label>
+            <input id="reel-seek" type="range" min="0" max="100" step=".1" value="0">
+            <span id="reel-clock">0:00</span>
+            <button id="loop-scene" type="button" aria-pressed="false" aria-label="Loop the selected scene">Loop scene</button>
+            <span class="scene-position" id="scene-position"></span>
+            <button type="button" id="previous-scene" aria-label="Previous scene">‹</button><button type="button" id="next-scene" aria-label="Next scene">›</button>
+          </div>
+        </figure>
+        <div class="deck-caption"><p id="scene-note">The caption bar gives way to large lettering across the sky. Watch the faces around the edge of the frame.</p><a id="scene-source" href="https://www.youtube.com/watch?v=P0njSUp1WGs">Source · Tencent Video</a></div>
+      </div>
+    </section>
+
+    <section class="section gallery" id="examples" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">Visual examples</p><h2 id="gallery-title">Explore the edits.</h2></div>
+          <p>Watch each preview sweep from the original to the reconstruction. Open a clip to move the divider yourself.</p></div>
+        <div class="gallery-toolbar" role="group" aria-label="Filter examples">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All clips</button>
+          <button class="filter" type="button" data-filter="object" aria-pressed="false">Objects</button>
+          <button class="filter" type="button" data-filter="overlay" aria-pressed="false">Overlays</button>
+          <span id="gallery-count" role="status"></span>
+        </div>
+        <div class="gallery-grid" id="gallery-grid"></div>
+        <button type="button" id="expand-gallery" class="pill" aria-expanded="false">Show more clips</button>
+        <noscript><p>Enable JavaScript to explore the interactive comparisons.</p></noscript>
+      </div>
+    </section>
+
+    <section class="abstract" aria-labelledby="abstract-title">
+      <div class="container abstract-inner">
+        <div><p class="eyebrow">Abstract</p><h2 id="abstract-title">What should change?</h2></div>
+        <div><p>A mask can pick out a person and miss their reflection. An instruction can name a subtitle without saying where it appears. EraseAnything uses either cue to select a target and learns from paired clean video how far the edit should extend.</p><p>One diffusion transformer reconstructs the full frame in four updates. Training gives extra weight to changes beyond the object mask and teaches the model to locate overlays from an instruction. Throughout reconstruction, the source video provides a stable reference for the surrounding scene.</p></div>
+      </div>
+    </section>
+
+    <section class="section trajectory" id="trajectory" aria-labelledby="trajectory-title">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Inference trajectory</p><h2 id="trajectory-title">Four updates to a clean frame.</h2></div>
+          <p>Watch the sampler state and its clean estimate evolve through four recorded updates. Select any step to hold the frame.</p>
+        </div>
+        <div class="trajectory-card">
+          <div class="trajectory-toolbar">
+            <div class="toggle-group" role="group" aria-label="Choose a sampling example">
+              <button type="button" data-trajectory-task="object" aria-pressed="false">Object removal</button>
+              <button type="button" data-trajectory-task="overlay" aria-pressed="true">Overlay removal</button>
+            </div>
+            <button type="button" class="button" id="replay-trajectory"><span aria-hidden="true">↻</span> Replay updates</button>
+          </div>
+          <div class="trajectory-frames" id="trajectory-frames" data-task="overlay">
+            <figure><div class="trajectory-image" id="state-image" role="img" aria-label="Euler state"></div><figcaption>Updated sampler state</figcaption></figure>
+            <figure><div class="trajectory-image" id="estimate-image" role="img" aria-label="Predicted clean frame"></div><figcaption>Predicted clean frame</figcaption></figure>
+          </div>
+          <div class="trajectory-steps" role="group" aria-label="Choose an Euler update">
+            <button type="button" data-step="0" aria-pressed="false">Input</button>
+            <button type="button" data-step="1" aria-pressed="true">Step 1</button>
+            <button type="button" data-step="2" aria-pressed="false">Step 2</button>
+            <button type="button" data-step="3" aria-pressed="false">Step 3</button>
+            <button type="button" data-step="4" aria-pressed="false">Step 4</button>
+          </div>
+          <p class="trajectory-note" id="trajectory-note"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="method" aria-labelledby="method-title">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Method</p><h2 id="method-title">Select the target.<br>Reconstruct the scene.</h2></div>
+          <p>A mask can miss a shadow. An overlay instruction gives no coordinates. Paired clean video teaches the model which pixels should change and which should stay.</p>
+        </div>
+        <figure class="figure-card method-tour">
+          <div class="method-tour-toolbar" id="method-controls" hidden>
+            <div class="method-tour-stages" role="group" aria-label="Explore the architecture">
+              <button type="button" data-method-stage="0">Condition encoding</button>
+              <button type="button" data-method-stage="1">Shared DiT</button>
+              <button type="button" data-method-stage="2">Sampling &amp; decoding</button>
+            </div>
+            <button type="button" class="button" id="play-method-tour">Play tour</button>
+          </div>
+          <button class="figure-trigger" type="button" data-figure="./assets/figures/method.webp" data-title="EraseAnything architecture" aria-label="Enlarge the EraseAnything architecture">
+            <span class="method-plate"><img src="./assets/figures/method.webp" width="2400" height="1454" alt="Architecture showing condition encoding, asymmetric DiT streams, the four-step trajectory, and training supervision." loading="lazy"><span class="method-spot" aria-hidden="true" hidden></span></span>
+            <span class="zoom">Enlarge</span>
+          </button>
+          <figcaption id="method-tour-caption">A shared diffusion transformer reads source, selection, and semantic context through four Euler updates.</figcaption>
+        </figure>
+        <div class="method-notes">
+          <article><h3>Learn the complete edit</h3><p>Differences between the input and paired clean video give extra weight to associated changes such as shadows and reflections.</p></article>
+          <article><h3>Localize from an instruction</h3><p>A training-only occupancy head teaches intermediate features to locate overlays when the input mask is empty.</p></article>
+          <article><h3>Keep source evidence stable</h3><p>Asymmetric attention lets the reconstruction read source and selection features. Training through four updates optimizes the delivered output.</p></article>
+        </div>
+        <button class="button sampling figure-trigger" type="button" data-figure="./assets/figures/sampling.webp" data-title="Four-step sampling" data-alt="Object and overlay removal across four Euler updates, showing both the updated latent and the predicted clean frame.">Enlarge four-step figure</button>
+      </div>
+    </section>
+
+    <section class="section benchmark" id="benchmark" aria-labelledby="benchmark-title">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Benchmark</p><h2 id="benchmark-title">EraseKeep-Bench</h2></div>
+          <p>Every background has matched overlay variants and a clean target. The compositing mask lets us measure recovery under an overlay separately from preservation elsewhere.</p>
+        </div>
+        <dl class="benchmark-stats">
+          <div><dt>1,200</dt><dd>Paired variants</dd></div><div><dt>200</dt><dd>Backgrounds</dd></div><div><dt>6</dt><dd>Task variants</dd></div><div><dt>9</dt><dd>Spoken languages</dd></div>
+        </dl>
+        <figure class="figure-card">
+          <button class="figure-trigger" type="button" data-figure="./assets/figures/benchmark.webp" data-title="EraseKeep-Bench construction" aria-label="Enlarge the benchmark construction figure">
+            <img src="./assets/figures/benchmark.webp" width="2400" height="800" alt="EraseKeep-Bench construction, six overlay and identity variants, and the distribution of backgrounds and spoken languages." loading="lazy">
+            <span class="zoom">Enlarge</span>
+          </button>
+          <figcaption>The 200 mixed-overlay cases include 180 short videos and 20 long videos. Identity controls measure preservation on unchanged inputs.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section results" id="results" aria-labelledby="results-title">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Results</p><h2 id="results-title">Results by task.</h2></div>
+          <p>Explore object removal, four types of screen graphics, mixed overlays, and background preservation.</p>
+        </div>
+        <div id="score-explorer" class="score-explorer" hidden>
+          <div class="score-tour-head"><div id="score-groups" class="score-tabs" role="tablist" aria-label="Result tasks"></div><button id="score-tour" type="button"><span class="transport-icon" aria-hidden="true"></span><span>Pause tour</span></button></div>
+          <article id="score-panel" role="tabpanel" class="score-panel">
+            <div class="score-tools">
+              <label><span id="dataset-label">Evaluation</span>
+                <select id="score-dataset"></select>
+              </label>
+              <div role="group" aria-label="Result view" class="score-views">
+                <button type="button" data-view="table" aria-pressed="false">Full table</button>
+                <button type="button" data-view="chart" aria-pressed="true">Chart</button>
+              </div>
+            </div>
+            <div class="score-summary">
+              <div id="score-reading" hidden><span id="reading-method"></span><p><strong id="reading-score"></strong> <small id="reading-unit"></small></p><span id="reading-metric"></span></div>
+              <p id="score-context"></p>
+              <a id="score-example-link" href="#task-previews" hidden>Watch example ↓</a>
+            </div>
+            <div id="score-table" class="score-scroll" role="region" aria-label="Score table" tabindex="0"></div>
+            <div id="score-chart" hidden>
+              <label class="chart-metric">Plot metric <select id="score-metric"></select></label>
+              <div id="score-legend" class="score-legend" hidden></div>
+              <div id="metric-ranking"></div>
+            </div>
+            <div class="score-foot"><span id="score-footnote"></span><a href="./assets/results.csv" download>Download all scores (CSV)</a></div>
+          </article>
+        </div>
+        <noscript><p><a href="./assets/results.csv" download>Download the full comparison tables (CSV)</a></p></noscript>
+        <div class="result-highlights">
+          <div><span>ROSE · object PSNR</span><strong>+2.15 <small>dB</small></strong><span>over EffectErase</span></div>
+          <div><span>VOR-Eval · object PSNR</span><strong>+1.64 <small>dB</small></strong><span>over EffectErase</span></div>
+          <div><span>EraseKeep-Bench · edit PSNR</span><strong>+3.74 <small>dB</small></strong><span>over box-guided ProPainter on 200 mixed clips</span></div>
+        </div>
+        <div id="task-previews" hidden></div>
+        <div id="visual-results"></div>
+      </div>
+    </section>
+
+    <section class="section citation" id="citation" aria-labelledby="citation-title">
+      <div class="container citation-grid">
+        <div><p class="eyebrow">Citation</p><h2 id="citation-title">BibTeX</h2></div>
+        <div class="bib">
+          <button class="button copy" id="copy-citation" type="button">Copy BibTeX</button>
+          <span class="sr-only" id="copy-status" role="status"></span>
+          <pre><code id="bibtex">@misc{miao2026eraseanything,
+  title  = {EraseAnything: A Unified Video Eraser for Objects and Overlays},
+  author = {Miao, Deshui and Pei, Yun and Huang, Xingsen and
+            Zhang, Haijun and Li, Xin and Yang, Ming-Hsuan},
+  year   = {2026}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-inner"><a class="brand" href="#top"><img src="./assets/figures/mascot.webp" alt="" width="30" height="30">EraseAnything</a><a href="#top">Back to top</a></div></footer>
+
+  <dialog id="clip-dialog" class="clip-dialog" aria-labelledby="case-title">
+    <div class="dialog-header"><div><span id="case-input" class="eyebrow"></span><h2 id="case-title"></h2></div><form method="dialog"><button class="dismiss" aria-label="Close example">×</button></form></div>
+    <div class="comparison-frame" id="comparison-frame">
+      <canvas id="compare-canvas" width="640" height="360" role="img" aria-label="Frame comparison"></canvas>
+      <video id="comparison-video" muted playsinline loop preload="none" hidden></video>
+      <div class="comparison-legend" aria-hidden="true"><span>Original</span><span>EraseAnything</span></div>
+      <div class="split-marker" aria-hidden="true"><span>‹&thinsp;›</span></div>
+      <input id="comparison-slider" type="range" min="0" max="100" value="50" aria-label="Original and result split">
+    </div>
+    <div class="demo-controls"><button class="button play-button" type="button" id="play-comparison"><span class="play-icon" aria-hidden="true"></span><span>Play clip</span></button><button class="button replay-button" type="button" id="reveal-comparison">Replay reveal</button><p>Drag to compare</p></div>
+    <p id="case-description"></p><p id="demo-status" class="sr-only" role="status"></p>
+  </dialog>
+  <dialog class="film-dialog" id="film-dialog" aria-labelledby="film-title">
+    <div class="dialog-header"><h2 id="film-title">EraseAnything · Project film</h2><form method="dialog"><button class="dismiss" aria-label="Close video">×</button></form></div>
+    <video id="film-video" controls playsinline preload="none" aria-labelledby="film-title"></video>
+  </dialog>
+  <dialog id="figure-dialog" aria-labelledby="figure-title">
+    <div class="dialog-header"><h2 id="figure-title"></h2><form method="dialog"><button class="button" autofocus>Close</button></form></div>
+    <img id="enlarged-figure" alt="">
+  </dialog>
+</body>
+</html>

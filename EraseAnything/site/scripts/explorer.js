@@ -277,10 +277,10 @@
     { key: 'fvd', label: 'FVD', unit: '', better: 'lower', digits: 1 }
   ];
 
-  window.objectEvidence = [
+  const first81Frames = [
     {
       id: 'rose',
-      title: 'ROSE',
+      title: 'ROSE · first 81 frames',
       description: '60 videos, first 81 frames at 832 × 480. EraseAnything leads on PSNR, SSIM and LPIPS. EffectErase has the lowest FVD.',
       metrics: qualityMetrics,
       rows: [
@@ -297,7 +297,7 @@
     },
     {
       id: 'vor',
-      title: 'VOR-Eval',
+      title: 'VOR-Eval · first 81 frames',
       description: '43 videos, first 81 frames at 832 × 480. EraseAnything leads on all four metrics, gaining 1.64 dB in PSNR over EffectErase.',
       metrics: qualityMetrics,
       rows: [
@@ -315,33 +315,59 @@
   ];
 
   // Full-sequence and regional comparisons: preprint/experiment-results.tex.
-  const videoMetrics = [
-    { key: 'psnr', label: 'Full PSNR', unit: 'dB', better: 'higher', digits: 2 },
-    { key: 'ssim', label: 'Full SSIM', unit: '×100', better: 'higher', digits: 2 },
+  const fullSequenceMetrics = qualityMetrics.map(metric => ({
+    ...metric, digits: 2, exportDigits: metric.key === 'psnr' ? 4 : 2
+  }));
+  const regionalMetrics = [
     { key: 'object-mae', label: 'Object MAE', unit: '×100', better: 'lower', digits: 2 },
     { key: 'outside-mae', label: 'Outside-change MAE', unit: '×100', better: 'lower', digits: 2 },
     { key: 'background-mae', label: 'Background MAE', unit: '×100', better: 'lower', digits: 2 }
   ];
-  window.objectEvidence.push(
+  window.objectEvidence = [
     {
       id: 'rose-full', title: 'ROSE · full sequences',
-      description: 'All 5,400 frames of 60 videos at 1024 × 576. Regional errors are pooled over pixels. Outside-change MAE measures paired changes beyond the object mask.',
-      metrics: videoMetrics,
+      description: 'All 5,400 frames of 60 videos. EraseAnything leads on all four metrics and gains 3.44 dB in PSNR over ROSE.',
+      metrics: fullSequenceMetrics,
+      showPsnrGain: true,
       rows: [
-        { name: 'Unchanged input', values: [null, null, 22.76, 12.99, 0.78] },
-        { name: 'EraseAnything', ours: true, values: [33.98, 94.83, 3.65, 2.86, 1.17] }
+        { name: 'MiniMax-Remover', values: [26.9220, 91.28, 10.28, 143.98] },
+        { name: 'EffectErase', values: [27.4380, 90.83, 10.38, 131.86] },
+        { name: 'ROSE', values: [30.8749, 92.50, 7.07, 110.24] },
+        { name: 'EraseAnything', ours: true, values: [34.3148, 95.02, 5.53, 94.04] }
       ]
     },
     {
       id: 'vor-full', title: 'VOR-Eval · full sequences',
-      description: 'All 10,320 frames of 43 videos at 1024 × 576. Regional errors are pooled over pixels. Outside-change MAE measures paired changes beyond the object mask.',
-      metrics: videoMetrics,
+      description: 'All 10,320 frames of 43 videos. EraseAnything leads on all four metrics and gains 2.92 dB in PSNR over EffectErase.',
+      metrics: fullSequenceMetrics,
+      showPsnrGain: true,
       rows: [
-        { name: 'Unchanged input', values: [null, null, 29.50, 10.32, 1.89] },
-        { name: 'EraseAnything', ours: true, values: [25.22, 80.18, 6.78, 6.61, 2.17] }
+        { name: 'MiniMax-Remover', values: [21.5029, 77.45, 25.69, 470.18] },
+        { name: 'ROSE', values: [22.6799, 77.23, 23.75, 488.31] },
+        { name: 'EffectErase', values: [22.7260, 75.62, 23.83, 352.49] },
+        { name: 'EraseAnything', ours: true, values: [25.6412, 80.78, 21.27, 272.75] }
+      ]
+    },
+    ...first81Frames,
+    {
+      id: 'rose-regional', title: 'ROSE · regional MAE',
+      description: '60 full videos scored at 1024 × 576. Outside-change MAE measures paired changes beyond the object mask.',
+      metrics: regionalMetrics,
+      rows: [
+        { name: 'Unchanged input', values: [22.76, 12.99, 0.78] },
+        { name: 'EraseAnything', ours: true, values: [3.65, 2.86, 1.17] }
+      ]
+    },
+    {
+      id: 'vor-regional', title: 'VOR-Eval · regional MAE',
+      description: '43 full videos scored at 1024 × 576. Outside-change MAE measures paired changes beyond the object mask.',
+      metrics: regionalMetrics,
+      rows: [
+        { name: 'Unchanged input', values: [29.50, 10.32, 1.89] },
+        { name: 'EraseAnything', ours: true, values: [6.78, 6.61, 2.17] }
       ]
     }
-  );
+  ];
 
   const speedMetrics = [
     { key: 'fps', label: 'Throughput', unit: 'FPS', better: 'higher', digits: 3 },
@@ -693,8 +719,8 @@
   let view = 'chart';
   const tourButton = document.querySelector('#score-tour');
   const playlist = [
-    'rose', 'task-subtitle', 'task-logo', 'task-watermark', 'task-banner',
-    'overlay-all', 'task-frame-preservation', 'vor', 'overlay-short', 'overlay-long',
+    'rose-full', 'task-subtitle', 'task-logo', 'task-watermark', 'task-banner',
+    'overlay-all', 'task-frame-preservation', 'vor-full', 'overlay-short', 'overlay-long',
     'object-speed', 'overlay-speed', 'study-occupancy'
   ];
   const dwell = 5800;
@@ -731,6 +757,10 @@
     const first = node('th', activeGroup.id === 'studies' ? 'Configuration' : 'Method');
     first.scope = 'col';
     heading.append(first);
+    const psnrIndex = dataset.showPsnrGain ? dataset.metrics.findIndex(metric => metric.key === 'psnr') : -1;
+    const psnrBaseline = psnrIndex < 0 ? null : Math.max(...dataset.rows
+      .filter(row => !row.ours && row.values[psnrIndex] !== null)
+      .map(row => row.values[psnrIndex]));
     const winners = dataset.metrics.map((metric, i) => {
       const head = node('th', metric.label);
       head.scope = 'col';
@@ -754,6 +784,12 @@
         const output = format(value, dataset.metrics[index]);
         if (output === winners[index]) cell.append(node('strong', output));
         else cell.textContent = output;
+        if (item.ours && value !== null && index === psnrIndex && Number.isFinite(psnrBaseline) && value > psnrBaseline) {
+          const gain = format(value - psnrBaseline, dataset.metrics[index]);
+          const annotation = node('span', '↑' + gain, 'psnr-gain');
+          annotation.setAttribute('aria-label', gain + ' dB higher than the best baseline');
+          cell.append(annotation);
+        }
       });
     }
     tableRegion.replaceChildren(table);

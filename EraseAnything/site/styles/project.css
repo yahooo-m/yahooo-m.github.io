@@ -348,6 +348,7 @@ dialog::backdrop { background:#101a30b8; backdrop-filter:blur(7px); }
 .score-scroll tbody th { font-size:.88rem; font-weight:520; }
 .score-scroll tbody td { color:#39475b; }
 .score-scroll tbody td strong { color:#111e38; font-weight:780; }
+.score-scroll tbody td .psnr-gain { margin-inline-start:.28em; font-size:.82em; white-space:nowrap; }
 .score-scroll tbody tr > :first-child { position:sticky; left:0; z-index:1; background:#fff; border-right:1px solid #dfe5ef; }
 .score-scroll .reference-row > td,.score-scroll .reference-row > :first-child { background:#edf2ff; }
 .score-scroll .reference-row > th { font-weight:680; color:#2d4381; }

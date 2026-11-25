@@ -25,8 +25,8 @@
   let view = 'chart';
   const tourButton = document.querySelector('#score-tour');
   const playlist = [
-    'rose', 'task-subtitle', 'task-logo', 'task-watermark', 'task-banner',
-    'overlay-all', 'task-frame-preservation', 'vor', 'overlay-short', 'overlay-long',
+    'rose-full', 'task-subtitle', 'task-logo', 'task-watermark', 'task-banner',
+    'overlay-all', 'task-frame-preservation', 'vor-full', 'overlay-short', 'overlay-long',
     'object-speed', 'overlay-speed', 'study-occupancy'
   ];
   const dwell = 5800;
@@ -63,6 +63,10 @@
     const first = node('th', activeGroup.id === 'studies' ? 'Configuration' : 'Method');
     first.scope = 'col';
     heading.append(first);
+    const psnrIndex = dataset.showPsnrGain ? dataset.metrics.findIndex(metric => metric.key === 'psnr') : -1;
+    const psnrBaseline = psnrIndex < 0 ? null : Math.max(...dataset.rows
+      .filter(row => !row.ours && row.values[psnrIndex] !== null)
+      .map(row => row.values[psnrIndex]));
     const winners = dataset.metrics.map((metric, i) => {
       const head = node('th', metric.label);
       head.scope = 'col';
@@ -86,6 +90,12 @@
         const output = format(value, dataset.metrics[index]);
         if (output === winners[index]) cell.append(node('strong', output));
         else cell.textContent = output;
+        if (item.ours && value !== null && index === psnrIndex && Number.isFinite(psnrBaseline) && value > psnrBaseline) {
+          const gain = format(value - psnrBaseline, dataset.metrics[index]);
+          const annotation = node('span', '↑' + gain, 'psnr-gain');
+          annotation.setAttribute('aria-label', gain + ' dB higher than the best baseline');
+          cell.append(annotation);
+        }
       });
     }
     tableRegion.replaceChildren(table);

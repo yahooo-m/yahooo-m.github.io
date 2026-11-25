@@ -46,7 +46,3 @@
   .gallery-live::after { right: .3rem; }
 }
 @media (prefers-reduced-motion: reduce) { .gallery-live { transition: none; } }
-@media (max-width: 680px) {
-  .gallery-grid > .gallery-card { grid-column: span 2; }
-  .gallery-grid > .gallery-card:not([hidden]) ~ .gallery-card { grid-column: auto; }
-}

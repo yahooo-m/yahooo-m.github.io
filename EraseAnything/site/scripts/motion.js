@@ -28,19 +28,16 @@
   const mast = document.querySelector('.mast-surface');
   const film = document.getElementById('hero-film');
   const heroPlay = document.getElementById('hero-play');
-  pageVideos.bindQuality(document.getElementById('hero-quality'), film);
-  pageVideos.watchOpeningDownload(film);
   const bars = [...stage.querySelectorAll('.hero-timeline i')];
   const number = document.getElementById('hero-scene-no');
   const command = document.getElementById('edit-command');
   const phase = document.getElementById('hero-phase');
   const name = document.getElementById('hero-name');
   const scenes = [
-    ['Football at sunset', 'Remove the player and ball.'],
     ['Circle of faces', 'Erase the broadcast graphics.'],
-    ['On the workbench', 'Remove the English overlays.']
+    ['Crossing the plaza', 'Remove the foreground pedestrian.']
   ];
-  const shotDuration = 4.32;
+  const shotDuration = 3.84;
   let manualPlay = false;
   let localPause = false;
   let frameCallback;
@@ -57,7 +54,7 @@
       stage.dataset.phase = state;
       phase.textContent = {input:'Original', wipe:'Comparing', result:'EraseAnything'}[state];
     }
-    number.textContent = String(index + 1).padStart(2, '0') + ' / 03';
+    number.textContent = String(index + 1).padStart(2, '0') + ' / ' + String(scenes.length).padStart(2, '0');
     bars.forEach((bar, i) => bar.style.setProperty('--scene-progress', i < index ? 1 : i > index ? 0 : Math.min(local / shotDuration, 1)));
   }
   function paintFrame(_, metadata) {
@@ -78,7 +75,7 @@
   function syncFilm() {
     const enabled = !root.classList.contains('motion-paused') || manualPlay;
     if (enabled && !localPause && pageVideos.allows('hero')) {
-      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc);
+      pageVideos.attach(film, film.dataset.src);
       film.play().catch(playbackUI);
     } else if (localPause && pageVideos.allows('hero')) {
       film.pause();

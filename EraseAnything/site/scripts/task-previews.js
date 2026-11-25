@@ -3,13 +3,10 @@
   if (!root) return;
   const local = './assets/task-previews/';
   const examples = [
-    {id:'object', tab:'Object', name:'The chess player', note:'The player disappears. The board and pieces stay on the table.', path:'./assets/collection/chess'},
-    {id:'subtitle', tab:'Subtitle', name:'A cooking demonstration', note:'Two lines of English subtitles cross the counter and cutting board.', path:local+'subtitle'},
-    {id:'logo', tab:'Logo', name:'Channel logo over foliage', note:'In this top-right detail, the blue channel logo clears from the leaves.', path:local+'logo'},
-    {id:'watermark', tab:'Watermark', name:'Pencil drawing', note:'The watermark crosses the pencil strokes. Both views show the same detail of the drawing.', path:local+'watermark'},
-    {id:'banner', tab:'Banner', name:'Lower third on a shirt', note:'The dark caption strip covers the shoulder and collar as the speaker turns.', path:local+'banner'},
-    {id:'overlay', tab:'Mixed', name:'A Japanese dialogue', note:'Subtitles, on-screen text and a corner logo share the frame.', path:'./assets/collection/japanese'},
-    {id:'keep', tab:'Identity', name:'A clean studio interview', note:'Compare the clean source and the model output along the suit, shelves and flowers.', path:local+'keep'}
+    {id:'object', tab:'Object', name:'The chess player', note:'The player disappears. The board and pieces stay on the table.', path:'./assets/collection/chess-hd', video:true},
+    {id:'overlay', tab:'Mixed', name:'A Japanese dialogue', note:'Subtitles, on-screen text and a corner logo share the frame.', path:'./assets/collection/japanese-hd', video:true},
+    {id:'logo', tab:'Logo', name:'Channel logo over foliage', note:'Drag the divider to see the blue channel logo clear from the leaves.', path:local+'logo-hd'},
+    {id:'watermark', tab:'Watermark', name:'Pencil drawing', note:'Drag the divider to compare the pencil strokes beneath the watermark.', path:local+'watermark-hd'}
   ];
   root.innerHTML = '<div class="task-preview-copy"><h3>Task examples</h3><div class="task-preview-tabs" role="group" aria-label="Choose a task example"></div><h4 id="task-preview-name"></h4><p id="task-preview-note"></p><button id="task-preview-play" type="button">Pause tour</button></div><figure class="task-preview-figure"><div class="task-preview-stage"><canvas width="640" height="360" role="img" aria-label="Original footage and model output"></canvas><video muted playsinline preload="none" hidden></video><span class="task-preview-phase" aria-hidden="true"></span><span class="task-preview-divider" aria-hidden="true"></span></div><figcaption><label for="task-preview-split">All output</label><input id="task-preview-split" type="range" aria-label="Amount of original footage" min="0" max="100" value="60"><span>All original</span></figcaption></figure>';
   const find = selector => root.querySelector(selector);
@@ -22,7 +19,7 @@
   let dragOverride = false, localChoice = false, cursor = 60, mediaLoaded = false;
 
   function allowed() {
-    return pageVideos.allows('tasks') && !hold &&
+    return examples[active]?.video && pageVideos.allows('tasks') && !hold &&
       (explicitPlay || (!document.documentElement.classList.contains('motion-paused') && !reduced.matches));
   }
   function paint() {
@@ -31,6 +28,10 @@
     const half = (image.videoWidth || image.naturalWidth) / 2;
     const height = image.videoHeight || image.naturalHeight;
     if (!half || !height) return;
+    if (canvas.width !== half || canvas.height !== height) {
+      canvas.width = half;
+      canvas.height = height;
+    }
     const ratio = cursor / 100;
     context.drawImage(image, half, 0, half, height, 0, 0, canvas.width, canvas.height);
     if (ratio > 0) context.drawImage(image, 0, 0, half * ratio, height, 0, 0, canvas.width * ratio, canvas.height);
@@ -49,7 +50,7 @@
     paint();
   }
   function sync() {
-    const path = examples[active].path;
+    const {path, video: hasVideo} = examples[active];
     if (!poster && pageVideos.allows('tasks')) {
       const image = new Image();
       poster = image;
@@ -57,6 +58,7 @@
       image.src = path + '.webp';
     }
     const enabled = allowed();
+    play.hidden = !hasVideo;
     play.textContent = enabled ? 'Pause tour' : 'Play tour';
     play.setAttribute('aria-label', enabled ? 'Pause task examples' : 'Play task examples');
     if (enabled) {
@@ -121,7 +123,8 @@
   pageVideos.frames(video, frame, allowed);
   function prepareNext() {
     if (allowed() && !localChoice) {
-      pageVideos.prepare('tasks', video, examples[(active + 1) % examples.length].path + '.mp4');
+      const next = examples[(active + 1) % examples.length];
+      if (next.video) pageVideos.prepare('tasks', video, next.path + '.mp4');
     }
   }
   for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);

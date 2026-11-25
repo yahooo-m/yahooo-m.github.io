@@ -5,13 +5,6 @@ const pageVideos = (() => {
   const objectSources = new WeakMap();
   const pendingSources = new WeakMap();
   const connection = navigator.connection;
-  const attached = new Map();
-  const suspended = new WeakSet();
-  const qualityKey = 'eraseanything-video-quality';
-  const qualityNames = {auto:'Auto', high:'High', lite:'Data saver'};
-  let qualityMode = 'auto', fallbackTier, fallbackUntil = 0;
-  function validMode(value) { return ['auto', 'high', 'lite'].includes(value) ? value : 'auto'; }
-  try { qualityMode = validMode(localStorage.getItem(qualityKey)); } catch {}
   const anchoredEntry = Boolean(location.hash);
   let entryReady = !anchoredEntry;
   let selected, preferred, scrollFrame, settleTimer, standby;
@@ -59,120 +52,6 @@ const pageVideos = (() => {
     return region === selected;
   }
 
-  function limitedNetwork() {
-    // A rounded "3g" estimate is common on an unthrottled first visit.
-    return connection?.saveData || ['slow-2g', '2g'].includes(connection?.effectiveType) ||
-      (connection?.downlink > 0 && connection.downlink <= 1);
-  }
-
-  function liteVersion(path) {
-    return path.replace(/(?:-lite)?\.mp4(?=$|[?#])/, '-lite.mp4');
-  }
-  function variant(path, litePath = liteVersion(path), highPath) {
-    if (qualityMode === 'high') return highPath || path;
-    if (qualityMode === 'lite' || limitedNetwork()) return litePath;
-    if (highPath && performance.now() < fallbackUntil) return fallbackTier === 'lite' ? litePath : path;
-    return highPath || path;
-  }
-  function setQuality(value) {
-    const mode = validMode(value);
-    if (mode === qualityMode) return;
-    qualityMode = mode;
-    fallbackUntil = 0;
-    cancelStandby();
-    for (const [video, {path, litePath, highPath}] of [...attached]) {
-      if (source(video) === variant(path, litePath, highPath)) continue;
-      const resume = playing(video);
-      const offscreen = suspended.has(video);
-      release(video);
-      if (offscreen || document.hidden) continue;
-      if (resume) play(video, path, litePath, highPath).catch(() => {});
-      else {
-        video.preload = 'auto';
-        attach(video, path, litePath, highPath);
-        video.addEventListener('loadeddata', () => { video.preload = 'none'; }, {once:true});
-      }
-    }
-    document.dispatchEvent(new Event('videoqualitychange'));
-  }
-  function bindQuality(select, video) {
-    const updateLabel = () => {
-      select.value = qualityMode;
-      for (const option of select.options) {
-        const decoded = option.selected && video.readyState >= 1 && video.videoHeight;
-        option.textContent = qualityNames[option.value] + (decoded ? ' · ' + video.videoHeight + 'p' : '');
-      }
-    };
-    select.addEventListener('change', () => {
-      const mode = validMode(select.value);
-      try { localStorage.setItem(qualityKey, mode); } catch {}
-      setQuality(mode);
-    });
-    document.addEventListener('videoqualitychange', updateLabel);
-    for (const event of ['loadedmetadata', 'resize', 'emptied']) video.addEventListener(event, updateLabel);
-    updateLabel();
-    select.closest('[data-video-quality-control]').hidden = false;
-  }
-  window.addEventListener('storage', event => {
-    if (event.key === qualityKey || event.key === null) setQuality(event.newValue);
-  });
-  function fallback(tier) {
-    fallbackTier = tier;
-    fallbackUntil = performance.now() + 60000;
-    cancelStandby();
-  }
-
-  function watchOpeningDownload(video) {
-    let start, firstEnd;
-    const reset = () => { start = undefined; };
-    video.addEventListener('progress', () => {
-      const ranges = video.buffered;
-      if (qualityMode !== 'auto' || video.paused || video.seeking || video.videoHeight < 540 ||
-          !ranges.length || !(connection?.downlink > 0 && connection.downlink <= 2)) return;
-      const end = ranges.end(ranges.length - 1);
-      if (start === undefined) { start = performance.now(); firstEnd = end; return; }
-      const elapsed = (performance.now() - start) / 1000;
-      // An opening arriving barely faster than playback cannot feed the much larger native pairs.
-      if (elapsed >= 3 && end > firstEnd && (end - firstEnd) / elapsed < 1.8 &&
-          end < video.duration - 1 && end - video.currentTime < 3 && video.currentTime > 2) {
-        fallback('lite');
-        reset();
-      }
-    });
-    for (const event of ['pause', 'seeking', 'emptied']) video.addEventListener(event, reset);
-  }
-
-  function watchRebuffering(video) {
-    let timer, waitingAt, accumulated = 0, ignoreUntil = 0;
-    function stop() {
-      clearTimeout(timer);
-      waitingAt = undefined;
-    }
-    video.addEventListener('waiting', () => {
-      stop();
-      const stream = attached.get(video);
-      if (!stream?.highPath || qualityMode !== 'auto' || source(video) === stream.litePath ||
-          video.paused || video.seeking || video.currentTime < .15 || performance.now() < ignoreUntil) return;
-      waitingAt = performance.now();
-      timer = setTimeout(() => {
-        if (qualityMode !== 'auto' || attached.get(video) !== stream || video.paused || video.seeking ||
-            video.readyState >= 3 || document.hidden) return;
-        const moderateLink = !(connection?.downlink > 0 && connection.downlink <= 2);
-        fallback(source(video) === stream.highPath && moderateLink ? 'balanced' : 'lite');
-        if (video.duration - video.currentTime > .8) {
-          release(video);
-          play(video, stream.path, stream.litePath, stream.highPath).catch(() => {});
-        }
-      }, Math.max(100, 550 - accumulated));
-    });
-    video.addEventListener('playing', () => {
-      if (waitingAt !== undefined) accumulated += performance.now() - waitingAt;
-      stop();
-    });
-    video.addEventListener('seeking', () => { ignoreUntil = performance.now() + 500; stop(); });
-    video.addEventListener('pause', stop);
-    video.addEventListener('emptied', () => { accumulated = 0; stop(); });
-  }
   function bufferedToEnd(video) {
     const ranges = video.buffered;
     return ranges.length === 1 && ranges.start(0) < .1 && ranges.end(0) >= video.duration - .1;
@@ -181,11 +60,10 @@ const pageVideos = (() => {
     standby?.controller.abort();
     standby = undefined;
   }
-  function prepare(region, video, nextPath, highPath) {
-    if (!allows(region) || !nextPath || document.hidden || connection?.saveData ||
+  function prepare(region, video, path) {
+    if (!allows(region) || !path || document.hidden || connection?.saveData ||
         video.paused || video.ended ||
         !bufferedToEnd(video)) return;
-    const path = variant(nextPath, undefined, highPath);
     if (standby?.path === path) return;
     cancelStandby();
     const ticket = {region, path, controller:new AbortController()};
@@ -215,27 +93,21 @@ const pageVideos = (() => {
     }
     video.pause();
   }
-  function attach(video, path, litePath = liteVersion(path), highPath) {
-    // Keep the chosen resolution when network conditions change during a clip.
-    suspended.delete(video);
-    const previous = source(video);
-    const sameClip = file => file && (file === path || file === litePath || file === highPath);
-    if (sameClip(previous)) return pendingSources.get(video)?.ready;
-    const src = variant(path, litePath, highPath);
-    const ticket = standby?.path === src ? standby : undefined;
+  function attach(video, path) {
+    if (source(video) === path) return pendingSources.get(video)?.ready;
+    const ticket = standby?.path === path ? standby : undefined;
     if (ticket) standby = undefined;
     else cancelStandby();
     const saved = positions.get(video);
     release(video, false);
-    attached.set(video, {path, litePath, highPath});
 
     function setSource(blob) {
       if (blob) {
         const url = URL.createObjectURL(blob);
-        objectSources.set(video, {url, path:src});
+        objectSources.set(video, {url, path});
         video.setAttribute('src', url);
-      } else video.setAttribute('src', src);
-      if (sameClip(saved?.path) && saved.time > 0) {
+      } else video.setAttribute('src', path);
+      if (saved?.path === path && saved.time > 0) {
         video.currentTime = saved.time;
       }
     }
@@ -256,12 +128,11 @@ const pageVideos = (() => {
     });
     return ticket.ready;
   }
-  function play(video, path, litePath, highPath) {
-    const ready = attach(video, path, litePath, highPath);
+  function play(video, path) {
+    const ready = attach(video, path);
     return ready ? ready.then(current => { if (current) return video.play(); }) : video.play();
   }
   function release(video, remember = true) {
-    attached.delete(video);
     const path = source(video);
     if (!remember) positions.delete(video);
     if (!path) return;
@@ -274,7 +145,6 @@ const pageVideos = (() => {
     forgetObjectSource(video);
   }
   function suspend(video) {
-    suspended.add(video);
     pause(video);
     // Keep completed short previews ready to resume. Incomplete downloads yield bandwidth.
     if (!bufferedToEnd(video)) release(video);
@@ -314,6 +184,5 @@ const pageVideos = (() => {
   }, {capture:true});
   const dialogs = new MutationObserver(() => update());
   document.querySelectorAll('dialog').forEach(dialog => dialogs.observe(dialog, {attributes:true, attributeFilter:['open']}));
-  connection?.addEventListener?.('change', () => document.dispatchEvent(new Event('previewchange')));
-  return {register, prefer, allows, attach, play, pause, playing, streamFor:video => attached.get(video), variant, suspend, release, frames, prepare, bindQuality, watchOpeningDownload, watchRebuffering};
+  return {register, prefer, allows, attach, play, pause, playing, source, suspend, release, frames, prepare};
 })();

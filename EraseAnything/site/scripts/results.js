@@ -189,8 +189,11 @@
   function showDataset(resetMetric = false) {
     dataset = activeGroup.data.find(item => item.id === datasetMenu.value);
     document.querySelector('#score-context').textContent = dataset.description;
-    const hasExample = ['object','subtitle','logo','watermark','banner','overlay','keep'].includes(activeGroup.id);
+    const hasExample = ['object','logo','watermark','banner','overlay'].includes(activeGroup.id);
+    const bannerExample = activeGroup.id === 'banner';
     exampleLink.hidden = !hasExample;
+    exampleLink.href = bannerExample ? '#visual-results' : '#task-previews';
+    exampleLink.textContent = bannerExample ? 'View comparison ↓' : 'View example ↓';
     const previousMetric = resetMetric ? null : metricMenu.value;
     fillMenu(metricMenu, dataset.metrics.map(metric => ({
       id: metric.key,

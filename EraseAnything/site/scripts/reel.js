@@ -4,10 +4,6 @@
   const scenes = [
     { title: 'Circle of faces', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/group-huddle', note: 'The caption bar gives way to large lettering across the sky. Watch the faces around the edge of the frame.' },
     { title: 'Forest sign', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/forest-sign', note: 'Watch the lettering on the wooden sign as the two broadcast graphics disappear.' },
-    { title: 'Backstage dialogue', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/backstage-dialogue', note: 'The dialogue captions change across the dark costumes. Follow the fabric in the reconstruction.' },
-    { title: 'Night conversation', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/night-conversation', note: 'The illuminated sign stays in the scene as the captions and corner graphic disappear.' },
-    { title: 'Poolside dialogue', tag: 'Natural High S4', category: broadcast, path: './assets/premiere/poolside-dialogue', note: 'Look at the moving water behind the two dialogue captions.' },
-    { title: 'Football at sunset', tag: 'Object removal', category: 'Object removal · Mask guided', path: './assets/featured-results/sunset-football', note: 'Follow the player and ball in the foreground. The distant players remain visible.' },
     { title: 'Crossing the plaza', tag: 'Object removal', category: 'Object removal · Mask guided', path: './assets/featured-results/plaza-walker', note: 'The pedestrian crosses the paving and facade, revealing the background in other frames.' },
     { title: 'On the workbench', tag: 'English overlays', category: 'English overlays · Instruction only', path: './assets/featured-results/english-workbench', note: 'Compare the two English overlays with the changing text on the device screen.' }
   ];
@@ -22,8 +18,6 @@
   const divider = get('wipe-position');
   const rail = get('scene-rail');
   const loop = get('loop-scene');
-  pageVideos.bindQuality(get('reel-quality'), video);
-  pageVideos.watchRebuffering(video);
   const modeButtons = [...document.querySelectorAll('.stage-modes button')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const small = matchMedia('(max-width:680px)');
@@ -42,8 +36,8 @@
   function asset(scene, suffix) {
     return scene.path + suffix + (scene.category === broadcast ? '?v=2' : '');
   }
-  function highSource(scene) {
-    if (scene.category === broadcast) return asset(scene, '-hd.mp4');
+  function posterSource(scene) {
+    return asset(scene, scene.category === broadcast ? '.webp' : '-hd.webp');
   }
 
   function draw() {
@@ -53,10 +47,8 @@
     const w = (picture.videoWidth || picture.naturalWidth) / 2;
     const h = picture.videoHeight || picture.naturalHeight;
     if (!w || !h) return;
-    // Render the native broadcast pixels for both a full-size wipe and a stacked comparison.
-    const broadcastFrame = scenes[active].category === broadcast;
-    const renderWidth = broadcastFrame ? w : 960;
-    const renderHeight = (broadcastFrame ? h : 540) * (frame.dataset.layout === 'stacked' ? 2 : 1);
+    const renderWidth = w;
+    const renderHeight = h * (frame.dataset.layout === 'stacked' ? 2 : 1);
     if (canvas.width !== renderWidth) canvas.width = renderWidth;
     if (canvas.height !== renderHeight) canvas.height = renderHeight;
     const width = canvas.width;
@@ -75,9 +67,7 @@
     clearTimeout(posterTimer);
     if (!pageVideos.allows('reel') || video.readyState >= 2) return;
     const scene = scenes[active];
-    const isLite = scene.category === broadcast &&
-      pageVideos.variant(asset(scene, '.mp4'), undefined, highSource(scene)) === asset(scene, '-lite.mp4');
-    const path = asset(scene, isLite ? '-lite.webp' : '.webp');
+    const path = posterSource(scene);
     function load() {
       if (video.readyState >= 2 || !pageVideos.allows('reel')) return;
       if (frame.dataset.layout === 'pair') {
@@ -119,7 +109,7 @@
   function syncPlayback() {
     const scene = scenes[active];
     if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
-      pageVideos.play(video, asset(scene, '.mp4'), undefined, highSource(scene)).catch(indicatePlayback);
+      pageVideos.play(video, asset(scene, '-hd.mp4')).catch(indicatePlayback);
       indicatePlayback();
     } else if (!wantsPlayback && pageVideos.allows('reel')) {
       pageVideos.pause(video);
@@ -204,7 +194,6 @@
   }
 
   video.controls = false;
-  document.addEventListener('videoqualitychange', () => { updatePoster(); prepareNext(); });
   modeButtons.forEach(button => button.addEventListener('click', () => { pickedLayout = true; mode = button.dataset.mode; setLayout(); }));
   divider.addEventListener('input', setDivider);
   get('previous-scene').addEventListener('click', () => choose(active - 1));
@@ -228,7 +217,7 @@
       video.preload = 'metadata';
       pageVideos.prefer('reel');
       const scene = scenes[active];
-      pageVideos.attach(video, asset(scene, '.mp4'), undefined, highSource(scene));
+      pageVideos.attach(video, asset(scene, '-hd.mp4'));
     }
   });
   video.addEventListener('loadedmetadata', () => {
@@ -241,7 +230,7 @@
   function prepareNext() {
     if (wantsPlayback && mayAdvance() && !video.loop) {
       const next = scenes[(active + 1) % scenes.length];
-      pageVideos.prepare('reel', video, asset(next, '.mp4'), highSource(next));
+      pageVideos.prepare('reel', video, asset(next, '-hd.mp4'));
     }
   }
   for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);

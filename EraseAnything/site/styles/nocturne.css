@@ -70,14 +70,6 @@
   background: var(--night-aqua);
   border-color: var(--night-aqua);
 }
-@media (min-width: 960px) {
-  .gallery:has([data-filter=all][aria-pressed=true]) .gallery-grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 1.55rem 1.05rem;
-  }
-  .gallery:has([data-filter=all][aria-pressed=true]) .gallery-card { grid-column: span 3; }
-  .gallery:has([data-filter=all][aria-pressed=true]) .gallery-card:nth-child(-n+2) { grid-column: span 6; }
-}
 .abstract {
   background: radial-gradient(ellipse at 7% 95%, #1c2335 0%, transparent 58%), #121620;
 }

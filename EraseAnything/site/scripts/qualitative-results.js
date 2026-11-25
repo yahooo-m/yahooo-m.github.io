@@ -127,5 +127,8 @@
   toolbar.append(choices, zoom);
   section.append(heading, toolbar, metadata, gallery, description);
   viewer.append(section);
+  document.addEventListener('scoretaskchange', event => {
+    if (event.detail.group === 'banner' && event.detail.manual && active !== scenes[0]) render(scenes[0]);
+  });
   render(active);
 })();

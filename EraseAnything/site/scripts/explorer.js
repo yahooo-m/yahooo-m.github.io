@@ -6,10 +6,6 @@
   const scenes = [
     { title: 'Circle of faces', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/group-huddle', note: 'The caption bar gives way to large lettering across the sky. Watch the faces around the edge of the frame.' },
     { title: 'Forest sign', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/forest-sign', note: 'Watch the lettering on the wooden sign as the two broadcast graphics disappear.' },
-    { title: 'Backstage dialogue', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/backstage-dialogue', note: 'The dialogue captions change across the dark costumes. Follow the fabric in the reconstruction.' },
-    { title: 'Night conversation', tag: 'Natural High S4', category: broadcast, path: './assets/headliners/night-conversation', note: 'The illuminated sign stays in the scene as the captions and corner graphic disappear.' },
-    { title: 'Poolside dialogue', tag: 'Natural High S4', category: broadcast, path: './assets/premiere/poolside-dialogue', note: 'Look at the moving water behind the two dialogue captions.' },
-    { title: 'Football at sunset', tag: 'Object removal', category: 'Object removal · Mask guided', path: './assets/featured-results/sunset-football', note: 'Follow the player and ball in the foreground. The distant players remain visible.' },
     { title: 'Crossing the plaza', tag: 'Object removal', category: 'Object removal · Mask guided', path: './assets/featured-results/plaza-walker', note: 'The pedestrian crosses the paving and facade, revealing the background in other frames.' },
     { title: 'On the workbench', tag: 'English overlays', category: 'English overlays · Instruction only', path: './assets/featured-results/english-workbench', note: 'Compare the two English overlays with the changing text on the device screen.' }
   ];
@@ -24,8 +20,6 @@
   const divider = get('wipe-position');
   const rail = get('scene-rail');
   const loop = get('loop-scene');
-  pageVideos.bindQuality(get('reel-quality'), video);
-  pageVideos.watchRebuffering(video);
   const modeButtons = [...document.querySelectorAll('.stage-modes button')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const small = matchMedia('(max-width:680px)');
@@ -44,8 +38,8 @@
   function asset(scene, suffix) {
     return scene.path + suffix + (scene.category === broadcast ? '?v=2' : '');
   }
-  function highSource(scene) {
-    if (scene.category === broadcast) return asset(scene, '-hd.mp4');
+  function posterSource(scene) {
+    return asset(scene, scene.category === broadcast ? '.webp' : '-hd.webp');
   }
 
   function draw() {
@@ -55,10 +49,8 @@
     const w = (picture.videoWidth || picture.naturalWidth) / 2;
     const h = picture.videoHeight || picture.naturalHeight;
     if (!w || !h) return;
-    // Render the native broadcast pixels for both a full-size wipe and a stacked comparison.
-    const broadcastFrame = scenes[active].category === broadcast;
-    const renderWidth = broadcastFrame ? w : 960;
-    const renderHeight = (broadcastFrame ? h : 540) * (frame.dataset.layout === 'stacked' ? 2 : 1);
+    const renderWidth = w;
+    const renderHeight = h * (frame.dataset.layout === 'stacked' ? 2 : 1);
     if (canvas.width !== renderWidth) canvas.width = renderWidth;
     if (canvas.height !== renderHeight) canvas.height = renderHeight;
     const width = canvas.width;
@@ -77,9 +69,7 @@
     clearTimeout(posterTimer);
     if (!pageVideos.allows('reel') || video.readyState >= 2) return;
     const scene = scenes[active];
-    const isLite = scene.category === broadcast &&
-      pageVideos.variant(asset(scene, '.mp4'), undefined, highSource(scene)) === asset(scene, '-lite.mp4');
-    const path = asset(scene, isLite ? '-lite.webp' : '.webp');
+    const path = posterSource(scene);
     function load() {
       if (video.readyState >= 2 || !pageVideos.allows('reel')) return;
       if (frame.dataset.layout === 'pair') {
@@ -121,7 +111,7 @@
   function syncPlayback() {
     const scene = scenes[active];
     if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
-      pageVideos.play(video, asset(scene, '.mp4'), undefined, highSource(scene)).catch(indicatePlayback);
+      pageVideos.play(video, asset(scene, '-hd.mp4')).catch(indicatePlayback);
       indicatePlayback();
     } else if (!wantsPlayback && pageVideos.allows('reel')) {
       pageVideos.pause(video);
@@ -206,7 +196,6 @@
   }
 
   video.controls = false;
-  document.addEventListener('videoqualitychange', () => { updatePoster(); prepareNext(); });
   modeButtons.forEach(button => button.addEventListener('click', () => { pickedLayout = true; mode = button.dataset.mode; setLayout(); }));
   divider.addEventListener('input', setDivider);
   get('previous-scene').addEventListener('click', () => choose(active - 1));
@@ -230,7 +219,7 @@
       video.preload = 'metadata';
       pageVideos.prefer('reel');
       const scene = scenes[active];
-      pageVideos.attach(video, asset(scene, '.mp4'), undefined, highSource(scene));
+      pageVideos.attach(video, asset(scene, '-hd.mp4'));
     }
   });
   video.addEventListener('loadedmetadata', () => {
@@ -243,7 +232,7 @@
   function prepareNext() {
     if (wantsPlayback && mayAdvance() && !video.loop) {
       const next = scenes[(active + 1) % scenes.length];
-      pageVideos.prepare('reel', video, asset(next, '.mp4'), highSource(next));
+      pageVideos.prepare('reel', video, asset(next, '-hd.mp4'));
     }
   }
   for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
@@ -886,8 +875,11 @@
   function showDataset(resetMetric = false) {
     dataset = activeGroup.data.find(item => item.id === datasetMenu.value);
     document.querySelector('#score-context').textContent = dataset.description;
-    const hasExample = ['object','subtitle','logo','watermark','banner','overlay','keep'].includes(activeGroup.id);
+    const hasExample = ['object','logo','watermark','banner','overlay'].includes(activeGroup.id);
+    const bannerExample = activeGroup.id === 'banner';
     exampleLink.hidden = !hasExample;
+    exampleLink.href = bannerExample ? '#visual-results' : '#task-previews';
+    exampleLink.textContent = bannerExample ? 'View comparison ↓' : 'View example ↓';
     const previousMetric = resetMetric ? null : metricMenu.value;
     fillMenu(metricMenu, dataset.metrics.map(metric => ({
       id: metric.key,
@@ -1000,13 +992,10 @@
   if (!root) return;
   const local = './assets/task-previews/';
   const examples = [
-    {id:'object', tab:'Object', name:'The chess player', note:'The player disappears. The board and pieces stay on the table.', path:'./assets/collection/chess'},
-    {id:'subtitle', tab:'Subtitle', name:'A cooking demonstration', note:'Two lines of English subtitles cross the counter and cutting board.', path:local+'subtitle'},
-    {id:'logo', tab:'Logo', name:'Channel logo over foliage', note:'In this top-right detail, the blue channel logo clears from the leaves.', path:local+'logo'},
-    {id:'watermark', tab:'Watermark', name:'Pencil drawing', note:'The watermark crosses the pencil strokes. Both views show the same detail of the drawing.', path:local+'watermark'},
-    {id:'banner', tab:'Banner', name:'Lower third on a shirt', note:'The dark caption strip covers the shoulder and collar as the speaker turns.', path:local+'banner'},
-    {id:'overlay', tab:'Mixed', name:'A Japanese dialogue', note:'Subtitles, on-screen text and a corner logo share the frame.', path:'./assets/collection/japanese'},
-    {id:'keep', tab:'Identity', name:'A clean studio interview', note:'Compare the clean source and the model output along the suit, shelves and flowers.', path:local+'keep'}
+    {id:'object', tab:'Object', name:'The chess player', note:'The player disappears. The board and pieces stay on the table.', path:'./assets/collection/chess-hd', video:true},
+    {id:'overlay', tab:'Mixed', name:'A Japanese dialogue', note:'Subtitles, on-screen text and a corner logo share the frame.', path:'./assets/collection/japanese-hd', video:true},
+    {id:'logo', tab:'Logo', name:'Channel logo over foliage', note:'Drag the divider to see the blue channel logo clear from the leaves.', path:local+'logo-hd'},
+    {id:'watermark', tab:'Watermark', name:'Pencil drawing', note:'Drag the divider to compare the pencil strokes beneath the watermark.', path:local+'watermark-hd'}
   ];
   root.innerHTML = '<div class="task-preview-copy"><h3>Task examples</h3><div class="task-preview-tabs" role="group" aria-label="Choose a task example"></div><h4 id="task-preview-name"></h4><p id="task-preview-note"></p><button id="task-preview-play" type="button">Pause tour</button></div><figure class="task-preview-figure"><div class="task-preview-stage"><canvas width="640" height="360" role="img" aria-label="Original footage and model output"></canvas><video muted playsinline preload="none" hidden></video><span class="task-preview-phase" aria-hidden="true"></span><span class="task-preview-divider" aria-hidden="true"></span></div><figcaption><label for="task-preview-split">All output</label><input id="task-preview-split" type="range" aria-label="Amount of original footage" min="0" max="100" value="60"><span>All original</span></figcaption></figure>';
   const find = selector => root.querySelector(selector);
@@ -1019,7 +1008,7 @@
   let dragOverride = false, localChoice = false, cursor = 60, mediaLoaded = false;
 
   function allowed() {
-    return pageVideos.allows('tasks') && !hold &&
+    return examples[active]?.video && pageVideos.allows('tasks') && !hold &&
       (explicitPlay || (!document.documentElement.classList.contains('motion-paused') && !reduced.matches));
   }
   function paint() {
@@ -1028,6 +1017,10 @@
     const half = (image.videoWidth || image.naturalWidth) / 2;
     const height = image.videoHeight || image.naturalHeight;
     if (!half || !height) return;
+    if (canvas.width !== half || canvas.height !== height) {
+      canvas.width = half;
+      canvas.height = height;
+    }
     const ratio = cursor / 100;
     context.drawImage(image, half, 0, half, height, 0, 0, canvas.width, canvas.height);
     if (ratio > 0) context.drawImage(image, 0, 0, half * ratio, height, 0, 0, canvas.width * ratio, canvas.height);
@@ -1046,7 +1039,7 @@
     paint();
   }
   function sync() {
-    const path = examples[active].path;
+    const {path, video: hasVideo} = examples[active];
     if (!poster && pageVideos.allows('tasks')) {
       const image = new Image();
       poster = image;
@@ -1054,6 +1047,7 @@
       image.src = path + '.webp';
     }
     const enabled = allowed();
+    play.hidden = !hasVideo;
     play.textContent = enabled ? 'Pause tour' : 'Play tour';
     play.setAttribute('aria-label', enabled ? 'Pause task examples' : 'Play task examples');
     if (enabled) {
@@ -1118,7 +1112,8 @@
   pageVideos.frames(video, frame, allowed);
   function prepareNext() {
     if (allowed() && !localChoice) {
-      pageVideos.prepare('tasks', video, examples[(active + 1) % examples.length].path + '.mp4');
+      const next = examples[(active + 1) % examples.length];
+      if (next.video) pageVideos.prepare('tasks', video, next.path + '.mp4');
     }
   }
   for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
@@ -1271,6 +1266,9 @@
   toolbar.append(choices, zoom);
   section.append(heading, toolbar, metadata, gallery, description);
   viewer.append(section);
+  document.addEventListener('scoretaskchange', event => {
+    if (event.detail.group === 'banner' && event.detail.manual && active !== scenes[0]) render(scenes[0]);
+  });
   render(active);
 })();
 
@@ -1278,49 +1276,13 @@
 /* showcase.js */
 const showcaseExamples = [
   {
-    "id": "bedside-lamp",
-    "title": "The bedside lamp",
-    "description": "The lamp disappears from the cabinet, and its warm glow fades from the wall. The picture frame and cabinet handles stay in place.",
-    "category": "Object + lighting",
-    "group": "object",
-    "path": "./assets/showcase/bedside-lamp",
-    "split": 33
-  },
-  {
-    "id": "workbench",
-    "title": "At the workbench",
-    "description": "Captions and a lower third disappear while the text on the device stays in view.",
-    "category": "English overlays",
-    "group": "overlay",
-    "path": "./assets/collection/workbench",
-    "split": 56
-  },
-  {
-    "id": "sunset",
-    "title": "Football at sunset",
-    "description": "The silhouette and football disappear against the sunset.",
+    "id": "chess",
+    "title": "The chess player",
+    "description": "The player disappears from the table while the chess pieces remain.",
     "category": "Object removal",
     "group": "object",
-    "path": "./assets/collection/sunset",
-    "split": 51
-  },
-  {
-    "id": "swedish",
-    "title": "The panel discussion",
-    "description": "A ribbon and Swedish subtitles clear from the speaker’s jacket and the table.",
-    "category": "Swedish overlays",
-    "group": "overlay",
-    "path": "./assets/collection/swedish",
+    "path": "./assets/collection/chess",
     "split": 56
-  },
-  {
-    "id": "plaza",
-    "title": "The plaza walker",
-    "description": "Paving and the facade appear behind the walking figure.",
-    "category": "Object removal",
-    "group": "object",
-    "path": "./assets/collection/plaza",
-    "split": 52
   },
   {
     "id": "japanese",
@@ -1332,13 +1294,13 @@ const showcaseExamples = [
     "split": 56
   },
   {
-    "id": "chess",
-    "title": "The chess player",
-    "description": "The player disappears from the table while the chess pieces remain.",
+    "id": "boat",
+    "title": "A boat on the lake",
+    "description": "The boat disappears while the shoreline and moving ripples stay visible.",
     "category": "Object removal",
     "group": "object",
-    "path": "./assets/collection/chess",
-    "split": 56
+    "path": "./assets/showcase/boat",
+    "split": 60
   },
   {
     "id": "harbor",
@@ -1348,24 +1310,6 @@ const showcaseExamples = [
     "group": "overlay",
     "path": "./assets/showcase/harbor",
     "split": 56
-  },
-  {
-    "id": "hindi",
-    "title": "Hindi subtitles and lower third",
-    "description": "Hindi captions and broadcast-style graphics are removed, revealing the red fabric and texture of the wall.",
-    "category": "Hindi overlays",
-    "group": "overlay",
-    "path": "./assets/showcase/hindi",
-    "split": 56
-  },
-  {
-    "id": "lantern",
-    "title": "Lantern and reflected light",
-    "description": "The lantern and its orange reflection disappear while the tile grid and ambient light remain visible.",
-    "category": "Object + reflected light",
-    "group": "object",
-    "path": "./assets/showcase/lantern",
-    "split": 54
   }
 ];
 
@@ -1384,19 +1328,21 @@ const video = document.querySelector('#comparison-video');
 const playButton = document.querySelector('#play-comparison');
 const status = document.querySelector('#demo-status');
 const grid = document.querySelector('#gallery-grid');
-const expand = document.querySelector('#expand-gallery');
 let activeExample;
 let split = 50;
 let poster;
 let revealFrame;
 let galleryFilter = 'all';
-let expanded = false;
 
 function drawComparison() {
   const source = video.readyState >= 2 ? video : poster;
   if (!source || (!source.videoWidth && !source.naturalWidth)) return;
   const w = (source.videoWidth || source.naturalWidth) / 2;
   const h = source.videoHeight || source.naturalHeight;
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w;
+    canvas.height = h;
+  }
   canvasContext.drawImage(source, w, 0, w, h, 0, 0, canvas.width, canvas.height);
   if (split) canvasContext.drawImage(source, 0, 0, w * split/100, h, 0, 0, canvas.width * split/100, canvas.height);
 }
@@ -1420,7 +1366,7 @@ function runReveal() {
   revealFrame = requestAnimationFrame(sweep);
 }
 function playComparison() {
-  pageVideos.play(video, activeExample.path + '.mp4').catch(error => {
+  pageVideos.play(video, activeExample.path + '-hd.mp4').catch(error => {
     if (error.name !== 'AbortError' && clipDialog.open) status.textContent = 'Press play to start the clip, or drag the divider to compare the still frame.';
   });
 }
@@ -1429,7 +1375,7 @@ function openClip(example) {
   pageVideos.release(video, false);
   poster = new Image();
   poster.onload = drawComparison;
-  poster.src = example.path + '-pair.webp';
+  poster.src = example.path + '-hd.webp';
   canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   canvas.setAttribute('aria-label', example.title + '. Original on the left and result on the right.');
   document.querySelector('#case-title').textContent = example.title;
@@ -1536,12 +1482,12 @@ function syncPreview(advance = false) {
   previewCard.classList.add('is-previewing');
   const picture = target.querySelector('.gallery-picture');
   picture.insertBefore(galleryLayer, picture.lastElementChild);
-  pageVideos.play(galleryVideo, target.dataset.path + '.mp4').catch(() => {});
+  pageVideos.play(galleryVideo, target.dataset.path + '-hd.mp4').catch(() => {});
 }
 
 function prepareGalleryClip() {
   const next = galleryTarget(true);
-  if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '.mp4');
+  if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '-hd.mp4');
 }
 for (const event of ['playing', 'progress', 'timeupdate']) galleryVideo.addEventListener(event, prepareGalleryClip);
 galleryVideo.addEventListener('ended', () => syncPreview(true));
@@ -1612,35 +1558,24 @@ reducedMotion.addEventListener('change', () => syncPreview());
 function filterGallery() {
   stopPreview();
   const matched = showcaseExamples.filter(item => galleryFilter === 'all' || item.group === galleryFilter);
-  const visible = !expanded && galleryFilter === 'all' ? matched.slice(0,6) : matched;
-  cards.forEach((card,i) => { card.hidden = !visible.includes(showcaseExamples[i]); });
-  document.querySelector('#gallery-count').textContent = visible.length + ' of ' + matched.length + ' clips';
-  expand.hidden = galleryFilter !== 'all' || matched.length <= 6;
-  expand.setAttribute('aria-expanded', expanded);
-  expand.textContent = expanded ? 'Show fewer clips' : 'Show all ' + matched.length + ' clips';
+  cards.forEach((card, i) => { card.hidden = !matched.includes(showcaseExamples[i]); });
+  document.querySelector('#gallery-count').textContent = matched.length + (matched.length === 1 ? ' clip' : ' clips');
   syncPreview();
 }
 for (const button of document.querySelectorAll('[data-filter]')) {
   button.addEventListener('click', () => {
     galleryFilter = button.dataset.filter;
-    expanded = false;
     for (const choice of document.querySelectorAll('[data-filter]')) choice.setAttribute('aria-pressed', choice === button);
     filterGallery();
   });
 }
-expand.addEventListener('click', () => {
-  const incoming = cards.find(card => card.hidden);
-  expanded = !expanded;
-  filterGallery();
-  if (expanded && incoming) incoming.focus();
-});
 filterGallery();
 
 for (const link of document.querySelectorAll('a[data-film-title]')) {
   link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    pageVideos.attach(film, link.getAttribute('href'), link.dataset.liteSrc);
+    pageVideos.attach(film, link.getAttribute('href'));
     document.querySelector('#film-title').textContent = 'EraseAnything · ' + link.dataset.filmTitle;
     filmDialog.showModal();
     film.play().catch(() => {});
@@ -1651,16 +1586,16 @@ let hiddenPlayback;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
-    const stream = media && pageVideos.streamFor(media);
-    if (stream) {
-      hiddenPlayback = {media, stream, playing:pageVideos.playing(media)};
+    const path = media && pageVideos.source(media);
+    if (path) {
+      hiddenPlayback = {media, path, playing:pageVideos.playing(media)};
       pageVideos.release(media);
     }
   } else if (hiddenPlayback) {
-    const {media, stream, playing} = hiddenPlayback;
+    const {media, path, playing} = hiddenPlayback;
     hiddenPlayback = undefined;
     if (media.closest('dialog').open) {
-      pageVideos.attach(media, stream.path, stream.litePath, stream.highPath);
+      pageVideos.attach(media, path);
       if (playing) media.play().catch(() => {});
     }
   }

@@ -76,15 +76,14 @@ html[data-theme="light"] .screening-deck {
   box-shadow: 0 16px 45px -30px #344f4b52;
 }
 html[data-theme="light"] .stage-well { background: #e9eeeb; }
-html[data-theme="light"] :is(.deck-header h2, .reel-quality select, .deck-controls button) { color: var(--ink); }
+html[data-theme="light"] :is(.deck-header h2, .deck-controls button) { color: var(--ink); }
 html[data-theme="light"] :is(.stage-modes, .score-views, .toggle-group) { background: var(--night-raised); border-color: var(--line); }
 html[data-theme="light"] #reel-clock,
-html[data-theme="light"] :is(.stage-modes button, .reel-quality, .scene-item small, .deck-caption, .scene-position) {
+html[data-theme="light"] :is(.stage-modes button, .scene-item small, .deck-caption, .scene-position) {
   color: var(--muted);
 }
 html[data-theme="light"] .stage-modes button:hover { color: var(--deep-green); }
 html[data-theme="light"] .stage-modes button[aria-pressed=true] { color: #fff; background: #2d514b; }
-html[data-theme="light"] .reel-quality select { color: var(--ink); background: #fff; border-color: var(--night-line); }
 html[data-theme="light"] :is(#scene-category, .deck-caption a) { color: var(--night-aqua); }
 html[data-theme="light"] .scene-rail { scrollbar-color: #a4b3ab transparent; }
 html[data-theme="light"] .scene-item { background: #f9fbf9; border-color: var(--line); color: var(--ink); }

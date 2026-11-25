@@ -11,19 +11,21 @@ const video = document.querySelector('#comparison-video');
 const playButton = document.querySelector('#play-comparison');
 const status = document.querySelector('#demo-status');
 const grid = document.querySelector('#gallery-grid');
-const expand = document.querySelector('#expand-gallery');
 let activeExample;
 let split = 50;
 let poster;
 let revealFrame;
 let galleryFilter = 'all';
-let expanded = false;
 
 function drawComparison() {
   const source = video.readyState >= 2 ? video : poster;
   if (!source || (!source.videoWidth && !source.naturalWidth)) return;
   const w = (source.videoWidth || source.naturalWidth) / 2;
   const h = source.videoHeight || source.naturalHeight;
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w;
+    canvas.height = h;
+  }
   canvasContext.drawImage(source, w, 0, w, h, 0, 0, canvas.width, canvas.height);
   if (split) canvasContext.drawImage(source, 0, 0, w * split/100, h, 0, 0, canvas.width * split/100, canvas.height);
 }
@@ -47,7 +49,7 @@ function runReveal() {
   revealFrame = requestAnimationFrame(sweep);
 }
 function playComparison() {
-  pageVideos.play(video, activeExample.path + '.mp4').catch(error => {
+  pageVideos.play(video, activeExample.path + '-hd.mp4').catch(error => {
     if (error.name !== 'AbortError' && clipDialog.open) status.textContent = 'Press play to start the clip, or drag the divider to compare the still frame.';
   });
 }
@@ -56,7 +58,7 @@ function openClip(example) {
   pageVideos.release(video, false);
   poster = new Image();
   poster.onload = drawComparison;
-  poster.src = example.path + '-pair.webp';
+  poster.src = example.path + '-hd.webp';
   canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   canvas.setAttribute('aria-label', example.title + '. Original on the left and result on the right.');
   document.querySelector('#case-title').textContent = example.title;
@@ -163,12 +165,12 @@ function syncPreview(advance = false) {
   previewCard.classList.add('is-previewing');
   const picture = target.querySelector('.gallery-picture');
   picture.insertBefore(galleryLayer, picture.lastElementChild);
-  pageVideos.play(galleryVideo, target.dataset.path + '.mp4').catch(() => {});
+  pageVideos.play(galleryVideo, target.dataset.path + '-hd.mp4').catch(() => {});
 }
 
 function prepareGalleryClip() {
   const next = galleryTarget(true);
-  if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '.mp4');
+  if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '-hd.mp4');
 }
 for (const event of ['playing', 'progress', 'timeupdate']) galleryVideo.addEventListener(event, prepareGalleryClip);
 galleryVideo.addEventListener('ended', () => syncPreview(true));
@@ -239,35 +241,24 @@ reducedMotion.addEventListener('change', () => syncPreview());
 function filterGallery() {
   stopPreview();
   const matched = showcaseExamples.filter(item => galleryFilter === 'all' || item.group === galleryFilter);
-  const visible = !expanded && galleryFilter === 'all' ? matched.slice(0,6) : matched;
-  cards.forEach((card,i) => { card.hidden = !visible.includes(showcaseExamples[i]); });
-  document.querySelector('#gallery-count').textContent = visible.length + ' of ' + matched.length + ' clips';
-  expand.hidden = galleryFilter !== 'all' || matched.length <= 6;
-  expand.setAttribute('aria-expanded', expanded);
-  expand.textContent = expanded ? 'Show fewer clips' : 'Show all ' + matched.length + ' clips';
+  cards.forEach((card, i) => { card.hidden = !matched.includes(showcaseExamples[i]); });
+  document.querySelector('#gallery-count').textContent = matched.length + (matched.length === 1 ? ' clip' : ' clips');
   syncPreview();
 }
 for (const button of document.querySelectorAll('[data-filter]')) {
   button.addEventListener('click', () => {
     galleryFilter = button.dataset.filter;
-    expanded = false;
     for (const choice of document.querySelectorAll('[data-filter]')) choice.setAttribute('aria-pressed', choice === button);
     filterGallery();
   });
 }
-expand.addEventListener('click', () => {
-  const incoming = cards.find(card => card.hidden);
-  expanded = !expanded;
-  filterGallery();
-  if (expanded && incoming) incoming.focus();
-});
 filterGallery();
 
 for (const link of document.querySelectorAll('a[data-film-title]')) {
   link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    pageVideos.attach(film, link.getAttribute('href'), link.dataset.liteSrc);
+    pageVideos.attach(film, link.getAttribute('href'));
     document.querySelector('#film-title').textContent = 'EraseAnything · ' + link.dataset.filmTitle;
     filmDialog.showModal();
     film.play().catch(() => {});
@@ -278,16 +269,16 @@ let hiddenPlayback;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
-    const stream = media && pageVideos.streamFor(media);
-    if (stream) {
-      hiddenPlayback = {media, stream, playing:pageVideos.playing(media)};
+    const path = media && pageVideos.source(media);
+    if (path) {
+      hiddenPlayback = {media, path, playing:pageVideos.playing(media)};
       pageVideos.release(media);
     }
   } else if (hiddenPlayback) {
-    const {media, stream, playing} = hiddenPlayback;
+    const {media, path, playing} = hiddenPlayback;
     hiddenPlayback = undefined;
     if (media.closest('dialog').open) {
-      pageVideos.attach(media, stream.path, stream.litePath, stream.highPath);
+      pageVideos.attach(media, path);
       if (playing) media.play().catch(() => {});
     }
   }

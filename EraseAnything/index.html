@@ -40,9 +40,9 @@
   <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
   <title>EraseAnything · A Unified Video Eraser</title>
   <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
-  <link rel="stylesheet" href="./site/styles/project.css?v=de362cf710d6">
-  <script defer src="./site/scripts/opening.js?v=34f7215d5478"></script>
-  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=741dff874850"></script>
+  <link rel="stylesheet" href="./site/styles/project.css?v=546f82490691">
+  <script defer src="./site/scripts/opening.js?v=a783aaf39db2"></script>
+  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=5f41e0871b8d"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -72,7 +72,7 @@
         <div class="masthead">
           <h1 id="project-title">Erase<span>Anything</span></h1>
           <p class="subtitle">A Unified Video Eraser for Objects and Overlays</p>
-          <div class="edit-line" aria-hidden="true"><span class="edit-glyph">›</span><span id="edit-command">Remove the player and ball.</span><span class="edit-caret"></span></div>
+          <div class="edit-line" aria-hidden="true"><span class="edit-glyph">›</span><span id="edit-command">Erase the broadcast graphics.</span><span class="edit-caret"></span></div>
           <div class="credits" aria-label="Authors and affiliations">
             <p class="authors"><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao<sup>1</sup></a><a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei<sup>2</sup></a><a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang<sup>3</sup></a><a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang<sup>1,*</sup></a><a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li<sup>4,*</sup></a><a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang<sup>5,6</sup></a></p>
             <p class="affiliations"><span><sup>1</sup> Harbin Institute of Technology, Shenzhen</span><span><sup>2</sup> Sun Yat-sen University, Shenzhen Campus</span><span><sup>3</sup> Hainan University</span><span><sup>4</sup> Peng Cheng Laboratory</span><span><sup>5</sup> University of California, Merced</span><span><sup>6</sup> Google</span></p>
@@ -91,29 +91,22 @@
             </a>
           </nav>
           <div class="resource-links">
-            <a class="pill active" data-film-title="Promo video" data-lite-src="./assets/film/promo-lite.mp4" href="./assets/film/promo.mp4"><span class="play-icon" aria-hidden="true"></span>Watch trailer · 1:14</a>
-            <a class="pill" id="open-film" data-film-title="Research film" data-lite-src="./assets/film/research-film-lite.mp4" href="./assets/film/research-film.mp4"><span class="play-icon" aria-hidden="true"></span>Research film</a>
+            <a class="pill active" data-film-title="Promo video" href="./assets/film/promo.mp4"><span class="play-icon" aria-hidden="true"></span>Watch trailer · 1:14</a>
+            <a class="pill" id="open-film" data-film-title="Research film" href="./assets/film/research-film.mp4"><span class="play-icon" aria-hidden="true"></span>Research film</a>
             <a class="pill" href="#demo"><span class="icon-grid" aria-hidden="true"></span>Showreel</a>
             <a class="pill" href="#results">Results</a>
           </div>
         </div>
         <figure class="hero-monitor" aria-label="Automatic erasure comparison">
           <div class="hero-footage">
-            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp?v=2" data-src="./assets/hero-motion/sequence.mp4?v=2" data-lite-src="./assets/hero-motion/sequence-lite.mp4?v=2" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
-            <noscript><video controls playsinline preload="none" poster="./assets/hero-motion/poster.webp?v=2" src="./assets/hero-motion/sequence.mp4?v=2" aria-label="Opening erasure comparisons"></video></noscript>
+            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp?v=3" data-src="./assets/hero-motion/sequence.mp4?v=3" aria-label="Recorded inputs and matching EraseAnything outputs for broadcast graphics and a pedestrian crossing the plaza."></video>
+            <noscript><video controls playsinline preload="none" poster="./assets/hero-motion/poster.webp?v=3" src="./assets/hero-motion/sequence.mp4?v=3" aria-label="Opening erasure comparisons"></video></noscript>
             <span class="footage-status" aria-hidden="true"><i></i><span id="hero-phase">Original</span></span>
           </div>
-          <div class="hero-timeline" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="hero-timeline" aria-hidden="true"><i></i><i></i></div>
           <figcaption class="hero-caption">
-            <span><span id="hero-scene-no">01 / 03</span> <strong id="hero-name">Football at sunset</strong></span>
+            <span><span id="hero-scene-no">01 / 02</span> <strong id="hero-name">Circle of faces</strong></span>
             <span class="hero-player-tools">
-              <label class="reel-quality" data-video-quality-control hidden><span class="sr-only">Video quality</span>
-                <select id="hero-quality" data-video-quality="hero" aria-label="Video quality" title="Video quality">
-                  <option value="auto">Auto</option>
-                  <option value="high">High</option>
-                  <option value="lite">Data saver</option>
-                </select>
-              </label>
               <button type="button" id="hero-play" aria-label="Play opening comparison" hidden><span class="transport-icon" aria-hidden="true"></span></button>
             </span>
           </figcaption>
@@ -125,13 +118,6 @@
           <figcaption class="deck-header">
             <div><p id="scene-category">Natural High S4 · 现在就出发4</p><h2 id="premiere-title">Circle of faces</h2></div>
             <div class="stage-options">
-              <label class="reel-quality" id="reel-quality-control" data-video-quality-control hidden>Quality
-                <select id="reel-quality" data-video-quality="reel" aria-label="Video quality">
-                  <option value="auto">Auto</option>
-                  <option value="high">High</option>
-                  <option value="lite">Data saver</option>
-                </select>
-              </label>
               <div class="stage-modes" aria-label="Comparison layout" role="group">
                 <button type="button" data-mode="pair" aria-pressed="true">Side by side</button>
                 <button type="button" data-mode="wipe" aria-pressed="false">Wipe</button>
@@ -174,7 +160,6 @@
           <span id="gallery-count" role="status"></span>
         </div>
         <div class="gallery-grid" id="gallery-grid"></div>
-        <button type="button" id="expand-gallery" class="pill" aria-expanded="false">Show more clips</button>
         <noscript><p>Enable JavaScript to explore the interactive comparisons.</p></noscript>
       </div>
     </section>

@@ -24,6 +24,8 @@
   const divider = get('wipe-position');
   const rail = get('scene-rail');
   const loop = get('loop-scene');
+  const qualityControl = get('reel-quality-control');
+  const qualityChoice = get('reel-quality');
   const modeButtons = [...document.querySelectorAll('.stage-modes button')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const small = matchMedia('(max-width:680px)');
@@ -33,10 +35,18 @@
   let mode = small.matches ? 'wipe' : 'pair';
   let pickedLayout = false;
   let poster;
+  let posterTimer;
   let pendingSeek;
   let wantsPlayback = !motion.matches;
   let manuallyStarted = false;
   const mayAdvance = () => !document.documentElement.classList.contains('motion-paused');
+
+  function asset(scene, suffix) {
+    return scene.path + suffix + (scene.category === broadcast ? '?v=2' : '');
+  }
+  function quality(scene) {
+    if (scene.category === broadcast) return {mode:qualityChoice.value, high:asset(scene, '-hd.mp4')};
+  }
 
   function draw() {
     if (frame.dataset.layout === 'pair') return;
@@ -45,6 +55,12 @@
     const w = (picture.videoWidth || picture.naturalWidth) / 2;
     const h = picture.videoHeight || picture.naturalHeight;
     if (!w || !h) return;
+    // Render the native broadcast pixels for both a full-size wipe and a stacked comparison.
+    const broadcastFrame = scenes[active].category === broadcast;
+    const renderWidth = broadcastFrame ? w : 960;
+    const renderHeight = (broadcastFrame ? h : 540) * (frame.dataset.layout === 'stacked' ? 2 : 1);
+    if (canvas.width !== renderWidth) canvas.width = renderWidth;
+    if (canvas.height !== renderHeight) canvas.height = renderHeight;
     const width = canvas.width;
     const height = frame.dataset.layout === 'stacked' ? canvas.height / 2 : canvas.height;
     if (frame.dataset.layout === 'stacked') {
@@ -57,6 +73,29 @@
     }
   }
   const animate = pageVideos.frames(video, draw, () => frame.dataset.layout !== 'pair');
+  function updatePoster() {
+    clearTimeout(posterTimer);
+    if (!pageVideos.allows('reel') || video.readyState >= 2) return;
+    const scene = scenes[active];
+    const isLite = scene.category === broadcast &&
+      pageVideos.variant(asset(scene, '.mp4'), undefined, quality(scene)) === asset(scene, '-lite.mp4');
+    const path = asset(scene, isLite ? '-lite.webp' : '.webp');
+    function load() {
+      if (video.readyState >= 2 || !pageVideos.allows('reel')) return;
+      if (frame.dataset.layout === 'pair') {
+        if (video.getAttribute('poster') !== path) video.poster = path;
+      } else if (poster?.getAttribute('src') !== path) {
+        const image = new Image();
+        image.fetchPriority = 'low';
+        image.onload = () => { if (poster === image) draw(); };
+        poster = image;
+        image.src = path;
+      }
+    }
+    // Buffered cuts usually draw the next frame before a poster would arrive.
+    if (pageVideos.playing(video)) posterTimer = setTimeout(load, 160);
+    else load();
+  }
   function setDivider() {
     frame.style.setProperty('--wipe', divider.value + '%');
     divider.setAttribute('aria-valuetext', divider.value + '% original');
@@ -67,11 +106,11 @@
     frame.dataset.layout = layout;
     frame.classList.toggle('using-canvas', layout !== 'pair');
     canvas.hidden = layout === 'pair';
-    canvas.height = layout === 'stacked' ? 1080 : 540;
     divider.hidden = mode !== 'wipe';
     frame.querySelector('.wipe-mark').hidden = divider.hidden;
     modeButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.mode === mode)));
     modeButtons[0].textContent = small.matches ? 'Stacked' : 'Side by side';
+    updatePoster();
     animate();
   }
   function indicatePlayback() {
@@ -81,14 +120,8 @@
   }
   function syncPlayback() {
     const scene = scenes[active];
-    if (pageVideos.allows('reel') && video.getAttribute('poster') !== scene.path + '.webp') {
-      video.poster = scene.path + '.webp';
-      poster = new Image();
-      poster.onload = draw;
-      poster.src = video.poster;
-    }
     if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
-      pageVideos.play(video, scene.path + '.mp4').catch(indicatePlayback);
+      pageVideos.play(video, asset(scene, '.mp4'), undefined, quality(scene)).catch(indicatePlayback);
       indicatePlayback();
     } else if (!wantsPlayback && pageVideos.allows('reel')) {
       pageVideos.pause(video);
@@ -96,6 +129,7 @@
     } else {
       pageVideos.suspend(video);
     }
+    updatePoster();
   }
   function progress() {
     const duration = Number.isFinite(video.duration) ? video.duration : 0;
@@ -119,7 +153,7 @@
     img.decoding = 'async';
     img.width = 320;
     img.height = 180;
-    img.dataset.src = scene.path + '-thumb.webp';
+    img.dataset.src = asset(scene, '-thumb.webp');
     thumb.append(img);
     const title = document.createElement('strong');
     title.textContent = scene.title;
@@ -149,6 +183,7 @@
     pendingSeek = undefined;
     active = (index + scenes.length) % scenes.length;
     const scene = scenes[active];
+    qualityControl.hidden = scene.category !== broadcast;
     get('premiere-title').textContent = scene.title;
     get('scene-note').textContent = scene.note;
     get('scene-category').textContent = scene.category;
@@ -163,7 +198,8 @@
       rail.scrollLeft += delta - (rail.clientWidth - card.offsetWidth) / 2;
     }
     video.setAttribute('aria-label', 'Original footage and EraseAnything output for ' + scene.title);
-    if (video.getAttribute('poster') !== scene.path + '.webp') poster = undefined;
+    video.removeAttribute('poster');
+    poster = undefined;
     context.clearRect(0, 0, canvas.width, canvas.height);
     draw();
     progress();
@@ -171,6 +207,25 @@
   }
 
   video.controls = false;
+  qualityChoice.addEventListener('change', () => {
+    const scene = scenes[active];
+    const path = asset(scene, '.mp4');
+    const selectedQuality = quality(scene);
+    const previous = pageVideos.source(video);
+    if (!previous || previous === pageVideos.variant(path, undefined, selectedQuality)) {
+      updatePoster();
+      prepareNext();
+      return;
+    }
+    pageVideos.release(video);
+    if (pageVideos.allows('reel') && (!wantsPlayback || (!mayAdvance() && !manuallyStarted))) {
+      // A paused comparison stays on the same frame when its resolution changes.
+      video.preload = 'auto';
+      pageVideos.attach(video, path, undefined, selectedQuality);
+      video.addEventListener('loadeddata', () => { video.preload = 'none'; }, {once:true});
+      updatePoster();
+    } else syncPlayback();
+  });
   modeButtons.forEach(button => button.addEventListener('click', () => { pickedLayout = true; mode = button.dataset.mode; setLayout(); }));
   divider.addEventListener('input', setDivider);
   get('previous-scene').addEventListener('click', () => choose(active - 1));
@@ -193,7 +248,8 @@
       pendingSeek = fraction;
       video.preload = 'metadata';
       pageVideos.prefer('reel');
-      pageVideos.attach(video, scenes[active].path + '.mp4');
+      const scene = scenes[active];
+      pageVideos.attach(video, asset(scene, '.mp4'), undefined, quality(scene));
     }
   });
   video.addEventListener('loadedmetadata', () => {
@@ -205,7 +261,8 @@
   });
   function prepareNext() {
     if (wantsPlayback && mayAdvance() && !video.loop) {
-      pageVideos.prepare('reel', video, scenes[(active + 1) % scenes.length].path + '.mp4');
+      const next = scenes[(active + 1) % scenes.length];
+      pageVideos.prepare('reel', video, asset(next, '.mp4'), quality(next));
     }
   }
   for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);

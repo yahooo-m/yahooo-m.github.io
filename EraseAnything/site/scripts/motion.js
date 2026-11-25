@@ -76,7 +76,7 @@
   function syncFilm() {
     const enabled = !root.classList.contains('motion-paused') || manualPlay;
     if (enabled && !localPause && pageVideos.allows('hero')) {
-      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc);
+      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc, {mode:'auto'});
       film.play().catch(playbackUI);
     } else if (localPause && pageVideos.allows('hero')) {
       film.pause();

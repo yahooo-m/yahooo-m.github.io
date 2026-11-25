@@ -8,9 +8,9 @@
   <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
   <title>EraseAnything · A Unified Video Eraser</title>
   <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
-  <link rel="stylesheet" href="./site/styles/project.css?v=62070c4bddf3">
-  <script defer src="./site/scripts/opening.js?v=3770355461ed"></script>
-  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=791c511a4b9d"></script>
+  <link rel="stylesheet" href="./site/styles/project.css?v=14ba3d19ed31">
+  <script defer src="./site/scripts/opening.js?v=ce63bbacbfd5"></script>
+  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=ee47ac83f921"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -38,6 +38,18 @@
             <p class="authors"><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao<sup>1</sup></a><a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei<sup>2</sup></a><a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang<sup>3</sup></a><a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang<sup>1</sup></a><a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li<sup>4</sup></a><a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang<sup>5,6</sup></a></p>
             <p class="affiliations"><span><sup>1</sup> Harbin Institute of Technology, Shenzhen</span><span><sup>2</sup> Sun Yat-sen University, Shenzhen Campus</span><span><sup>3</sup> Hainan University</span><span><sup>4</sup> Peng Cheng Laboratory</span><span><sup>5</sup> University of California, Merced</span><span><sup>6</sup> Google</span></p>
           </div>
+          <nav class="publication-links" aria-label="Paper and code">
+            <!-- On release, set the paper href, remove aria-disabled and the status text. -->
+            <a id="paper-link" role="link" aria-disabled="true">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/><path d="M14 2v5h5M8.5 12h7M8.5 16h5"/></svg>
+              Paper <small>Coming soon</small>
+            </a>
+            <!-- Replace the release-status URL with the public research repository on release. -->
+            <a id="github-link" href="https://github.com/yahooo-m/yahooo-m.github.io/tree/main/EraseAnything#release-status" aria-label="GitHub project files and code release status">
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h14v17H6a2.5 2.5 0 0 1-2.5-2.5V6A2.5 2.5 0 0 1 6 3.5z"/><path d="M4 17h15M9 3.5v7l2.5-1.5L14 10.5v-7"/></svg>
+              GitHub <small>Code coming soon</small>
+            </a>
+          </nav>
           <div class="resource-links">
             <a class="pill active" data-film-title="Promo video" data-lite-src="./assets/film/promo-lite.mp4" href="./assets/film/promo.mp4"><span class="play-icon" aria-hidden="true"></span>Watch trailer · 1:14</a>
             <a class="pill" id="open-film" data-film-title="Research film" data-lite-src="./assets/film/research-film-lite.mp4" href="./assets/film/research-film.mp4"><span class="play-icon" aria-hidden="true"></span>Research film</a>
@@ -47,8 +59,8 @@
         </div>
         <figure class="hero-monitor" aria-label="Automatic erasure comparison">
           <div class="hero-footage">
-            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp" data-src="./assets/hero-motion/sequence.mp4" data-lite-src="./assets/hero-motion/sequence-lite.mp4" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
-            <noscript><video controls playsinline preload="none" poster="./assets/hero-motion/poster.webp" src="./assets/hero-motion/sequence.mp4" aria-label="Opening erasure comparisons"></video></noscript>
+            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp?v=2" data-src="./assets/hero-motion/sequence.mp4?v=2" data-lite-src="./assets/hero-motion/sequence-lite.mp4?v=2" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
+            <noscript><video controls playsinline preload="none" poster="./assets/hero-motion/poster.webp?v=2" src="./assets/hero-motion/sequence.mp4?v=2" aria-label="Opening erasure comparisons"></video></noscript>
             <span class="footage-status" aria-hidden="true"><i></i><span id="hero-phase">Original</span></span>
           </div>
           <div class="hero-timeline" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -60,16 +72,25 @@
         <figure class="screening-deck" id="demo" aria-labelledby="premiere-title">
           <figcaption class="deck-header">
             <div><p id="scene-category">Natural High S4 · 现在就出发4</p><h2 id="premiere-title">Circle of faces</h2></div>
-            <div class="stage-modes" aria-label="Comparison layout" role="group">
-              <button type="button" data-mode="pair" aria-pressed="true">Side by side</button>
-              <button type="button" data-mode="wipe" aria-pressed="false">Wipe</button>
+            <div class="stage-options">
+              <label class="reel-quality" id="reel-quality-control" hidden>Quality
+                <select id="reel-quality" aria-label="Showreel video quality">
+                  <option value="auto">Auto</option>
+                  <option value="high">High</option>
+                  <option value="lite">Data saver</option>
+                </select>
+              </label>
+              <div class="stage-modes" aria-label="Comparison layout" role="group">
+                <button type="button" data-mode="pair" aria-pressed="true">Side by side</button>
+                <button type="button" data-mode="wipe" aria-pressed="false">Wipe</button>
+              </div>
             </div>
           </figcaption>
           <div class="scene-rail" id="scene-rail" role="group" aria-label="Choose a scene"></div>
           <div class="stage-well">
             <div class="projection" id="reel-frame" data-layout="pair">
               <video id="reel-video" muted playsinline preload="none" aria-label="Synchronized footage and EraseAnything output."></video>
-              <noscript><video controls playsinline preload="none" poster="./assets/headliners/group-huddle.webp" src="./assets/headliners/group-huddle.mp4" aria-label="Circle of faces: original and EraseAnything result"></video></noscript>
+              <noscript><video controls playsinline preload="none" poster="./assets/headliners/group-huddle.webp?v=2" src="./assets/headliners/group-huddle-hd.mp4" aria-label="Circle of faces: original and EraseAnything result"></video></noscript>
               <canvas id="reel-canvas" width="960" height="540" aria-hidden="true" hidden></canvas>
               <div class="screen-labels" aria-hidden="true"><span>Original</span><span>EraseAnything</span></div>
               <div class="wipe-mark" hidden aria-hidden="true"><span>‹ ›</span></div>

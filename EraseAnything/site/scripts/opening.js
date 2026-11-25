@@ -55,14 +55,22 @@ const pageVideos = (() => {
     return region === selected;
   }
 
-  function useLite() {
-    return smallScreen.matches || connection?.saveData ||
+  function limitedNetwork() {
+    return connection?.saveData ||
       ['slow-2g', '2g', '3g'].includes(connection?.effectiveType) ||
       (connection?.downlink > 0 && connection.downlink <= 2);
   }
 
-  function variant(path, litePath = path.replace(/(?:-lite)?\.mp4$/, '-lite.mp4')) {
-    return useLite() ? litePath : path;
+  function liteVersion(path) {
+    return path.replace(/(?:-lite)?\.mp4(?=$|[?#])/, '-lite.mp4');
+  }
+  function variant(path, litePath = liteVersion(path), quality) {
+    if (quality?.mode === 'high') return quality.high || path;
+    if (quality?.mode === 'lite' || limitedNetwork()) return litePath;
+    if (!quality) return smallScreen.matches ? litePath : path;
+    // Keep text legible on a fast phone. Allow headroom for the native side-by-side stream.
+    if (connection?.downlink > 0 && connection.downlink < 7) return path;
+    return quality.high || path;
   }
   function bufferedToEnd(video) {
     const ranges = video.buffered;
@@ -72,11 +80,11 @@ const pageVideos = (() => {
     standby?.controller.abort();
     standby = undefined;
   }
-  function prepare(region, video, nextPath) {
+  function prepare(region, video, nextPath, quality) {
     if (!allows(region) || !nextPath || document.hidden || connection?.saveData ||
         video.paused || video.ended ||
         !bufferedToEnd(video)) return;
-    const path = variant(nextPath);
+    const path = variant(nextPath, undefined, quality);
     if (standby?.path === path) return;
     cancelStandby();
     const ticket = {region, path, controller:new AbortController()};
@@ -106,11 +114,12 @@ const pageVideos = (() => {
     }
     video.pause();
   }
-  function attach(video, path, litePath = path.replace(/(?:-lite)?\.mp4$/, '-lite.mp4')) {
+  function attach(video, path, litePath = liteVersion(path), quality) {
     // Keep the chosen resolution when network conditions change during a clip.
     const previous = source(video);
-    if (previous === path || previous === litePath) return pendingSources.get(video)?.ready;
-    const src = variant(path, litePath);
+    const sameClip = file => file && (file === path || file === litePath || file === quality?.high);
+    if (sameClip(previous)) return pendingSources.get(video)?.ready;
+    const src = variant(path, litePath, quality);
     const ticket = standby?.path === src ? standby : undefined;
     if (ticket) standby = undefined;
     else cancelStandby();
@@ -123,7 +132,7 @@ const pageVideos = (() => {
         objectSources.set(video, {url, path:src});
         video.setAttribute('src', url);
       } else video.setAttribute('src', src);
-      if ((saved?.path === path || saved?.path === litePath) && saved.time > 0) {
+      if (sameClip(saved?.path) && saved.time > 0) {
         video.currentTime = saved.time;
       }
     }
@@ -144,8 +153,8 @@ const pageVideos = (() => {
     });
     return ticket.ready;
   }
-  function play(video, path, litePath) {
-    const ready = attach(video, path, litePath);
+  function play(video, path, litePath, quality) {
+    const ready = attach(video, path, litePath, quality);
     return ready ? ready.then(current => { if (current) return video.play(); }) : video.play();
   }
   function release(video, remember = true) {
@@ -201,7 +210,7 @@ const pageVideos = (() => {
   const dialogs = new MutationObserver(() => update());
   document.querySelectorAll('dialog').forEach(dialog => dialogs.observe(dialog, {attributes:true, attributeFilter:['open']}));
   connection?.addEventListener?.('change', () => document.dispatchEvent(new Event('previewchange')));
-  return {register, prefer, allows, attach, play, pause, playing, source, suspend, release, frames, prepare};
+  return {register, prefer, allows, attach, play, pause, playing, source, variant, suspend, release, frames, prepare};
 })();
 
 ;
@@ -284,7 +293,7 @@ const pageVideos = (() => {
   function syncFilm() {
     const enabled = !root.classList.contains('motion-paused') || manualPlay;
     if (enabled && !localPause && pageVideos.allows('hero')) {
-      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc);
+      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc, {mode:'auto'});
       film.play().catch(playbackUI);
     } else if (localPause && pageVideos.allows('hero')) {
       film.pause();

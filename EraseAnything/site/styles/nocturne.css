@@ -189,3 +189,24 @@ dialog .play-button:hover { color: #071e1b; background: #abeee6; border-color: #
   .score-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .score-tabs button { text-align: center; }
 }
+
+.publication-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem 1.35rem;
+  margin-top: .72rem;
+}
+.publication-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: .37rem;
+  min-height: 1.7rem;
+  color: #e3eaf0;
+  font-size: .88rem;
+  font-weight: 650;
+}
+.publication-links small { color: #b1beca; font-size: .76rem; font-weight: 450; }
+.publication-links svg { flex: none; }
+.publication-links a[aria-disabled="true"] { color: #bec9d2; }
+.publication-links a[href]:hover { color: #a8efdb; text-decoration: underline; text-underline-offset: .2em; }

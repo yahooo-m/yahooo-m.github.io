@@ -316,7 +316,8 @@
 
   // Full-sequence and regional comparisons: preprint/experiment-results.tex.
   const fullSequenceMetrics = qualityMetrics.map(metric => ({
-    ...metric, digits: 2, exportDigits: metric.key === 'psnr' ? 4 : 2
+    ...metric, digits: 2, exportDigits: metric.key === 'psnr' ? 4 : 2,
+    exportMaxDigits: metric.key === 'fvd' ? 4 : undefined
   }));
   const regionalMetrics = [
     { key: 'object-mae', label: 'Object MAE', unit: '×100', better: 'lower', digits: 2 },
@@ -326,23 +327,25 @@
   window.objectEvidence = [
     {
       id: 'rose-full', title: 'ROSE · full sequences',
-      description: 'All 5,400 frames of 60 videos. EraseAnything leads on all four metrics and gains 3.44 dB in PSNR over ROSE.',
+      description: 'All 5,400 frames of 60 videos at 832 × 480. EraseAnything leads on all four metrics and gains 3.44 dB in PSNR over ROSE.',
       metrics: fullSequenceMetrics,
       showPsnrGain: true,
       rows: [
         { name: 'MiniMax-Remover', values: [26.9220, 91.28, 10.28, 143.98] },
         { name: 'EffectErase', values: [27.4380, 90.83, 10.38, 131.86] },
+        { name: 'DiffuEraser', values: [27.6028, 92.09, 9.33, 166.4983] },
         { name: 'ROSE', values: [30.8749, 92.50, 7.07, 110.24] },
         { name: 'EraseAnything', ours: true, values: [34.3148, 95.02, 5.53, 94.04] }
       ]
     },
     {
       id: 'vor-full', title: 'VOR-Eval · full sequences',
-      description: 'All 10,320 frames of 43 videos. EraseAnything leads on all four metrics and gains 2.92 dB in PSNR over EffectErase.',
+      description: 'All 10,320 frames of 43 videos at 832 × 480. EraseAnything leads on all four metrics and gains 2.92 dB in PSNR over EffectErase.',
       metrics: fullSequenceMetrics,
       showPsnrGain: true,
       rows: [
         { name: 'MiniMax-Remover', values: [21.5029, 77.45, 25.69, 470.18] },
+        { name: 'DiffuEraser', values: [21.7033, 78.85, 24.08, 499.8553] },
         { name: 'ROSE', values: [22.6799, 77.23, 23.75, 488.31] },
         { name: 'EffectErase', values: [22.7260, 75.62, 23.83, 352.49] },
         { name: 'EraseAnything', ours: true, values: [25.6412, 80.78, 21.27, 272.75] }

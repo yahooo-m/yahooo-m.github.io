@@ -6,9 +6,11 @@
 
 ### A Unified Video Eraser for Objects and Overlays
 
-<p><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei</a><sup>2</sup> · <a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang</a><sup>3</sup> · <a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li</a><sup>4</sup> · <a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang</a><sup>5,6</sup></p>
+<p><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei</a><sup>2</sup> · <a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang</a><sup>3</sup> · <a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang</a><sup>1,*</sup> · <a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li</a><sup>4,*</sup> · <a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang</a><sup>5,6</sup></p>
 <p><sup>1</sup> 哈尔滨工业大学（深圳） · <sup>2</sup> 中山大学深圳校区 · <sup>3</sup> 海南大学<br>
 <sup>4</sup> 鹏城实验室 · <sup>5</sup> 加州大学默塞德分校 · <sup>6</sup> Google</p>
+
+<p><sup>*</sup> 通讯作者</p>
 
 <p>
   <a href="https://yahooo-m.github.io/EraseAnything/"><img alt="EraseAnything 项目主页" src="https://img.shields.io/badge/Project_page-Visit-34766a"></a>

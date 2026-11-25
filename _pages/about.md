@@ -60,10 +60,13 @@ My research focuses on **video segmentation, generative video editing, and strea
       Your browser does not support embedded video.
     </video>
     <div class="project-card-body">
-      <h2>EraseAnything</h2>
+      <h2><a href="{{ '/EraseAnything/' | relative_url }}">EraseAnything</a></h2>
       <p class="project-subtitle">Unified Video Object and Overlay Removal</p>
       <p>A single video editing model removes objects and their reflections, as well as overlays such as subtitles and logos.</p>
-      <p class="research-links"><a href="{{ '/files/eraseanything-demo.mp4' | relative_url }}">Open demo video ↗</a></p>
+      <p class="research-links">
+        <a href="{{ '/EraseAnything/' | relative_url }}">Project page ↗</a>
+        <a href="{{ '/files/eraseanything-demo.mp4' | relative_url }}">Open demo video ↗</a>
+      </p>
     </div>
   </article>
   <article class="project-card">

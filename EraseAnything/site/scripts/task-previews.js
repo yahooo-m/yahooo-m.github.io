@@ -60,18 +60,17 @@
     play.textContent = enabled ? 'Pause tour' : 'Play tour';
     play.setAttribute('aria-label', enabled ? 'Pause task examples' : 'Play task examples');
     if (enabled) {
-      pageVideos.attach(video, path + '.mp4');
       if (video.readyState >= 2) {
         mediaLoaded = true;
         if (video.ended) video.currentTime = 0;
       }
-      video.play().catch(error => {
+      pageVideos.play(video, path + '.mp4').catch(error => {
         if (error.name === 'AbortError' || !allowed()) return;
         hold = true;
         sync();
       });
     } else {
-      video.pause();
+      pageVideos.pause(video);
       if (!pageVideos.allows('tasks') || !hold) {
         pageVideos.suspend(video);
         mediaLoaded = video.readyState >= 2;
@@ -120,11 +119,12 @@
   });
   video.addEventListener('loadeddata', () => { mediaLoaded = true; });
   pageVideos.frames(video, frame, allowed);
-  video.addEventListener('timeupdate', () => {
+  function prepareNext() {
     if (allowed() && !localChoice) {
       pageVideos.prepare('tasks', video, examples[(active + 1) % examples.length].path + '.mp4');
     }
-  });
+  }
+  for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
   video.addEventListener('ended', () => {
     if (!allowed()) return;
     if (localChoice) { hold = true; sync(); }

@@ -73,8 +73,9 @@
     animate();
   }
   function indicatePlayback() {
-    play.dataset.playing = String(!video.paused && !video.ended);
-    play.setAttribute('aria-label', video.paused ? 'Play showreel' : 'Pause showreel');
+    const active = pageVideos.playing(video);
+    play.dataset.playing = String(active);
+    play.setAttribute('aria-label', active ? 'Pause showreel' : 'Play showreel');
   }
   function syncPlayback() {
     const scene = scenes[active];
@@ -85,10 +86,11 @@
       poster.src = video.poster;
     }
     if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
-      pageVideos.attach(video, scene.path + '.mp4');
-      video.play().catch(indicatePlayback);
+      pageVideos.play(video, scene.path + '.mp4').catch(indicatePlayback);
+      indicatePlayback();
     } else if (!wantsPlayback && pageVideos.allows('reel')) {
-      video.pause();
+      pageVideos.pause(video);
+      indicatePlayback();
     } else {
       pageVideos.suspend(video);
     }
@@ -172,7 +174,7 @@
   get('previous-scene').addEventListener('click', () => choose(active - 1));
   get('next-scene').addEventListener('click', () => choose(active + 1));
   play.addEventListener('click', () => {
-    wantsPlayback = video.paused;
+    wantsPlayback = !pageVideos.playing(video);
     manuallyStarted = wantsPlayback;
     if (manuallyStarted) pageVideos.prefer('reel');
     syncPlayback();
@@ -199,11 +201,12 @@
       video.preload = 'none';
     }
   });
-  video.addEventListener('timeupdate', () => {
+  function prepareNext() {
     if (wantsPlayback && mayAdvance() && !video.loop) {
       pageVideos.prepare('reel', video, scenes[(active + 1) % scenes.length].path + '.mp4');
     }
-  });
+  }
+  for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
   video.addEventListener('ended', () => { if (wantsPlayback && !video.loop && mayAdvance()) choose(active + 1); });
   for (const event of ['loadedmetadata', 'timeupdate', 'durationchange']) video.addEventListener(event, progress);
   for (const event of ['playing', 'pause']) video.addEventListener(event, indicatePlayback);

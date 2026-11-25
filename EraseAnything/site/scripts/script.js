@@ -47,8 +47,7 @@ function runReveal() {
   revealFrame = requestAnimationFrame(sweep);
 }
 function playComparison() {
-  pageVideos.attach(video, activeExample.path + '.mp4');
-  video.play().catch(error => {
+  pageVideos.play(video, activeExample.path + '.mp4').catch(error => {
     if (error.name !== 'AbortError' && clipDialog.open) status.textContent = 'Press play to start the clip, or drag the divider to compare the still frame.';
   });
 }
@@ -78,7 +77,7 @@ video.addEventListener('pause', comparisonPlayback);
 slider.addEventListener('pointerdown', () => cancelAnimationFrame(revealFrame));
 slider.addEventListener('input', () => { cancelAnimationFrame(revealFrame); moveDivider(Number(slider.value)); });
 document.querySelector('#reveal-comparison').addEventListener('click', runReveal);
-playButton.addEventListener('click', () => { if (video.paused) playComparison(); else video.pause(); });
+playButton.addEventListener('click', () => { if (pageVideos.playing(video)) pageVideos.pause(video); else playComparison(); });
 clipDialog.addEventListener('close', () => {
   if (clipDialog.open) return;
   cancelAnimationFrame(revealFrame);
@@ -164,14 +163,14 @@ function syncPreview(advance = false) {
   previewCard.classList.add('is-previewing');
   const picture = target.querySelector('.gallery-picture');
   picture.insertBefore(galleryLayer, picture.lastElementChild);
-  pageVideos.attach(galleryVideo, target.dataset.path + '.mp4');
-  galleryVideo.play().catch(() => {});
+  pageVideos.play(galleryVideo, target.dataset.path + '.mp4').catch(() => {});
 }
 
-galleryVideo.addEventListener('timeupdate', () => {
+function prepareGalleryClip() {
   const next = galleryTarget(true);
   if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '.mp4');
-});
+}
+for (const event of ['playing', 'progress', 'timeupdate']) galleryVideo.addEventListener(event, prepareGalleryClip);
 galleryVideo.addEventListener('ended', () => syncPreview(true));
 function makeCard(example) {
   const card = document.createElement('button');
@@ -279,8 +278,9 @@ let hiddenPlayback;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
-    if (media?.getAttribute('src')) {
-      hiddenPlayback = {media, path:media.getAttribute('src'), playing:!media.paused};
+    const path = media && pageVideos.source(media);
+    if (path) {
+      hiddenPlayback = {media, path, playing:pageVideos.playing(media)};
       pageVideos.release(media);
     }
   } else if (hiddenPlayback) {

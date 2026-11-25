@@ -75,8 +75,9 @@
     animate();
   }
   function indicatePlayback() {
-    play.dataset.playing = String(!video.paused && !video.ended);
-    play.setAttribute('aria-label', video.paused ? 'Play showreel' : 'Pause showreel');
+    const active = pageVideos.playing(video);
+    play.dataset.playing = String(active);
+    play.setAttribute('aria-label', active ? 'Pause showreel' : 'Play showreel');
   }
   function syncPlayback() {
     const scene = scenes[active];
@@ -87,10 +88,11 @@
       poster.src = video.poster;
     }
     if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
-      pageVideos.attach(video, scene.path + '.mp4');
-      video.play().catch(indicatePlayback);
+      pageVideos.play(video, scene.path + '.mp4').catch(indicatePlayback);
+      indicatePlayback();
     } else if (!wantsPlayback && pageVideos.allows('reel')) {
-      video.pause();
+      pageVideos.pause(video);
+      indicatePlayback();
     } else {
       pageVideos.suspend(video);
     }
@@ -174,7 +176,7 @@
   get('previous-scene').addEventListener('click', () => choose(active - 1));
   get('next-scene').addEventListener('click', () => choose(active + 1));
   play.addEventListener('click', () => {
-    wantsPlayback = video.paused;
+    wantsPlayback = !pageVideos.playing(video);
     manuallyStarted = wantsPlayback;
     if (manuallyStarted) pageVideos.prefer('reel');
     syncPlayback();
@@ -201,11 +203,12 @@
       video.preload = 'none';
     }
   });
-  video.addEventListener('timeupdate', () => {
+  function prepareNext() {
     if (wantsPlayback && mayAdvance() && !video.loop) {
       pageVideos.prepare('reel', video, scenes[(active + 1) % scenes.length].path + '.mp4');
     }
-  });
+  }
+  for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
   video.addEventListener('ended', () => { if (wantsPlayback && !video.loop && mayAdvance()) choose(active + 1); });
   for (const event of ['loadedmetadata', 'timeupdate', 'durationchange']) video.addEventListener(event, progress);
   for (const event of ['playing', 'pause']) video.addEventListener(event, indicatePlayback);
@@ -977,18 +980,17 @@
     play.textContent = enabled ? 'Pause tour' : 'Play tour';
     play.setAttribute('aria-label', enabled ? 'Pause task examples' : 'Play task examples');
     if (enabled) {
-      pageVideos.attach(video, path + '.mp4');
       if (video.readyState >= 2) {
         mediaLoaded = true;
         if (video.ended) video.currentTime = 0;
       }
-      video.play().catch(error => {
+      pageVideos.play(video, path + '.mp4').catch(error => {
         if (error.name === 'AbortError' || !allowed()) return;
         hold = true;
         sync();
       });
     } else {
-      video.pause();
+      pageVideos.pause(video);
       if (!pageVideos.allows('tasks') || !hold) {
         pageVideos.suspend(video);
         mediaLoaded = video.readyState >= 2;
@@ -1037,11 +1039,12 @@
   });
   video.addEventListener('loadeddata', () => { mediaLoaded = true; });
   pageVideos.frames(video, frame, allowed);
-  video.addEventListener('timeupdate', () => {
+  function prepareNext() {
     if (allowed() && !localChoice) {
       pageVideos.prepare('tasks', video, examples[(active + 1) % examples.length].path + '.mp4');
     }
-  });
+  }
+  for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
   video.addEventListener('ended', () => {
     if (!allowed()) return;
     if (localChoice) { hold = true; sync(); }
@@ -1340,8 +1343,7 @@ function runReveal() {
   revealFrame = requestAnimationFrame(sweep);
 }
 function playComparison() {
-  pageVideos.attach(video, activeExample.path + '.mp4');
-  video.play().catch(error => {
+  pageVideos.play(video, activeExample.path + '.mp4').catch(error => {
     if (error.name !== 'AbortError' && clipDialog.open) status.textContent = 'Press play to start the clip, or drag the divider to compare the still frame.';
   });
 }
@@ -1371,7 +1373,7 @@ video.addEventListener('pause', comparisonPlayback);
 slider.addEventListener('pointerdown', () => cancelAnimationFrame(revealFrame));
 slider.addEventListener('input', () => { cancelAnimationFrame(revealFrame); moveDivider(Number(slider.value)); });
 document.querySelector('#reveal-comparison').addEventListener('click', runReveal);
-playButton.addEventListener('click', () => { if (video.paused) playComparison(); else video.pause(); });
+playButton.addEventListener('click', () => { if (pageVideos.playing(video)) pageVideos.pause(video); else playComparison(); });
 clipDialog.addEventListener('close', () => {
   if (clipDialog.open) return;
   cancelAnimationFrame(revealFrame);
@@ -1457,14 +1459,14 @@ function syncPreview(advance = false) {
   previewCard.classList.add('is-previewing');
   const picture = target.querySelector('.gallery-picture');
   picture.insertBefore(galleryLayer, picture.lastElementChild);
-  pageVideos.attach(galleryVideo, target.dataset.path + '.mp4');
-  galleryVideo.play().catch(() => {});
+  pageVideos.play(galleryVideo, target.dataset.path + '.mp4').catch(() => {});
 }
 
-galleryVideo.addEventListener('timeupdate', () => {
+function prepareGalleryClip() {
   const next = galleryTarget(true);
   if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '.mp4');
-});
+}
+for (const event of ['playing', 'progress', 'timeupdate']) galleryVideo.addEventListener(event, prepareGalleryClip);
 galleryVideo.addEventListener('ended', () => syncPreview(true));
 function makeCard(example) {
   const card = document.createElement('button');
@@ -1572,8 +1574,9 @@ let hiddenPlayback;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
-    if (media?.getAttribute('src')) {
-      hiddenPlayback = {media, path:media.getAttribute('src'), playing:!media.paused};
+    const path = media && pageVideos.source(media);
+    if (path) {
+      hiddenPlayback = {media, path, playing:pageVideos.playing(media)};
       pageVideos.release(media);
     }
   } else if (hiddenPlayback) {

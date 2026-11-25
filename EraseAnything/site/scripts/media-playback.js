@@ -3,6 +3,7 @@ const pageVideos = (() => {
   const regions = new Map();
   const positions = new WeakMap();
   const objectSources = new WeakMap();
+  const pendingSources = new WeakMap();
   const connection = navigator.connection;
   const smallScreen = matchMedia('(max-width: 680px)');
   const anchoredEntry = Boolean(location.hash);
@@ -71,17 +72,17 @@ const pageVideos = (() => {
   }
   function prepare(region, video, nextPath) {
     if (!allows(region) || !nextPath || document.hidden || connection?.saveData ||
-        video.paused || video.currentTime < .6 || video.duration - video.currentTime < 1 ||
+        video.paused || video.ended ||
         !bufferedToEnd(video)) return;
     const path = variant(nextPath);
     if (standby?.path === path) return;
     cancelStandby();
     const ticket = {region, path, controller:new AbortController()};
     standby = ticket;
-    // A single finished short clip can pay for the next cut without competing with playback.
-    fetch(path, {signal:ticket.controller.signal, priority:'low'})
+    // Only the next clip is fetched, after all bytes for the current clip are buffered.
+    ticket.fetched = fetch(path, {signal:ticket.controller.signal, priority:'low'})
       .then(response => response.ok ? response.blob() : undefined)
-      .then(blob => { if (standby === ticket && blob?.size) ticket.blob = blob; })
+      .then(blob => { if (blob?.size) ticket.blob = blob; })
       .catch(() => {});
   }
   function forgetObjectSource(video) {
@@ -89,37 +90,76 @@ const pageVideos = (() => {
     if (saved) URL.revokeObjectURL(saved.url);
     objectSources.delete(video);
   }
-  function attach(video, path, litePath) {
-    const previous = objectSources.get(video)?.path || video.getAttribute('src');
-    const src = variant(path, litePath);
-    // Keep the selected file for the lifetime of this clip, including network changes.
-    const alternate = litePath || path.replace(/(?:-lite)?\.mp4$/, '-lite.mp4');
-    if (previous === path || previous === alternate) return;
-    const blob = standby?.path === src ? standby.blob : undefined;
-    cancelStandby();
-    forgetObjectSource(video);
-    if (blob) {
-      const url = URL.createObjectURL(blob);
-      objectSources.set(video, {url, path:src});
-      video.setAttribute('src', url);
-    } else video.setAttribute('src', src);
-    const saved = positions.get(video);
-    if ((saved?.path === path || saved?.path === alternate) && saved.time > 0) {
-      video.currentTime = saved.time;
+  function source(video) {
+    return pendingSources.get(video)?.path || objectSources.get(video)?.path || video.getAttribute('src');
+  }
+  function playing(video) {
+    return pendingSources.has(video) || (!video.paused && !video.ended);
+  }
+  function pause(video) {
+    const pending = pendingSources.get(video);
+    if (pending) {
+      pendingSources.delete(video);
+      pending.controller.abort();
     }
+    video.pause();
+  }
+  function attach(video, path, litePath = path.replace(/(?:-lite)?\.mp4$/, '-lite.mp4')) {
+    // Keep the chosen resolution when network conditions change during a clip.
+    const previous = source(video);
+    if (previous === path || previous === litePath) return pendingSources.get(video)?.ready;
+    const src = variant(path, litePath);
+    const ticket = standby?.path === src ? standby : undefined;
+    if (ticket) standby = undefined;
+    else cancelStandby();
+    const saved = positions.get(video);
+    release(video, false);
+
+    function setSource(blob) {
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        objectSources.set(video, {url, path:src});
+        video.setAttribute('src', url);
+      } else video.setAttribute('src', src);
+      if ((saved?.path === path || saved?.path === litePath) && saved.time > 0) {
+        video.currentTime = saved.time;
+      }
+    }
+    if (!ticket || ticket.blob) {
+      setSource(ticket?.blob);
+      return;
+    }
+    // If the cut arrives before the last bytes, adopt the outstanding request.
+    // On failure or timeout, let the video element stream the file directly.
+    pendingSources.set(video, ticket);
+    const timeout = setTimeout(() => ticket.controller.abort(), 5000);
+    ticket.ready = ticket.fetched.then(() => {
+      clearTimeout(timeout);
+      if (pendingSources.get(video) !== ticket) return false;
+      pendingSources.delete(video);
+      setSource(ticket.blob);
+      return true;
+    });
+    return ticket.ready;
+  }
+  function play(video, path, litePath) {
+    const ready = attach(video, path, litePath);
+    return ready ? ready.then(current => { if (current) return video.play(); }) : video.play();
   }
   function release(video, remember = true) {
-    const path = objectSources.get(video)?.path || video.getAttribute('src');
+    const path = source(video);
     if (!remember) positions.delete(video);
     if (!path) return;
     if (remember && video.currentTime > 0) positions.set(video, {path, time:video.currentTime});
-    video.pause();
-    video.removeAttribute('src');
-    video.load();
+    pause(video);
+    if (video.hasAttribute('src')) {
+      video.removeAttribute('src');
+      video.load();
+    }
     forgetObjectSource(video);
   }
   function suspend(video) {
-    video.pause();
+    pause(video);
     // Keep completed short previews ready to resume. Incomplete downloads yield bandwidth.
     if (!bufferedToEnd(video)) release(video);
   }
@@ -159,5 +199,5 @@ const pageVideos = (() => {
   const dialogs = new MutationObserver(() => update());
   document.querySelectorAll('dialog').forEach(dialog => dialogs.observe(dialog, {attributes:true, attributeFilter:['open']}));
   connection?.addEventListener?.('change', () => document.dispatchEvent(new Event('previewchange')));
-  return {register, prefer, allows, attach, suspend, release, frames, prepare};
+  return {register, prefer, allows, attach, play, pause, playing, source, suspend, release, frames, prepare};
 })();

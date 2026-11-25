@@ -24,8 +24,8 @@
   const divider = get('wipe-position');
   const rail = get('scene-rail');
   const loop = get('loop-scene');
-  const qualityControl = get('reel-quality-control');
-  const qualityChoice = get('reel-quality');
+  pageVideos.bindQuality(get('reel-quality'), video);
+  pageVideos.watchRebuffering(video);
   const modeButtons = [...document.querySelectorAll('.stage-modes button')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const small = matchMedia('(max-width:680px)');
@@ -44,8 +44,8 @@
   function asset(scene, suffix) {
     return scene.path + suffix + (scene.category === broadcast ? '?v=2' : '');
   }
-  function quality(scene) {
-    if (scene.category === broadcast) return {mode:qualityChoice.value, high:asset(scene, '-hd.mp4')};
+  function highSource(scene) {
+    if (scene.category === broadcast) return asset(scene, '-hd.mp4');
   }
 
   function draw() {
@@ -78,7 +78,7 @@
     if (!pageVideos.allows('reel') || video.readyState >= 2) return;
     const scene = scenes[active];
     const isLite = scene.category === broadcast &&
-      pageVideos.variant(asset(scene, '.mp4'), undefined, quality(scene)) === asset(scene, '-lite.mp4');
+      pageVideos.variant(asset(scene, '.mp4'), undefined, highSource(scene)) === asset(scene, '-lite.mp4');
     const path = asset(scene, isLite ? '-lite.webp' : '.webp');
     function load() {
       if (video.readyState >= 2 || !pageVideos.allows('reel')) return;
@@ -121,7 +121,7 @@
   function syncPlayback() {
     const scene = scenes[active];
     if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
-      pageVideos.play(video, asset(scene, '.mp4'), undefined, quality(scene)).catch(indicatePlayback);
+      pageVideos.play(video, asset(scene, '.mp4'), undefined, highSource(scene)).catch(indicatePlayback);
       indicatePlayback();
     } else if (!wantsPlayback && pageVideos.allows('reel')) {
       pageVideos.pause(video);
@@ -183,7 +183,6 @@
     pendingSeek = undefined;
     active = (index + scenes.length) % scenes.length;
     const scene = scenes[active];
-    qualityControl.hidden = scene.category !== broadcast;
     get('premiere-title').textContent = scene.title;
     get('scene-note').textContent = scene.note;
     get('scene-category').textContent = scene.category;
@@ -207,25 +206,7 @@
   }
 
   video.controls = false;
-  qualityChoice.addEventListener('change', () => {
-    const scene = scenes[active];
-    const path = asset(scene, '.mp4');
-    const selectedQuality = quality(scene);
-    const previous = pageVideos.source(video);
-    if (!previous || previous === pageVideos.variant(path, undefined, selectedQuality)) {
-      updatePoster();
-      prepareNext();
-      return;
-    }
-    pageVideos.release(video);
-    if (pageVideos.allows('reel') && (!wantsPlayback || (!mayAdvance() && !manuallyStarted))) {
-      // A paused comparison stays on the same frame when its resolution changes.
-      video.preload = 'auto';
-      pageVideos.attach(video, path, undefined, selectedQuality);
-      video.addEventListener('loadeddata', () => { video.preload = 'none'; }, {once:true});
-      updatePoster();
-    } else syncPlayback();
-  });
+  document.addEventListener('videoqualitychange', () => { updatePoster(); prepareNext(); });
   modeButtons.forEach(button => button.addEventListener('click', () => { pickedLayout = true; mode = button.dataset.mode; setLayout(); }));
   divider.addEventListener('input', setDivider);
   get('previous-scene').addEventListener('click', () => choose(active - 1));
@@ -249,7 +230,7 @@
       video.preload = 'metadata';
       pageVideos.prefer('reel');
       const scene = scenes[active];
-      pageVideos.attach(video, asset(scene, '.mp4'), undefined, quality(scene));
+      pageVideos.attach(video, asset(scene, '.mp4'), undefined, highSource(scene));
     }
   });
   video.addEventListener('loadedmetadata', () => {
@@ -262,7 +243,7 @@
   function prepareNext() {
     if (wantsPlayback && mayAdvance() && !video.loop) {
       const next = scenes[(active + 1) % scenes.length];
-      pageVideos.prepare('reel', video, asset(next, '.mp4'), quality(next));
+      pageVideos.prepare('reel', video, asset(next, '.mp4'), highSource(next));
     }
   }
   for (const event of ['playing', 'progress', 'timeupdate']) video.addEventListener(event, prepareNext);
@@ -1631,16 +1612,16 @@ let hiddenPlayback;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
-    const path = media && pageVideos.source(media);
-    if (path) {
-      hiddenPlayback = {media, path, playing:pageVideos.playing(media)};
+    const stream = media && pageVideos.streamFor(media);
+    if (stream) {
+      hiddenPlayback = {media, stream, playing:pageVideos.playing(media)};
       pageVideos.release(media);
     }
   } else if (hiddenPlayback) {
-    const {media, path, playing} = hiddenPlayback;
+    const {media, stream, playing} = hiddenPlayback;
     hiddenPlayback = undefined;
     if (media.closest('dialog').open) {
-      pageVideos.attach(media, path);
+      pageVideos.attach(media, stream.path, stream.litePath, stream.highPath);
       if (playing) media.play().catch(() => {});
     }
   }

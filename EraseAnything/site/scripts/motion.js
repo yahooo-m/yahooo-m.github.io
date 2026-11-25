@@ -28,6 +28,8 @@
   const mast = document.querySelector('.mast-surface');
   const film = document.getElementById('hero-film');
   const heroPlay = document.getElementById('hero-play');
+  pageVideos.bindQuality(document.getElementById('hero-quality'), film);
+  pageVideos.watchOpeningDownload(film);
   const bars = [...stage.querySelectorAll('.hero-timeline i')];
   const number = document.getElementById('hero-scene-no');
   const command = document.getElementById('edit-command');
@@ -76,7 +78,7 @@
   function syncFilm() {
     const enabled = !root.classList.contains('motion-paused') || manualPlay;
     if (enabled && !localPause && pageVideos.allows('hero')) {
-      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc, {mode:'auto'});
+      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc);
       film.play().catch(playbackUI);
     } else if (localPause && pageVideos.allows('hero')) {
       film.pause();

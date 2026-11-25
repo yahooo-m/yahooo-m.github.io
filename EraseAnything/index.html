@@ -40,9 +40,9 @@
   <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
   <title>EraseAnything · A Unified Video Eraser</title>
   <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
-  <link rel="stylesheet" href="./site/styles/project.css?v=45f7c0495974">
-  <script defer src="./site/scripts/opening.js?v=ce63bbacbfd5"></script>
-  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=ee47ac83f921"></script>
+  <link rel="stylesheet" href="./site/styles/project.css?v=be0587ab6e27">
+  <script defer src="./site/scripts/opening.js?v=34f7215d5478"></script>
+  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=ad7929baec23"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -103,7 +103,19 @@
             <span class="footage-status" aria-hidden="true"><i></i><span id="hero-phase">Original</span></span>
           </div>
           <div class="hero-timeline" aria-hidden="true"><i></i><i></i><i></i></div>
-          <figcaption class="hero-caption"><span><span id="hero-scene-no">01 / 03</span> <strong id="hero-name">Football at sunset</strong></span><button type="button" id="hero-play" aria-label="Play opening comparison" hidden><span class="transport-icon" aria-hidden="true"></span></button></figcaption>
+          <figcaption class="hero-caption">
+            <span><span id="hero-scene-no">01 / 03</span> <strong id="hero-name">Football at sunset</strong></span>
+            <span class="hero-player-tools">
+              <label class="reel-quality" data-video-quality-control hidden><span class="sr-only">Video quality</span>
+                <select id="hero-quality" data-video-quality="hero" aria-label="Video quality" title="Video quality">
+                  <option value="auto">Auto</option>
+                  <option value="high">High</option>
+                  <option value="lite">Data saver</option>
+                </select>
+              </label>
+              <button type="button" id="hero-play" aria-label="Play opening comparison" hidden><span class="transport-icon" aria-hidden="true"></span></button>
+            </span>
+          </figcaption>
         </figure>
         </div>
       </div>
@@ -112,8 +124,8 @@
           <figcaption class="deck-header">
             <div><p id="scene-category">Natural High S4 · 现在就出发4</p><h2 id="premiere-title">Circle of faces</h2></div>
             <div class="stage-options">
-              <label class="reel-quality" id="reel-quality-control" hidden>Quality
-                <select id="reel-quality" aria-label="Showreel video quality">
+              <label class="reel-quality" id="reel-quality-control" data-video-quality-control hidden>Quality
+                <select id="reel-quality" data-video-quality="reel" aria-label="Video quality">
                   <option value="auto">Auto</option>
                   <option value="high">High</option>
                   <option value="lite">Data saver</option>

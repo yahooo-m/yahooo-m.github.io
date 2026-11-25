@@ -278,16 +278,16 @@ let hiddenPlayback;
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     const media = filmDialog.open ? film : clipDialog.open ? video : undefined;
-    const path = media && pageVideos.source(media);
-    if (path) {
-      hiddenPlayback = {media, path, playing:pageVideos.playing(media)};
+    const stream = media && pageVideos.streamFor(media);
+    if (stream) {
+      hiddenPlayback = {media, stream, playing:pageVideos.playing(media)};
       pageVideos.release(media);
     }
   } else if (hiddenPlayback) {
-    const {media, path, playing} = hiddenPlayback;
+    const {media, stream, playing} = hiddenPlayback;
     hiddenPlayback = undefined;
     if (media.closest('dialog').open) {
-      pageVideos.attach(media, path);
+      pageVideos.attach(media, stream.path, stream.litePath, stream.highPath);
       if (playing) media.play().catch(() => {});
     }
   }

@@ -57,6 +57,14 @@
   zoom.setAttribute('aria-controls', gallery.id);
   zoom.textContent = 'Railing detail';
 
+  const visibleTiles = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting || !entry.target.isConnected) continue;
+      const image = entry.target.querySelector('img');
+      image.src = image.dataset.src;
+      visibleTiles.unobserve(entry.target);
+    }
+  });
   let active = scenes[0];
   let zoomed = true;
 
@@ -66,6 +74,12 @@
     zoom.hidden = !canZoom;
     zoom.setAttribute('aria-pressed', String(showDetail));
     gallery.classList.toggle('qual-detail', showDetail);
+    visibleTiles.disconnect();
+    for (const tile of gallery.children) {
+      const image = tile.querySelector('img');
+      image.dataset.src = image.dataset.base + (showDetail ? '-detail.webp' : '.webp');
+      if (image.getAttribute('src') !== image.dataset.src) visibleTiles.observe(tile);
+    }
     metadata.textContent = active.benchmark + (showDetail ? ' · Matched 180 × 120 px crop' : ' · Full frame');
   }
 
@@ -81,8 +95,8 @@
       const view = create('div', 'qual-view');
       const image = create('img', 'qual-image');
       image.alt = name + '. ' + observation;
-      image.src = './assets/result-comparisons/' + scene.id + '-' + id + '.webp';
-      image.loading = 'lazy';
+      image.dataset.base = './assets/result-comparisons/' + scene.id + '-' + id;
+      image.fetchPriority = 'low';
       image.decoding = 'async';
       view.append(image);
       if (scene.id === 'railing' && id === 'input') {

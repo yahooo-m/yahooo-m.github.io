@@ -16,7 +16,6 @@ let activeExample;
 let split = 50;
 let poster;
 let revealFrame;
-let videoFrame;
 let galleryFilter = 'all';
 let expanded = false;
 
@@ -58,7 +57,7 @@ function openClip(example) {
   pageVideos.release(video, false);
   poster = new Image();
   poster.onload = drawComparison;
-  poster.src = example.path + '.webp';
+  poster.src = example.path + '-pair.webp';
   canvasContext.clearRect(0, 0, canvas.width, canvas.height);
   canvas.setAttribute('aria-label', example.title + '. Original on the left and result on the right.');
   document.querySelector('#case-title').textContent = example.title;
@@ -69,19 +68,13 @@ function openClip(example) {
   clipDialog.showModal();
   if (!reducedMotion.matches && !document.documentElement.classList.contains('motion-paused')) playComparison();
 }
-function paintMovingClip() {
-  cancelAnimationFrame(videoFrame);
-  drawComparison();
-  if (!video.paused) videoFrame = requestAnimationFrame(paintMovingClip);
-}
+pageVideos.frames(video, drawComparison, () => clipDialog.open);
 function comparisonPlayback() {
   playButton.dataset.playing = String(!video.paused);
   playButton.lastElementChild.textContent = video.paused ? 'Play clip' : 'Pause clip';
-  paintMovingClip();
 }
 video.addEventListener('playing', comparisonPlayback);
 video.addEventListener('pause', comparisonPlayback);
-video.addEventListener('loadeddata', drawComparison);
 slider.addEventListener('pointerdown', () => cancelAnimationFrame(revealFrame));
 slider.addEventListener('input', () => { cancelAnimationFrame(revealFrame); moveDivider(Number(slider.value)); });
 document.querySelector('#reveal-comparison').addEventListener('click', runReveal);
@@ -89,7 +82,6 @@ playButton.addEventListener('click', () => { if (video.paused) playComparison();
 clipDialog.addEventListener('close', () => {
   if (clipDialog.open) return;
   cancelAnimationFrame(revealFrame);
-  cancelAnimationFrame(videoFrame);
   pageVideos.release(video, false);
 });
 
@@ -111,7 +103,6 @@ galleryLayer.append(galleryVideo, galleryCanvas, gallerySeam);
 let previewCard;
 let pointedCard;
 let focusedCard;
-let galleryFrame;
 const visibleCases = new Set();
 const hoverInput = matchMedia('(hover: hover)');
 
@@ -135,28 +126,23 @@ function drawGalleryFrame() {
   galleryLayer.classList.add('has-frame');
 }
 
-function advanceGalleryFrame() {
-  drawGalleryFrame();
-  if (!previewCard || galleryVideo.paused) return;
-  galleryFrame = galleryVideo.requestVideoFrameCallback ?
-    galleryVideo.requestVideoFrameCallback(advanceGalleryFrame) : requestAnimationFrame(advanceGalleryFrame);
-}
-
-function cancelGalleryFrame() {
-  if (galleryFrame === undefined) return;
-  if (galleryVideo.cancelVideoFrameCallback) galleryVideo.cancelVideoFrameCallback(galleryFrame);
-  else cancelAnimationFrame(galleryFrame);
-  galleryFrame = undefined;
-}
+pageVideos.frames(galleryVideo, drawGalleryFrame, () => Boolean(previewCard));
 
 function stopPreview() {
   if (!previewCard) return;
-  cancelGalleryFrame();
+  pageVideos.suspend(galleryVideo);
   previewCard.classList.remove('is-previewing');
   previewCard = undefined;
   galleryLayer.classList.remove('has-frame');
-  pageVideos.release(galleryVideo, false);
   galleryLayer.remove();
+}
+
+function galleryTarget(advance = false) {
+  const eligible = cards.filter(card => visibleCases.has(card) && !card.hidden);
+  if (!eligible.length) return;
+  const current = eligible.indexOf(previewCard);
+  const nextIndex = current < 0 ? 0 : (current + Number(advance)) % eligible.length;
+  return [pointedCard, focusedCard].find(card => eligible.includes(card)) || eligible[nextIndex];
 }
 
 function syncPreview(advance = false) {
@@ -164,11 +150,8 @@ function syncPreview(advance = false) {
     stopPreview();
     return;
   }
-  const eligible = cards.filter(card => visibleCases.has(card) && !card.hidden);
-  if (!eligible.length) { stopPreview(); return; }
-  const current = eligible.indexOf(previewCard);
-  const nextIndex = current < 0 ? 0 : (current + Number(advance)) % eligible.length;
-  const target = [pointedCard, focusedCard].find(card => eligible.includes(card)) || eligible[nextIndex];
+  const target = galleryTarget(advance);
+  if (!target) { stopPreview(); return; }
   if (target === previewCard) {
     if (advance && galleryVideo.ended) {
       galleryVideo.currentTime = 0;
@@ -185,11 +168,10 @@ function syncPreview(advance = false) {
   galleryVideo.play().catch(() => {});
 }
 
-galleryVideo.addEventListener('playing', () => {
-  cancelGalleryFrame();
-  advanceGalleryFrame();
+galleryVideo.addEventListener('timeupdate', () => {
+  const next = galleryTarget(true);
+  if (next && next !== previewCard) pageVideos.prepare('gallery', galleryVideo, next.dataset.path + '.mp4');
 });
-galleryVideo.addEventListener('loadeddata', drawGalleryFrame);
 galleryVideo.addEventListener('ended', () => syncPreview(true));
 function makeCard(example) {
   const card = document.createElement('button');
@@ -204,7 +186,7 @@ function makeCard(example) {
   const img = new Image();
   img.decoding = 'async';
   img.alt = '';
-  img.dataset.src = example.path + '.webp';
+  img.dataset.src = example.path + '-thumb.webp';
   const play = document.createElement('span');
   play.className = 'gallery-action';
   play.setAttribute('aria-hidden','true');
@@ -286,7 +268,7 @@ for (const link of document.querySelectorAll('a[data-film-title]')) {
   link.addEventListener('click', event => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    pageVideos.attach(film, link.href);
+    pageVideos.attach(film, link.getAttribute('href'), link.dataset.liteSrc);
     document.querySelector('#film-title').textContent = 'EraseAnything · ' + link.dataset.filmTitle;
     filmDialog.showModal();
     film.play().catch(() => {});
@@ -330,6 +312,16 @@ updateProgress();
 
 const figureDialog = document.querySelector('#figure-dialog');
 const enlargedFigure = document.querySelector('#enlarged-figure');
+
+const nearbyFigures = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    const image = entry.target;
+    image.src = image.dataset.figureSrc;
+    nearbyFigures.unobserve(image);
+  }
+}, {rootMargin:'80px 0px'});
+document.querySelectorAll('[data-figure-src]').forEach(image => nearbyFigures.observe(image));
 
 for (const button of document.querySelectorAll('[data-figure]')) {
   button.addEventListener('click', () => {

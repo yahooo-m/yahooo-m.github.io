@@ -19,7 +19,6 @@
 .qual-image { display:block; width:100%; height:100%; max-width:none; }
 .qual-region { position:absolute; left:21.077283%; top:48.958333%; width:21.077283%; height:25%; border:1.5px solid #fe4444; }
 .qual-detail .qual-view { aspect-ratio:3/2; }
-.qual-detail .qual-image { position:absolute; width:474.444444%; height:400%; left:-100%; top:-195.833333%; }
 .qual-detail .qual-region { display:none; }
 .qual-observation { color:#41516a; margin:.65rem 0 0; line-height:1.5; font-size:.96rem; }
 @media (max-width:650px) {

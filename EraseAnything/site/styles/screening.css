@@ -86,8 +86,8 @@ sup { color:#466598; margin-left:.06em; }
 .gallery-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.5rem 1.05rem; }
 .gallery-card { padding:0; border:0; border-radius:.65rem; text-align:left; background:transparent; cursor:pointer; color:var(--ink); min-width:0; }
 .gallery-picture { display:block; position:relative; overflow:hidden; width:100%; aspect-ratio:16/9; background:#e6ecf5; border-radius:.65rem; isolation:isolate; }
-.gallery-picture img,.gallery-picture video { display:block; position:absolute; inset:0 auto 0 0; max-width:none; height:100%; width:200%; }
-.gallery-picture video { transform:translateX(-50%); opacity:0; transition: opacity .3s; }
+.gallery-picture img,.gallery-picture video { display:block; position:absolute; inset:0 auto 0 0; max-width:none; height:100%; width:100%; }
+.gallery-picture video { width:200%; transform:translateX(-50%); opacity:0; transition: opacity .3s; }
 .gallery-picture.is-playing video { opacity:1; }
 .gallery-action { position:absolute; bottom:.55rem; right:.55rem; display:grid; place-items:center; width:1.85rem; aspect-ratio:1; border:1px solid #ffffffaa; background:#16253ad9; border-radius:50%; color:#fff; }
 .card-meta { display:block; margin:.62rem 0 .12rem; font:650 .7rem/1.4 var(--mono); letter-spacing:.065em; text-transform:uppercase; color:#53688e; }

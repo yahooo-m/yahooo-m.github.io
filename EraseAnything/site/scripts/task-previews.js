@@ -18,11 +18,11 @@
   const context = canvas.getContext('2d', {alpha:false});
   const phase = find('.task-preview-phase'), slider = find('input'), play = find('#task-preview-play');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
-  let active = -1, poster, hold = false, explicitPlay = false, raf = 0;
+  let active = -1, poster, hold = false, explicitPlay = false;
   let dragOverride = false, localChoice = false, cursor = 60, mediaLoaded = false;
 
   function allowed() {
-    return pageVideos.allows('tasks', explicitPlay) && !hold &&
+    return pageVideos.allows('tasks') && !hold &&
       (explicitPlay || (!document.documentElement.classList.contains('motion-paused') && !reduced.matches));
   }
   function paint() {
@@ -41,18 +41,16 @@
     slider.setAttribute('aria-valuetext', Math.round(cursor) + '% original');
   }
   function frame() {
-    cancelAnimationFrame(raf);
     if (!dragOverride && !video.paused && Number.isFinite(video.duration)) {
       const elapsed = video.currentTime / video.duration;
       const progress = Math.min(1, Math.max(0, (elapsed - .22) / .43));
       cursor = 100 * (1 + Math.cos(Math.PI * progress)) / 2;
     }
     paint();
-    if (!video.paused && !video.ended && allowed()) raf = requestAnimationFrame(frame);
   }
   function sync() {
     const path = examples[active].path;
-    if (!poster && pageVideos.allows('tasks', true)) {
+    if (!poster && pageVideos.allows('tasks')) {
       const image = new Image();
       poster = image;
       image.onload = () => { if (poster === image) paint(); };
@@ -74,11 +72,10 @@
       });
     } else {
       video.pause();
-      if (!pageVideos.allows('tasks', true) || !hold) {
-        pageVideos.release(video);
-        mediaLoaded = false;
+      if (!pageVideos.allows('tasks') || !hold) {
+        pageVideos.suspend(video);
+        mediaLoaded = video.readyState >= 2;
       }
-      cancelAnimationFrame(raf);
       paint();
     }
   }
@@ -121,9 +118,13 @@
     cursor = Number(slider.value);
     sync();
   });
-  video.addEventListener('loadeddata', () => { mediaLoaded = true; frame(); });
-  video.addEventListener('playing', frame);
-  video.addEventListener('seeked', paint);
+  video.addEventListener('loadeddata', () => { mediaLoaded = true; });
+  pageVideos.frames(video, frame, allowed);
+  video.addEventListener('timeupdate', () => {
+    if (allowed() && !localChoice) {
+      pageVideos.prepare('tasks', video, examples[(active + 1) % examples.length].path + '.mp4');
+    }
+  });
   video.addEventListener('ended', () => {
     if (!allowed()) return;
     if (localChoice) { hold = true; sync(); }
@@ -131,7 +132,7 @@
   });
   document.addEventListener('scoretaskchange', event => {
     const i = examples.findIndex(example => example.id === event.detail?.group);
-    if (i < 0 || (localChoice && pageVideos.allows('tasks', true) && !event.detail?.manual)) return;
+    if (i < 0 || (localChoice && pageVideos.allows('tasks') && !event.detail?.manual)) return;
     localChoice = false;
     select(i);
   });

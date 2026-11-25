@@ -4,41 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d1018">
-  <noscript><style>#hero-film, #reel-video { display:none; }</style></noscript>
+  <noscript><style>#hero-film, #reel-video, img[data-figure-src] { display:none; }</style></noscript>
   <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
   <title>EraseAnything · A Unified Video Eraser</title>
   <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
-  <link rel="stylesheet" href="./site/styles/styles.css?v=4">
-  <link rel="stylesheet" href="./site/styles/screening.css?v=4">
-  <link rel="stylesheet" href="./site/styles/results.css?v=7">
-  <link rel="stylesheet" href="./site/styles/qualitative-results.css?v=4">
-  <link rel="stylesheet" href="./site/styles/theater.css?v=7">
-  <link rel="stylesheet" href="./site/styles/nocturne.css?v=5">
-  <link rel="stylesheet" href="./site/styles/motion.css?v=6">
-  <link rel="stylesheet" href="./site/styles/method-motion.css?v=7">
-  <link rel="stylesheet" href="./site/styles/gallery-motion.css?v=6">
-  <link rel="stylesheet" href="./site/styles/results-tour.css?v=7">
-  <link rel="stylesheet" href="./site/styles/task-previews.css?v=7">
-  <script defer src="./site/scripts/media-playback.js?v=1"></script>
-  <script defer src="./site/scripts/motion.js?v=7"></script>
-  <script defer src="./site/scripts/reel.js?v=7"></script>
-  <script defer src="./site/scripts/score-data-object.js?v=4"></script>
-  <script defer src="./site/scripts/score-data-overlay.js?v=4"></script>
-  <script defer src="./site/scripts/score-data-studies.js?v=4"></script>
-  <script defer src="./site/scripts/score-data-tasks.js?v=7"></script>
-  <script defer src="./site/scripts/results.js?v=7"></script>
-  <script defer src="./site/scripts/task-previews.js?v=8"></script>
-  <script defer src="./site/scripts/qualitative-results.js?v=4"></script>
-  <script src="./site/scripts/showcase.js?v=5" defer></script>
-  <script src="./site/scripts/script.js?v=9" defer></script>
-  <script src="./site/scripts/method-motion.js?v=7" defer></script>
+  <link rel="stylesheet" href="./site/styles/project.css?v=62070c4bddf3">
+  <script defer src="./site/scripts/opening.js?v=b4e57a685fa9"></script>
+  <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=9c1451eef1cf"></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="read-progress" aria-hidden="true"></div>
     <div class="container header-inner">
-      <a class="brand" href="#top"><img src="./assets/figures/mascot.webp" alt="" width="32" height="32">EraseAnything</a>
+      <a class="brand" href="#top"><img src="./assets/figures/mascot-small.webp" alt="" width="32" height="32">EraseAnything</a>
       <nav aria-label="Project">
         <a href="#demo">Showreel</a><a href="#method">Method</a><a href="#benchmark">Benchmark</a><a href="#results">Results</a><a href="#citation">Citation</a>
       </nav>
@@ -60,15 +39,15 @@
             <p class="affiliations"><span><sup>1</sup> Harbin Institute of Technology, Shenzhen</span><span><sup>2</sup> Sun Yat-sen University, Shenzhen Campus</span><span><sup>3</sup> Hainan University</span><span><sup>4</sup> Peng Cheng Laboratory</span><span><sup>5</sup> University of California, Merced</span><span><sup>6</sup> Google</span></p>
           </div>
           <div class="resource-links">
-            <a class="pill active" data-film-title="Promo video" href="./assets/film/promo.mp4"><span class="play-icon" aria-hidden="true"></span>Watch trailer · 1:14</a>
-            <a class="pill" id="open-film" data-film-title="Research film" href="./assets/film/research-film.mp4"><span class="play-icon" aria-hidden="true"></span>Research film</a>
+            <a class="pill active" data-film-title="Promo video" data-lite-src="./assets/film/promo-lite.mp4" href="./assets/film/promo.mp4"><span class="play-icon" aria-hidden="true"></span>Watch trailer · 1:14</a>
+            <a class="pill" id="open-film" data-film-title="Research film" data-lite-src="./assets/film/research-film-lite.mp4" href="./assets/film/research-film.mp4"><span class="play-icon" aria-hidden="true"></span>Research film</a>
             <a class="pill" href="#demo"><span class="icon-grid" aria-hidden="true"></span>Showreel</a>
             <a class="pill" href="#results">Results</a>
           </div>
         </div>
         <figure class="hero-monitor" aria-label="Automatic erasure comparison">
           <div class="hero-footage">
-            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp" data-src="./assets/hero-motion/sequence.mp4" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
+            <video id="hero-film" muted playsinline loop preload="none" poster="./assets/hero-motion/poster.webp" data-src="./assets/hero-motion/sequence.mp4" data-lite-src="./assets/hero-motion/sequence-lite.mp4" aria-label="Recorded inputs and matching EraseAnything outputs for a football player, broadcast graphics and English overlays."></video>
             <noscript><video controls playsinline preload="none" poster="./assets/hero-motion/poster.webp" src="./assets/hero-motion/sequence.mp4" aria-label="Opening erasure comparisons"></video></noscript>
             <span class="footage-status" aria-hidden="true"><i></i><span id="hero-phase">Original</span></span>
           </div>
@@ -180,7 +159,7 @@
             <button type="button" class="button" id="play-method-tour">Play tour</button>
           </div>
           <button class="figure-trigger" type="button" data-figure="./assets/figures/method.webp" data-title="EraseAnything architecture" aria-label="Enlarge the EraseAnything architecture">
-            <span class="method-plate"><img src="./assets/figures/method.webp" width="2400" height="1454" alt="Architecture showing condition encoding, asymmetric DiT streams, the four-step trajectory, and training supervision." loading="lazy"><span class="method-spot" aria-hidden="true" hidden></span></span>
+            <span class="method-plate"><img data-figure-src="./assets/figures/method.webp" width="2400" height="1454" alt="Architecture showing condition encoding, asymmetric DiT streams, the four-step trajectory, and training supervision." fetchpriority="low" decoding="async"><noscript><img src="./assets/figures/method.webp" width="2400" height="1454" alt="Architecture showing condition encoding, asymmetric DiT streams, the four-step trajectory, and training supervision." loading="lazy"></noscript><span class="method-spot" aria-hidden="true" hidden></span></span>
             <span class="zoom">Enlarge</span>
           </button>
           <figcaption id="method-tour-caption">A shared diffusion transformer reads source, selection, and semantic context through four Euler updates.</figcaption>
@@ -205,7 +184,7 @@
         </dl>
         <figure class="figure-card">
           <button class="figure-trigger" type="button" data-figure="./assets/figures/benchmark.webp" data-title="EraseKeep-Bench construction" aria-label="Enlarge the benchmark construction figure">
-            <img src="./assets/figures/benchmark.webp" width="2400" height="800" alt="EraseKeep-Bench construction, six overlay and identity variants, and the distribution of backgrounds and spoken languages." loading="lazy">
+            <img data-figure-src="./assets/figures/benchmark.webp" width="2400" height="800" alt="EraseKeep-Bench construction, six overlay and identity variants, and the distribution of backgrounds and spoken languages." fetchpriority="low" decoding="async"><noscript><img src="./assets/figures/benchmark.webp" width="2400" height="800" alt="EraseKeep-Bench construction, six overlay and identity variants, and the distribution of backgrounds and spoken languages." loading="lazy"></noscript>
             <span class="zoom">Enlarge</span>
           </button>
           <figcaption>The 200 mixed-overlay cases include 180 short videos and 20 long videos. Identity controls measure preservation on unchanged inputs.</figcaption>
@@ -273,7 +252,7 @@
     </section>
   </main>
 
-  <footer><div class="container footer-inner"><a class="brand" href="#top"><img src="./assets/figures/mascot.webp" alt="" width="30" height="30">EraseAnything</a><a href="#top">Back to top</a></div></footer>
+  <footer><div class="container footer-inner"><a class="brand" href="#top"><img src="./assets/figures/mascot-small.webp" alt="" width="30" height="30" loading="lazy">EraseAnything</a><a href="#top">Back to top</a></div></footer>
 
   <dialog id="clip-dialog" class="clip-dialog" aria-labelledby="case-title">
     <div class="dialog-header"><div><span id="case-input" class="eyebrow"></span><h2 id="case-title"></h2></div><form method="dialog"><button class="dismiss" aria-label="Close example">×</button></form></div>

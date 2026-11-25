@@ -75,13 +75,13 @@
   }
   function syncFilm() {
     const enabled = !root.classList.contains('motion-paused') || manualPlay;
-    if (enabled && !localPause && pageVideos.allows('hero', manualPlay)) {
-      pageVideos.attach(film, film.dataset.src);
+    if (enabled && !localPause && pageVideos.allows('hero')) {
+      pageVideos.attach(film, film.dataset.src, film.dataset.liteSrc);
       film.play().catch(playbackUI);
-    } else if (pageVideos.allows('hero', true) && localPause) {
+    } else if (localPause && pageVideos.allows('hero')) {
       film.pause();
     } else {
-      pageVideos.release(film);
+      pageVideos.suspend(film);
     }
   }
   heroPlay.hidden = false;

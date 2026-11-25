@@ -31,7 +31,6 @@
   let mode = small.matches ? 'wipe' : 'pair';
   let pickedLayout = false;
   let poster;
-  let paintId;
   let pendingSeek;
   let wantsPlayback = !motion.matches;
   let manuallyStarted = false;
@@ -55,11 +54,7 @@
       if (portion) context.drawImage(picture, 0, 0, w * portion, h, 0, 0, width * portion, height);
     }
   }
-  function animate() {
-    cancelAnimationFrame(paintId);
-    draw();
-    if (frame.dataset.layout !== 'pair' && !video.paused && !video.ended) paintId = requestAnimationFrame(animate);
-  }
+  const animate = pageVideos.frames(video, draw, () => frame.dataset.layout !== 'pair');
   function setDivider() {
     frame.style.setProperty('--wipe', divider.value + '%');
     divider.setAttribute('aria-valuetext', divider.value + '% original');
@@ -80,23 +75,22 @@
   function indicatePlayback() {
     play.dataset.playing = String(!video.paused && !video.ended);
     play.setAttribute('aria-label', video.paused ? 'Play showreel' : 'Pause showreel');
-    animate();
   }
   function syncPlayback() {
     const scene = scenes[active];
-    if (pageVideos.allows('reel', true) && video.getAttribute('poster') !== scene.path + '.webp') {
+    if (pageVideos.allows('reel') && video.getAttribute('poster') !== scene.path + '.webp') {
       video.poster = scene.path + '.webp';
       poster = new Image();
       poster.onload = draw;
       poster.src = video.poster;
     }
-    if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel', manuallyStarted)) {
+    if (wantsPlayback && (mayAdvance() || manuallyStarted) && pageVideos.allows('reel')) {
       pageVideos.attach(video, scene.path + '.mp4');
       video.play().catch(indicatePlayback);
-    } else if (!wantsPlayback && pageVideos.allows('reel', true)) {
+    } else if (!wantsPlayback && pageVideos.allows('reel')) {
       video.pause();
     } else {
-      pageVideos.release(video);
+      pageVideos.suspend(video);
     }
   }
   function progress() {
@@ -117,11 +111,11 @@
     thumb.className = 'scene-image';
     const img = new Image();
     img.alt = '';
-    img.loading = 'lazy';
+    img.fetchPriority = 'low';
     img.decoding = 'async';
     img.width = 320;
     img.height = 180;
-    img.src = scene.path + '-thumb.webp';
+    img.dataset.src = scene.path + '-thumb.webp';
     thumb.append(img);
     const title = document.createElement('strong');
     title.textContent = scene.title;
@@ -139,6 +133,13 @@
     rail.append(button);
     return button;
   });
+  const railObserver = new IntersectionObserver(entries => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    for (const image of rail.querySelectorAll('img')) image.src = image.dataset.src;
+    railObserver.disconnect();
+  }, {rootMargin:'32px 0px'});
+  railObserver.observe(rail);
+
   function choose(index) {
     pageVideos.release(video, false);
     pendingSeek = undefined;
@@ -198,10 +199,14 @@
       video.preload = 'none';
     }
   });
+  video.addEventListener('timeupdate', () => {
+    if (wantsPlayback && mayAdvance() && !video.loop) {
+      pageVideos.prepare('reel', video, scenes[(active + 1) % scenes.length].path + '.mp4');
+    }
+  });
   video.addEventListener('ended', () => { if (wantsPlayback && !video.loop && mayAdvance()) choose(active + 1); });
   for (const event of ['loadedmetadata', 'timeupdate', 'durationchange']) video.addEventListener(event, progress);
   for (const event of ['playing', 'pause']) video.addEventListener(event, indicatePlayback);
-  for (const event of ['loadeddata', 'seeked']) video.addEventListener(event, draw);
   small.addEventListener('change', () => {
     if (!pickedLayout) mode = small.matches ? 'wipe' : 'pair';
     setLayout();

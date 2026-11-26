@@ -6,9 +6,9 @@
 
 ### A Unified Video Eraser for Objects and Overlays
 
-<p><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei</a><sup>2</sup> · <a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang</a><sup>3</sup> · <a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang</a><sup>1,*</sup> · <a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li</a><sup>4,*</sup> · <a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang</a><sup>5,6</sup></p>
+<p><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao</a><sup>1</sup> · <a href="https://openreview.net/profile?id=~Yun_Pei1">Yun Pei</a><sup>2</sup> · <a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang</a><sup>3</sup> · <a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang</a><sup>1,*</sup> · <a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li</a><sup>4,5,*</sup> · <a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang</a><sup>6</sup></p>
 <p><sup>1</sup> Harbin Institute of Technology, Shenzhen · <sup>2</sup> Sun Yat-sen University, Shenzhen Campus · <sup>3</sup> Hainan University<br>
-<sup>4</sup> Peng Cheng Laboratory · <sup>5</sup> University of California, Merced · <sup>6</sup> Google</p>
+<sup>4</sup> Peng Cheng Laboratory · <sup>5</sup> Pazhou Lab · <sup>6</sup> University of California, Merced</p>
 
 <p><sup>*</sup> Corresponding authors</p>
 

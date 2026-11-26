@@ -40,7 +40,7 @@
   <meta name="description" content="EraseAnything is a unified video eraser for mask-guided object removal and instruction-only overlay removal. Explore real comparisons, the method, and EraseKeep-Bench.">
   <title>EraseAnything · A Unified Video Eraser</title>
   <link rel="icon" href="./assets/figures/icon.webp" type="image/webp">
-  <link rel="stylesheet" href="./site/styles/project.css?v=546f82490691">
+  <link rel="stylesheet" href="./site/styles/project.css?v=d03667d3ac36">
   <script defer src="./site/scripts/opening.js?v=a783aaf39db2"></script>
   <script defer fetchpriority="low" src="./site/scripts/explorer.js?v=ca3a33ecafcd"></script>
 </head>
@@ -227,6 +227,29 @@
           <article><h3>Localize from an instruction</h3><p>A training-only occupancy head teaches intermediate features to locate overlays when the input mask is empty.</p></article>
           <article><h3>Keep source evidence stable</h3><p>Asymmetric attention lets the reconstruction read source and selection features. Training through four updates optimizes the delivered output.</p></article>
         </div>
+        <section class="localization-study" id="localization" aria-labelledby="localization-title">
+          <div class="localization-intro">
+            <h3 id="localization-title">Overlay localization without a mask</h3>
+            <p>Across four frames of one clip, the occupancy head tracks changing subtitles and responds to persistent logos and watermarks. Heatmaps show mean occupancy probabilities over four seeds at the first Euler update.</p>
+          </div>
+          <figure class="localization-figure">
+            <div class="localization-grid">
+              <div class="figure-card">
+                <button class="figure-trigger" type="button" data-figure="./assets/figures/occupancy-early.webp" data-title="Overlay localization at 12.00 and 12.48 seconds" aria-label="Enlarge the first two localization frames">
+                  <img data-figure-src="./assets/figures/occupancy-early.webp" width="1680" height="1563" alt="Ground-truth regions, occupancy heatmaps, and prediction outlines at 12.00 and 12.48 seconds." fetchpriority="low" decoding="async">
+                  <noscript><img src="./assets/figures/occupancy-early.webp" width="1680" height="1563" alt="Ground-truth regions, occupancy heatmaps, and prediction outlines at 12.00 and 12.48 seconds." loading="lazy"></noscript>
+                </button>
+              </div>
+              <div class="figure-card">
+                <button class="figure-trigger" type="button" data-figure="./assets/figures/occupancy-late.webp" data-title="Overlay localization at 13.12 and 13.60 seconds" aria-label="Enlarge the last two localization frames">
+                  <img data-figure-src="./assets/figures/occupancy-late.webp" width="1680" height="1563" alt="Ground-truth regions, occupancy heatmaps, and prediction outlines at 13.12 and 13.60 seconds." fetchpriority="low" decoding="async">
+                  <noscript><img src="./assets/figures/occupancy-late.webp" width="1680" height="1563" alt="Ground-truth regions, occupancy heatmaps, and prediction outlines at 13.12 and 13.60 seconds." loading="lazy"></noscript>
+                </button>
+              </div>
+            </div>
+            <figcaption>Cyan marks the annotated regions and red outlines predictions at a 0.5 threshold. Select either panel to enlarge.</figcaption>
+          </figure>
+        </section>
         <button class="button sampling figure-trigger" type="button" data-figure="./assets/figures/sampling.webp" data-title="Four-step sampling" data-alt="Object and overlay removal across four Euler updates, showing both the updated latent and the predicted clean frame.">Enlarge four-step figure</button>
       </div>
     </section>

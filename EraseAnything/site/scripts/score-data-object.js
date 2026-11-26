@@ -64,6 +64,7 @@
       metrics: fullSequenceMetrics,
       showPsnrGain: true,
       rows: [
+        { name: 'VACE (1.3B)', values: [20.79, 73.25, 16.42, 246.62], exportDigits: {psnr: 2} },
         { name: 'MiniMax-Remover', values: [26.9220, 91.28, 10.28, 143.98] },
         { name: 'EffectErase', values: [27.4380, 90.83, 10.38, 131.86] },
         { name: 'DiffuEraser', values: [27.6028, 92.09, 9.33, 166.4983] },
@@ -77,6 +78,7 @@
       metrics: fullSequenceMetrics,
       showPsnrGain: true,
       rows: [
+        { name: 'VACE (1.3B)', values: [17.76, 58.10, 30.24, 712.58], exportDigits: {psnr: 2} },
         { name: 'MiniMax-Remover', values: [21.5029, 77.45, 25.69, 470.18] },
         { name: 'DiffuEraser', values: [21.7033, 78.85, 24.08, 499.8553] },
         { name: 'ROSE', values: [22.6799, 77.23, 23.75, 488.31] },

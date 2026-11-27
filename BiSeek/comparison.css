@@ -1,0 +1,16 @@
+.case-layout { display:flex; justify-content:flex-end; margin:0 0 .55rem }
+#case-pair .pane { position:relative }
+#case-pair .pane img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain }
+.paired[data-layout="wipe"] { --divider:50%; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 .8rem }
+.paired[data-layout="wipe"] figure { display:contents }
+.paired[data-layout="wipe"] .pane, .wipe-control { grid-area:1 / 1 / 2 / 3 }
+.paired[data-layout="wipe"] figure:first-child .pane { z-index:1; clip-path:inset(0 calc(100% - var(--divider)) 0 0); pointer-events:none }
+.paired[data-layout="wipe"] figure:first-child figcaption { grid-area:2 / 1 }
+.paired[data-layout="wipe"] figure:nth-child(2) figcaption { grid-area:2 / 2; justify-content:flex-end; text-align:right }
+.wipe-control { position:relative; z-index:2; overflow:hidden; border-radius:.4rem }
+.wipe-control:focus-within { outline:3px solid var(--accent); outline-offset:3px }
+.wipe-control input { position:absolute; inset:0; margin:0; width:100%; height:100%; appearance:none; -webkit-appearance:none; background:transparent; opacity:0; cursor:ew-resize; touch-action:pan-y; z-index:1 }
+.wipe-control input::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:2px; height:46px }
+.wipe-control input::-moz-range-thumb { width:2px; height:46px; border:0 }
+.wipe-line { position:absolute; pointer-events:none; inset:0 auto 0 var(--divider); width:2px; transform:translateX(-50%); background:#fff; box-shadow:0 0 8px #000b }
+.wipe-line span { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); padding:.13rem .45rem; border:1px solid #fff; border-radius:1rem; background:#182c2de6; color:#fff; font:600 1rem/1.2 var(--mono) }

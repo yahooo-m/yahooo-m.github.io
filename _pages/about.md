@@ -52,6 +52,18 @@ My research focuses on **video segmentation, generative video editing, and strea
 {: #projects}
 
 <div class="project-grid">
+  <article class="project-card" id="biseek">
+    <a href="{{ '/BiSeek/' | relative_url }}" aria-label="BiSeek project page"><img src="{{ '/BiSeek/assets/showcase/gold-fish-poster.webp' | relative_url }}" alt="BiSeek segments two goldfish using different referring queries" loading="lazy" width="854" height="480"></a>
+    <div class="project-card-body">
+      <h2><a href="{{ '/BiSeek/' | relative_url }}">BiSeek</a></h2>
+      <p class="project-subtitle">Repurposing Generative Video–Language Models for Fine-Grained Perception</p>
+      <p>BiSeek reads a video and a referring query together to locate an event, track an object or segment a target.</p>
+      <p class="research-links">
+        <a href="{{ '/BiSeek/' | relative_url }}">Project page ↗</a>
+        <a href="{{ '/BiSeek/assets/biseek-preprint.pdf' | relative_url }}">Preprint ↗</a>
+      </p>
+    </div>
+  </article>
   <article class="project-card project-card-video" id="eraseanything">
     <video controls playsinline preload="none" width="1920" height="1080"
       poster="{{ '/images/research/eraseanything-poster.jpg' | relative_url }}"

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1115">
+  <meta name="description" content="BiSeek brings language into native video states to locate events, follow objects and predict masks. Explore the paper, recorded examples and benchmark results.">
+  <meta property="og:title" content="BiSeek — Fine-Grained Video Perception">
+  <meta property="og:description" content="One video–query encoding for temporal grounding, box tubes and mask sets.">
+  <title>BiSeek · Fine-Grained Video Perception</title>
+  <link rel="icon" href="assets/owl.webp">
+  <link rel="preload" as="script" href="assets/showcase/cases.js">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="method-tour.css">
+  <link rel="stylesheet" href="comparison.css">
+  <link rel="stylesheet" href="timing.css">
+  <link rel="stylesheet" href="benchmark-chart.css">
+  <link rel="stylesheet" href="ablation.css">
+  <script>try { if (localStorage.getItem('biseek-theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch {}</script>
+  <link rel="stylesheet" href="showcase.css">
+  <link rel="stylesheet" href="film-chapters.css">
+  <script src="assets/showcase/cases.js" defer></script>
+  <script src="showcase.js" defer></script>
+  <script src="assets/research.js" defer></script>
+  <script src="site.js" defer></script>
+  <script src="film-chapters.js" defer></script>
+  <script src="benchmark-chart.js" defer></script>
+  <script src="ablation.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="site-head">
+    <div class="wrap head-inner">
+      <a class="brand" href="#top" aria-label="BiSeek home"><img src="assets/owl.webp" alt="" width="38" height="38"><b>BiSeek</b></a>
+      <nav class="nav-main" aria-label="Project navigation"><a href="#examples">Examples</a><a href="#film">Film</a><a href="#method">Method</a><a href="#benchmarks">Benchmarks</a><a href="#ablations">Ablations</a><a href="#citation">Citation</a></nav>
+      <div class="head-actions">
+        <a class="head-paper" href="assets/biseek-preprint.pdf">Paper <span aria-hidden="true">PDF</span></a>
+        <button id="theme" class="icon-btn" aria-label="Switch to light theme" title="Switch theme"><span class="sun"></span></button>
+        <details class="menu"><summary aria-label="Open navigation"><span></span><span></span></summary><nav aria-label="Mobile navigation"><a href="#examples">Examples</a><a href="#film">Film</a><a href="#method">Method</a><a href="#benchmarks">Benchmarks</a><a href="#ablations">Ablations</a><a href="#citation">Citation</a></nav></details>
+      </div>
+    </div>
+  </header>
+  <main id="content">
+    <section id="top" class="hero">
+      <div class="wrap hero-grid">
+        <div class="intro">
+          <h1>Bi<span>Seek</span></h1>
+          <p class="paper-title">Repurposing Generative Video–Language Models for Fine-Grained Perception</p>
+          <p class="summary">BiSeek reads a video and its referring query together to locate an event, track an object or segment a target.</p>
+          <div class="credits">
+            <p class="authors"><a href="https://openreview.net/profile?id=~Deshui_Miao1">Deshui Miao<sup>1</sup></a><a href="https://openreview.net/profile?id=~Wenzhao_Gao1">Wenzhao Gao<sup>2</sup></a><a href="https://openreview.net/profile?id=~Xingsen_Huang1">Xingsen Huang<sup>3</sup></a><a href="https://openreview.net/profile?id=~Xin_Li24">Xin Li<sup>4,5,*</sup></a><a href="https://openreview.net/profile?id=~Haijun_Zhang1">Haijun Zhang<sup>1,*</sup></a><a href="https://openreview.net/profile?id=~Ming-Hsuan_Yang1">Ming-Hsuan Yang<sup>6</sup></a></p>
+            <p class="affiliations"><span><sup>1</sup> Harbin Institute of Technology, Shenzhen</span><span><sup>2</sup> ByteDance</span><span><sup>3</sup> Hainan University</span><span><sup>4</sup> Peng Cheng Laboratory</span><span><sup>5</sup> Pazhou Lab</span><span><sup>6</sup> University of California, Merced</span><span><sup>*</sup> Corresponding authors</span></p>
+          </div>
+          <div class="actions"><a class="action primary" href="assets/biseek-preprint.pdf"><span class="doc-icon" aria-hidden="true"></span>Read paper</a><a class="action" id="watch" href="#film"><span class="play-icon" aria-hidden="true"></span>Watch film <small>3:06</small></a></div>
+        </div>
+        <figure class="showcase" aria-label="Compare two referring queries in the same video">
+          <div class="showcase-heading">
+            <div><span class="showcase-aperture" aria-hidden="true"></span><strong id="showcase-title">Query-guided video segmentation</strong></div>
+            <span class="showcase-meta" id="showcase-meta"></span>
+          </div>
+          <div class="showcase-stage" id="showcase-stage">
+            <a class="showcase-fallback" href="assets/biseek-film.mp4"><img src="assets/showcase/gold-fish-poster.webp" alt="BiSeek segments two goldfish using different referring queries"><span>Play research film</span></a>
+          </div>
+          <figcaption id="showcase-interface" hidden>
+            <div class="showcase-timeline">
+              <button id="showcase-play" class="showcase-play" type="button" aria-label="Play video"><span class="play-icon" aria-hidden="true"></span><span>Play</span></button>
+              <label class="sr-only" for="showcase-seek">Video frame</label><input type="range" id="showcase-seek" min="0" max="1" step="1" value="0" disabled>
+              <output id="showcase-time" for="showcase-seek"></output>
+            </div>
+            <div class="showcase-queries" role="group" aria-label="Isolate a referring query"></div>
+            <div class="showcase-options">
+              <div class="showcase-views" role="group" aria-label="Video view"><button type="button" data-view="both" aria-pressed="true">Both queries</button><button type="button" data-view="input" aria-pressed="false">Original video</button></div>
+              <button class="showcase-cycle" type="button" aria-pressed="true" hidden><span aria-hidden="true" class="cycle-icon">↻</span>Cycle clips</button>
+            </div>
+            <div id="showcase-scenes" class="showcase-scenes" role="group" aria-label="Select a clip" hidden></div>
+            <p id="showcase-status" class="showcase-status" role="status" hidden></p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="examples" class="section">
+      <div class="wrap">
+        <div class="section-title"><div><p class="kicker">Prediction gallery</p><h2>Grounding in action<span>.</span></h2></div><p>Compare model outputs on the same six sampled frames for each query.</p></div>
+        <div class="task-bar" id="task-bar" role="group" aria-label="Select a task"><button data-task="VTG" aria-pressed="false"><i class="task-icon temporal" aria-hidden="true"></i>Temporal grounding</button><button data-task="STVG" aria-pressed="true"><i class="task-icon tube" aria-hidden="true"></i>Object localization</button><button data-task="RVOS" aria-pressed="false"><i class="task-icon masks" aria-hidden="true"></i>Video segmentation</button></div>
+        <div id="case-rail" class="case-rail" role="group" aria-label="Select an example"></div>
+        <article class="experiment" aria-label="Selected example">
+          <div class="experiment-top"><div><p id="case-dataset" class="kicker"></p><h3 id="case-query"></h3></div><div id="comparator-control" class="selector"><label for="comparator">Compare with</label><select id="comparator"></select></div></div>
+          <div id="spatial-pane">
+            <div id="case-layout" class="segmented case-layout" role="group" aria-label="Comparison layout"><button type="button" data-layout="pair" aria-pressed="true">Side by side</button><button type="button" data-layout="wipe" aria-pressed="false">Wipe</button></div>
+            <div id="case-pair" class="paired" data-layout="pair">
+              <figure><div class="pane"><img id="base-img" alt="" decoding="async"></div><figcaption><span id="base-name"></span><span id="base-score"></span></figcaption></figure>
+              <figure><div class="pane"><img id="ours-img" alt="" decoding="async"></div><figcaption><strong>BiSeek-4B</strong><span id="ours-score"></span></figcaption></figure>
+              <div class="wipe-control" hidden>
+                <input id="wipe-position" type="range" min="0" max="100" value="50" aria-label="Move comparison divider">
+                <span class="wipe-line" aria-hidden="true"><span>↔</span></span>
+              </div>
+            </div>
+            <div class="transport"><button class="action small" id="case-play" type="button"><span class="play-icon" aria-hidden="true"></span>Play samples</button><label class="sr-only" for="case-frame">Sampled frame</label><input type="range" id="case-frame" min="0" max="5" value="2" step="1"><output id="case-time" for="case-frame"></output></div>
+          </div>
+          <div id="temporal-pane" hidden>
+            <p class="timing-prompt" id="timing-prompt">Select a frame to inspect its position in each interval.</p>
+            <div id="timeline-images" class="timeline-images" role="group" aria-label="Sampled frames" aria-describedby="timing-prompt"></div>
+            <div id="time-spans" class="time-spans" aria-label="Predicted and annotated temporal intervals"></div>
+            <p class="sr-only" id="timing-summary" role="status"></p>
+            <p class="note">Intervals use continuous clip-relative seconds. The benchmark applies TimeLens endpoint rounding.</p>
+            <script type="application/json" id="timing-seconds">{"action-chain":[1.4822800161703273,3.3688182185689257,5.187980056596146,8.893680097021964,11.184476485648833,14.485918339846382],"concurrent-actions":[28.500000000000004,30.100000000000005,31.100000000000005,32.1,33.300000000000004,35.00000000000001],"card-selection":[47.5,50.5,54.5,58.2,64.0,72.5],"carpet-sofa":[0.0,2.6023131672597866,5.304715302491103,8.00711743772242,13.211743772241993,18.516459074733095]}</script>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="film" class="section film-section" aria-labelledby="film-heading">
+      <div class="wrap">
+        <div class="section-title film-title"><h2 id="film-heading">Research film<span>.</span></h2><p>3:06 · English narration and captions</p></div>
+        <div class="film-screening">
+          <div class="film-screen">
+            <video id="film-player" aria-label="BiSeek research film with English narration and captions" controls playsinline preload="none" width="1280" height="720" poster="assets/chapters/film-poster.webp">
+              <source src="assets/biseek-film.mp4" type="video/mp4">
+              <track kind="chapters" src="assets/chapters/chapters.vtt" srclang="en" label="Chapters">
+              <a href="assets/biseek-film.mp4">Watch the film</a>
+            </video>
+            <div class="film-now"><span id="film-current">Method overview</span><span id="film-time">0:00 / 3:06</span></div>
+          </div>
+          <nav class="film-directory" aria-label="Film chapters">
+            <ol>
+              <li><a class="film-chapter" href="assets/biseek-film.mp4#t=0" data-start="0" aria-controls="film-player" aria-current="time">
+                <img src="assets/chapters/overview.webp" alt="" width="450" height="253" loading="lazy">
+                <span class="film-chapter-copy"><strong>Method overview</strong><span>0:00</span></span>
+              </a></li>
+              <li><a class="film-chapter" href="assets/biseek-film.mp4#t=16" data-start="16" aria-controls="film-player">
+                <img src="assets/chapters/attention.webp" alt="" width="450" height="253" loading="lazy">
+                <span class="film-chapter-copy"><strong>Attention maps</strong><span>0:16</span></span>
+              </a></li>
+              <li><a class="film-chapter" href="assets/biseek-film.mp4#t=28" data-start="28" aria-controls="film-player">
+                <img src="assets/chapters/intervals.webp" alt="" width="450" height="253" loading="lazy">
+                <span class="film-chapter-copy"><strong>Temporal grounding</strong><span>0:28</span></span>
+              </a></li>
+              <li><a class="film-chapter" href="assets/biseek-film.mp4#t=62" data-start="62" aria-controls="film-player">
+                <img src="assets/chapters/trajectories.webp" alt="" width="450" height="253" loading="lazy">
+                <span class="film-chapter-copy"><strong>Box trajectories</strong><span>1:02</span></span>
+              </a></li>
+              <li><a class="film-chapter" href="assets/biseek-film.mp4#t=96" data-start="96" aria-controls="film-player">
+                <img src="assets/chapters/segmentation.webp" alt="" width="450" height="253" loading="lazy">
+                <span class="film-chapter-copy"><strong>Video segmentation</strong><span>1:36</span></span>
+              </a></li>
+              <li><a class="film-chapter" href="assets/biseek-film.mp4#t=150" data-start="150" aria-controls="film-player">
+                <img src="assets/chapters/benchmarks.webp" alt="" width="450" height="253" loading="lazy">
+                <span class="film-chapter-copy"><strong>Benchmark comparisons</strong><span>2:30</span></span>
+              </a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section wash">
+      <div class="wrap">
+        <div class="section-title"><div><p class="kicker">Method</p><h2>Inside the encoder<span>.</span></h2></div><p>Each valid video and query position can attend to the full input. Three readouts reuse the resulting video–query encoding.</p></div>
+        <div class="pipeline method-explorer">
+          <div class="method-toolbar">
+            <div class="stage-list" role="group" aria-label="Explore architecture stages">
+              <button type="button" data-stage="a" aria-pressed="true">Joint encoding</button>
+              <button type="button" data-stage="b" aria-pressed="false">Temporal extent</button>
+              <button type="button" data-stage="c" aria-pressed="false">Box geometry</button>
+              <button type="button" data-stage="d" aria-pressed="false">Mask sets</button>
+            </div>
+            <button class="action small" id="method-tour" type="button" aria-pressed="false">Play walkthrough</button>
+          </div>
+          <div class="method-lenses">
+            <div class="method-overview">
+              <div class="method-map" data-region="a" role="group" aria-label="Choose a region of the paper’s method figure">
+                <img src="assets/architecture.webp" alt="One shared bidirectional encoder supplies temporal, spatial and segmentation readouts." width="2800" height="1447" loading="lazy">
+                <span class="method-highlight" aria-hidden="true"></span>
+                <button class="map-a" type="button" data-region="a" aria-pressed="true" aria-label="Inspect the shared encoder"></button>
+                <button class="map-b" type="button" data-region="b" aria-pressed="false" aria-label="Inspect temporal grounding"></button>
+                <button class="map-c" type="button" data-region="c" aria-pressed="false" aria-label="Inspect spatiotemporal grounding"></button>
+                <button class="map-d" type="button" data-region="d" aria-pressed="false" aria-label="Inspect video segmentation"></button>
+              </div>
+              <a class="text-link" id="zoom-method" href="assets/architecture.webp">Enlarge full figure</a>
+            </div>
+            <div class="stage-content">
+              <div class="diagram"><img id="stage-image" src="assets/method/a.webp" alt="Bidirectional video–query encoder from the paper." loading="lazy"></div>
+              <h3 id="stage-title">Bidirectional video–query encoding</h3>
+              <p id="stage-text">Bidirectional attention lets native frame boundaries and patches incorporate the referring query before any readout.</p>
+            </div>
+          </div>
+        </div>
+        <div class="study">
+          <div class="study-top"><div><p class="kicker">Attention study</p><h3>Where does the query attend?</h3></div><label class="selector"><span>Referring expression</span><select id="att-case"><option value="black_helmet">Cyclist with a black helmet</option><option value="yellow_jacket">Cyclist in a yellow jacket</option></select></label></div>
+          <p id="att-query" class="query"></p>
+          <div class="att-grid"><figure><img id="att-rgb" loading="lazy" alt=""><figcaption>Input frame</figcaption></figure><figure><img id="att-causal" loading="lazy" alt=""><figcaption>Causal · query only</figcaption></figure><figure><img id="att-bi" loading="lazy" alt=""><figcaption>Bidirectional · query + boundaries</figcaption></figure></div>
+          <div class="att-controls"><button type="button" class="action small" id="att-play" aria-pressed="false">Play units</button><div id="unit-rail" class="segmented" role="group" aria-label="Select a temporal unit"></div><span class="note" id="att-time"></span></div>
+          <div class="color-scale" aria-label="Relative attention scale from zero to 21.54 times the spatial mean"><span>0</span><img loading="lazy" src="assets/attention-scale.webp" width="326" height="13" alt=""><span>21.54× spatial mean</span></div><p class="note">Query-to-patch attention at layer 14, averaged over 16 heads and shown on a shared scale. The two 2B variants also differ in readout conditions and training history.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="benchmarks" class="section">
+      <div class="wrap">
+        <div class="section-title"><div><p class="kicker">Benchmarks</p><h2>Reported results<span>.</span></h2></div><p>Explore the metrics and comparison methods for each dataset and split in the paper and appendix.</p></div>
+        <div class="results-panel benchmark-explorer">
+          <div class="results-toolbar">
+            <div class="bench-pickers">
+              <label class="selector"><span>Dataset / split</span><select id="benchmark"></select></label>
+              <label class="selector"><span>Metric</span><select id="benchmark-metric"></select></label>
+            </div>
+            <div id="bench-view" role="group" aria-label="Benchmark results view">
+              <button type="button" data-view="chart" aria-pressed="true">Chart</button>
+              <button type="button" data-view="table" aria-pressed="false">Full table</button>
+            </div>
+          </div>
+          <p id="bench-summary" class="bench-summary" aria-live="polite"></p>
+          <div id="benchmark-chart" role="group" aria-labelledby="bench-chart-heading">
+            <h3 id="bench-chart-heading" class="sr-only"></h3>
+            <div class="bench-legend" aria-label="Chart legend"><span class="series-ours">BiSeek</span><span class="series-best">Top listed baseline</span><span class="series-other">Other methods</span></div>
+            <div class="bench-axis" aria-hidden="true"><div><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div></div>
+            <ol id="bench-ranking"></ol>
+          </div>
+          <div id="benchmark-table-view" hidden><div class="table-wrap" role="region" aria-label="Benchmark table" tabindex="0"><table id="bench-table"></table></div><p class="note">Scores are percentages. An em dash indicates an unreported metric. Bold values lead the methods listed in that column.</p></div>
+          <div class="bench-footer"><button type="button" id="bench-tour" aria-pressed="false">Play metric tour</button><a class="action small" href="assets/benchmark-results.csv" download>Download all results <small>CSV</small></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ablations" class="section ablation-section" aria-labelledby="ab-title">
+      <div class="wrap">
+        <div class="section-title"><div><p class="kicker">BiSeek-2B ablations</p><h2 id="ab-title">Which design choices help<span>?</span></h2></div></div>
+        <div class="ab-panel">
+          <div class="ab-switch" role="tablist" aria-label="Select a design comparison">
+            <button id="ab-tab-encoder" type="button" role="tab" aria-selected="true" aria-controls="ab-study" tabindex="0">Encoder direction</button>
+            <button id="ab-tab-boundaries" type="button" role="tab" aria-selected="false" aria-controls="ab-study" tabindex="-1">Temporal boundaries</button>
+            <button id="ab-tab-memory" type="button" role="tab" aria-selected="false" aria-controls="ab-study" tabindex="-1">Spatial memory</button>
+          </div>
+          <div id="ab-study" role="tabpanel" aria-labelledby="ab-tab-encoder" tabindex="0">
+            <div class="ab-context"><p id="ab-condition"></p><a id="ab-source" class="text-link" href="assets/biseek-preprint.pdf#page=10">Table 7</a></div>
+            <figure class="ab-chart" aria-labelledby="ab-metric">
+              <figcaption><strong id="ab-metric"></strong><span id="ab-from" class="ab-key from"></span><span id="ab-to" class="ab-key to"></span></figcaption>
+              <div class="ab-axis" aria-hidden="true"><span></span><span>From</span><div><i>40%</i><i>60%</i><i>80%</i></div><span>To</span><span>Δ pts</span></div>
+              <ul id="ab-pairs"></ul>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="citation" class="section wash cite">
+      <div class="wrap citation-inner"><div><p class="kicker">Citation</p><h2>Cite BiSeek<span>.</span></h2></div><div><pre id="bibtex" tabindex="0">@misc{miao2026biseek,
+  title  = {BiSeek: Repurposing Generative Video-Language Models for Fine-Grained Perception},
+  author = {Deshui Miao and Wenzhao Gao and Xingsen Huang and Xin Li and Haijun Zhang and Ming-Hsuan Yang},
+  year   = {2026}
+}</pre><button class="action small" id="copy-cite" type="button">Copy BibTeX</button><span id="copy-feedback" role="status"></span></div></div>
+    </section>
+  </main>
+  <footer><div class="wrap"><a class="brand" href="#top"><img src="assets/owl.webp" width="31" height="31" alt=""><b>BiSeek</b></a><a href="#top" class="text-link">Back to top</a></div></footer>
+  <dialog id="viewer"><div class="dialog-top"><strong id="dialog-title"></strong><button id="close" class="close-btn" type="button" aria-label="Close viewer">Close</button></div><div id="dialog-media"></div></dialog>
+  <noscript><div class="noscript">Read the <a href="assets/biseek-preprint.pdf">paper</a>, <a href="assets/biseek-film.mp4">watch the film</a> or <a href="assets/benchmark-results.csv">download the results</a>. Interactive comparisons require JavaScript.</div></noscript>
+</body>
+</html>

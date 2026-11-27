@@ -1,0 +1,528 @@
+Task,Dataset,Method,Metric,Score (%)
+VTG,Charades-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.3",62.7
+VTG,Charades-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.5",44.4
+VTG,Charades-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.7",23.4
+VTG,Charades-TimeLens,Qwen3-VL-2B,mIoU,43.4
+VTG,Charades-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.3",67.1
+VTG,Charades-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.5",47.5
+VTG,Charades-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.7",24.1
+VTG,Charades-TimeLens,Qwen3-VL-4B,mIoU,45.6
+VTG,Charades-TimeLens,Video-o3-7B,"R@1, IoU 0.3",58.7
+VTG,Charades-TimeLens,Video-o3-7B,"R@1, IoU 0.5",34.2
+VTG,Charades-TimeLens,Video-o3-7B,"R@1, IoU 0.7",16.2
+VTG,Charades-TimeLens,Video-o3-7B,mIoU,38.6
+VTG,Charades-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.3",60.2
+VTG,Charades-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.5",37.9
+VTG,Charades-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.7",17.8
+VTG,Charades-TimeLens,VideoChat-Flash-7B,mIoU,39.7
+VTG,Charades-TimeLens,MiMo-VL-7B,"R@1, IoU 0.3",57.9
+VTG,Charades-TimeLens,MiMo-VL-7B,"R@1, IoU 0.5",42.6
+VTG,Charades-TimeLens,MiMo-VL-7B,"R@1, IoU 0.7",20.5
+VTG,Charades-TimeLens,MiMo-VL-7B,mIoU,39.6
+VTG,Charades-TimeLens,TimeSuite-7B,"R@1, IoU 0.3",56.3
+VTG,Charades-TimeLens,TimeSuite-7B,"R@1, IoU 0.5",35.5
+VTG,Charades-TimeLens,TimeSuite-7B,"R@1, IoU 0.7",18.0
+VTG,Charades-TimeLens,TimeSuite-7B,mIoU,38.1
+VTG,Charades-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.3",51.9
+VTG,Charades-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.5",30.8
+VTG,Charades-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.7",11.7
+VTG,Charades-TimeLens,VideoChat-R1-7B,mIoU,33.7
+VTG,Charades-TimeLens,Time-R1-7B,"R@1, IoU 0.3",57.9
+VTG,Charades-TimeLens,Time-R1-7B,"R@1, IoU 0.5",32.0
+VTG,Charades-TimeLens,Time-R1-7B,"R@1, IoU 0.7",16.9
+VTG,Charades-TimeLens,Time-R1-7B,mIoU,36.6
+VTG,Charades-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.3",59.7
+VTG,Charades-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.5",37.8
+VTG,Charades-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.7",16.6
+VTG,Charades-TimeLens,Qwen2.5-VL-7B,mIoU,39.3
+VTG,Charades-TimeLens,TimeLens-7B,"R@1, IoU 0.3",70.5
+VTG,Charades-TimeLens,TimeLens-7B,"R@1, IoU 0.5",55.6
+VTG,Charades-TimeLens,TimeLens-7B,"R@1, IoU 0.7",28.4
+VTG,Charades-TimeLens,TimeLens-7B,mIoU,48.8
+VTG,Charades-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.3",69.2
+VTG,Charades-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.5",53.4
+VTG,Charades-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.7",27.5
+VTG,Charades-TimeLens,Qwen3-VL-8B,mIoU,48.3
+VTG,Charades-TimeLens,InternVideo3-8B,"R@1, IoU 0.3",75.8
+VTG,Charades-TimeLens,InternVideo3-8B,"R@1, IoU 0.5",61.7
+VTG,Charades-TimeLens,InternVideo3-8B,"R@1, IoU 0.7",32.8
+VTG,Charades-TimeLens,InternVideo3-8B,mIoU,53.2
+VTG,Charades-TimeLens,BiSeek-2B,"R@1, IoU 0.3",79.8
+VTG,Charades-TimeLens,BiSeek-2B,"R@1, IoU 0.5",68.0
+VTG,Charades-TimeLens,BiSeek-2B,"R@1, IoU 0.7",38.7
+VTG,Charades-TimeLens,BiSeek-2B,mIoU,58.5
+VTG,Charades-TimeLens,BiSeek-4B,"R@1, IoU 0.3",82.1
+VTG,Charades-TimeLens,BiSeek-4B,"R@1, IoU 0.5",70.4
+VTG,Charades-TimeLens,BiSeek-4B,"R@1, IoU 0.7",40.7
+VTG,Charades-TimeLens,BiSeek-4B,mIoU,60.5
+VTG,ActivityNet-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.3",53.7
+VTG,ActivityNet-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.5",41.0
+VTG,ActivityNet-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.7",26.5
+VTG,ActivityNet-TimeLens,Qwen3-VL-2B,mIoU,39.9
+VTG,ActivityNet-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.3",62.9
+VTG,ActivityNet-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.5",51.0
+VTG,ActivityNet-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.7",34.3
+VTG,ActivityNet-TimeLens,Qwen3-VL-4B,mIoU,47.2
+VTG,ActivityNet-TimeLens,Video-o3-7B,"R@1, IoU 0.3",53.2
+VTG,ActivityNet-TimeLens,Video-o3-7B,"R@1, IoU 0.5",41.0
+VTG,ActivityNet-TimeLens,Video-o3-7B,"R@1, IoU 0.7",24.4
+VTG,ActivityNet-TimeLens,Video-o3-7B,mIoU,38.9
+VTG,ActivityNet-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.3",35.5
+VTG,ActivityNet-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.5",21.8
+VTG,ActivityNet-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.7",10.5
+VTG,ActivityNet-TimeLens,VideoChat-Flash-7B,mIoU,24.8
+VTG,ActivityNet-TimeLens,MiMo-VL-7B,"R@1, IoU 0.3",49.3
+VTG,ActivityNet-TimeLens,MiMo-VL-7B,"R@1, IoU 0.5",38.7
+VTG,ActivityNet-TimeLens,MiMo-VL-7B,"R@1, IoU 0.7",22.4
+VTG,ActivityNet-TimeLens,MiMo-VL-7B,mIoU,35.5
+VTG,ActivityNet-TimeLens,TimeSuite-7B,"R@1, IoU 0.3",27.1
+VTG,ActivityNet-TimeLens,TimeSuite-7B,"R@1, IoU 0.5",17.5
+VTG,ActivityNet-TimeLens,TimeSuite-7B,"R@1, IoU 0.7",8.6
+VTG,ActivityNet-TimeLens,TimeSuite-7B,mIoU,19.8
+VTG,ActivityNet-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.3",35.0
+VTG,ActivityNet-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.5",23.9
+VTG,ActivityNet-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.7",11.3
+VTG,ActivityNet-TimeLens,VideoChat-R1-7B,mIoU,25.0
+VTG,ActivityNet-TimeLens,Time-R1-7B,"R@1, IoU 0.3",44.8
+VTG,ActivityNet-TimeLens,Time-R1-7B,"R@1, IoU 0.5",31.0
+VTG,ActivityNet-TimeLens,Time-R1-7B,"R@1, IoU 0.7",19.0
+VTG,ActivityNet-TimeLens,Time-R1-7B,mIoU,33.1
+VTG,ActivityNet-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.3",44.1
+VTG,ActivityNet-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.5",31.0
+VTG,ActivityNet-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.7",16.1
+VTG,ActivityNet-TimeLens,Qwen2.5-VL-7B,mIoU,31.4
+VTG,ActivityNet-TimeLens,TimeLens-7B,"R@1, IoU 0.3",62.8
+VTG,ActivityNet-TimeLens,TimeLens-7B,"R@1, IoU 0.5",51.0
+VTG,ActivityNet-TimeLens,TimeLens-7B,"R@1, IoU 0.7",32.6
+VTG,ActivityNet-TimeLens,TimeLens-7B,mIoU,46.2
+VTG,ActivityNet-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.3",62.1
+VTG,ActivityNet-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.5",51.2
+VTG,ActivityNet-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.7",34.4
+VTG,ActivityNet-TimeLens,Qwen3-VL-8B,mIoU,46.8
+VTG,ActivityNet-TimeLens,InternVideo3-8B,"R@1, IoU 0.3",60.0
+VTG,ActivityNet-TimeLens,InternVideo3-8B,"R@1, IoU 0.5",51.4
+VTG,ActivityNet-TimeLens,InternVideo3-8B,"R@1, IoU 0.7",33.4
+VTG,ActivityNet-TimeLens,InternVideo3-8B,mIoU,46.3
+VTG,ActivityNet-TimeLens,BiSeek-2B,"R@1, IoU 0.3",66.8
+VTG,ActivityNet-TimeLens,BiSeek-2B,"R@1, IoU 0.5",56.4
+VTG,ActivityNet-TimeLens,BiSeek-2B,"R@1, IoU 0.7",37.8
+VTG,ActivityNet-TimeLens,BiSeek-2B,mIoU,51.8
+VTG,ActivityNet-TimeLens,BiSeek-4B,"R@1, IoU 0.3",69.2
+VTG,ActivityNet-TimeLens,BiSeek-4B,"R@1, IoU 0.5",59.4
+VTG,ActivityNet-TimeLens,BiSeek-4B,"R@1, IoU 0.7",40.0
+VTG,ActivityNet-TimeLens,BiSeek-4B,mIoU,53.9
+VTG,QVHighlights-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.3",67.8
+VTG,QVHighlights-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.5",53.4
+VTG,QVHighlights-TimeLens,Qwen3-VL-2B,"R@1, IoU 0.7",39.3
+VTG,QVHighlights-TimeLens,Qwen3-VL-2B,mIoU,52.2
+VTG,QVHighlights-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.3",77.6
+VTG,QVHighlights-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.5",66.0
+VTG,QVHighlights-TimeLens,Qwen3-VL-4B,"R@1, IoU 0.7",50.9
+VTG,QVHighlights-TimeLens,Qwen3-VL-4B,mIoU,61.7
+VTG,QVHighlights-TimeLens,Video-o3-7B,"R@1, IoU 0.3",62.7
+VTG,QVHighlights-TimeLens,Video-o3-7B,"R@1, IoU 0.5",49.5
+VTG,QVHighlights-TimeLens,Video-o3-7B,"R@1, IoU 0.7",34.4
+VTG,QVHighlights-TimeLens,Video-o3-7B,mIoU,47.4
+VTG,QVHighlights-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.3",45.2
+VTG,QVHighlights-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.5",30.6
+VTG,QVHighlights-TimeLens,VideoChat-Flash-7B,"R@1, IoU 0.7",16.7
+VTG,QVHighlights-TimeLens,VideoChat-Flash-7B,mIoU,32.7
+VTG,QVHighlights-TimeLens,MiMo-VL-7B,"R@1, IoU 0.3",57.1
+VTG,QVHighlights-TimeLens,MiMo-VL-7B,"R@1, IoU 0.5",42.6
+VTG,QVHighlights-TimeLens,MiMo-VL-7B,"R@1, IoU 0.7",28.4
+VTG,QVHighlights-TimeLens,MiMo-VL-7B,mIoU,41.5
+VTG,QVHighlights-TimeLens,TimeSuite-7B,"R@1, IoU 0.3",27.1
+VTG,QVHighlights-TimeLens,TimeSuite-7B,"R@1, IoU 0.5",16.9
+VTG,QVHighlights-TimeLens,TimeSuite-7B,"R@1, IoU 0.7",9.9
+VTG,QVHighlights-TimeLens,TimeSuite-7B,mIoU,21.7
+VTG,QVHighlights-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.3",29.3
+VTG,QVHighlights-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.5",19.1
+VTG,QVHighlights-TimeLens,VideoChat-R1-7B,"R@1, IoU 0.7",9.4
+VTG,QVHighlights-TimeLens,VideoChat-R1-7B,mIoU,21.5
+VTG,QVHighlights-TimeLens,Time-R1-7B,"R@1, IoU 0.3",65.8
+VTG,QVHighlights-TimeLens,Time-R1-7B,"R@1, IoU 0.5",51.5
+VTG,QVHighlights-TimeLens,Time-R1-7B,"R@1, IoU 0.7",36.1
+VTG,QVHighlights-TimeLens,Time-R1-7B,mIoU,49.2
+VTG,QVHighlights-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.3",41.5
+VTG,QVHighlights-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.5",27.8
+VTG,QVHighlights-TimeLens,Qwen2.5-VL-7B,"R@1, IoU 0.7",15.2
+VTG,QVHighlights-TimeLens,Qwen2.5-VL-7B,mIoU,31.6
+VTG,QVHighlights-TimeLens,TimeLens-7B,"R@1, IoU 0.3",74.1
+VTG,QVHighlights-TimeLens,TimeLens-7B,"R@1, IoU 0.5",62.7
+VTG,QVHighlights-TimeLens,TimeLens-7B,"R@1, IoU 0.7",43.1
+VTG,QVHighlights-TimeLens,TimeLens-7B,mIoU,56.0
+VTG,QVHighlights-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.3",74.2
+VTG,QVHighlights-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.5",64.6
+VTG,QVHighlights-TimeLens,Qwen3-VL-8B,"R@1, IoU 0.7",49.3
+VTG,QVHighlights-TimeLens,Qwen3-VL-8B,mIoU,59.4
+VTG,QVHighlights-TimeLens,InternVideo3-8B,"R@1, IoU 0.3",72.2
+VTG,QVHighlights-TimeLens,InternVideo3-8B,"R@1, IoU 0.5",62.6
+VTG,QVHighlights-TimeLens,InternVideo3-8B,"R@1, IoU 0.7",48.9
+VTG,QVHighlights-TimeLens,InternVideo3-8B,mIoU,59.2
+VTG,QVHighlights-TimeLens,BiSeek-2B,"R@1, IoU 0.3",74.2
+VTG,QVHighlights-TimeLens,BiSeek-2B,"R@1, IoU 0.5",62.4
+VTG,QVHighlights-TimeLens,BiSeek-2B,"R@1, IoU 0.7",45.8
+VTG,QVHighlights-TimeLens,BiSeek-2B,mIoU,59.4
+VTG,QVHighlights-TimeLens,BiSeek-4B,"R@1, IoU 0.3",75.4
+VTG,QVHighlights-TimeLens,BiSeek-4B,"R@1, IoU 0.5",63.1
+VTG,QVHighlights-TimeLens,BiSeek-4B,"R@1, IoU 0.7",48.0
+VTG,QVHighlights-TimeLens,BiSeek-4B,mIoU,60.9
+STVG,VidSTG declarative,STGRN,m_tIoU,48.5
+STVG,VidSTG declarative,STGRN,m_vIoU,19.8
+STVG,VidSTG declarative,STGRN,vIoU@0.3,25.8
+STVG,VidSTG declarative,STGRN,vIoU@0.5,14.6
+STVG,VidSTG declarative,STGVT,m_vIoU,21.6
+STVG,VidSTG declarative,STGVT,vIoU@0.3,29.8
+STVG,VidSTG declarative,STGVT,vIoU@0.5,18.9
+STVG,VidSTG declarative,STVGBert,m_vIoU,24.0
+STVG,VidSTG declarative,STVGBert,vIoU@0.3,30.9
+STVG,VidSTG declarative,STVGBert,vIoU@0.5,18.4
+STVG,VidSTG declarative,TubeDETR,m_tIoU,48.1
+STVG,VidSTG declarative,TubeDETR,m_vIoU,30.4
+STVG,VidSTG declarative,TubeDETR,vIoU@0.3,42.5
+STVG,VidSTG declarative,TubeDETR,vIoU@0.5,28.2
+STVG,VidSTG declarative,STCAT,m_tIoU,50.8
+STVG,VidSTG declarative,STCAT,m_vIoU,33.1
+STVG,VidSTG declarative,STCAT,vIoU@0.3,46.2
+STVG,VidSTG declarative,STCAT,vIoU@0.5,32.6
+STVG,VidSTG declarative,CSDVL / STVGFormer,m_vIoU,33.7
+STVG,VidSTG declarative,CSDVL / STVGFormer,vIoU@0.3,47.2
+STVG,VidSTG declarative,CSDVL / STVGFormer,vIoU@0.5,32.8
+STVG,VidSTG declarative,CG-STVG,m_tIoU,51.4
+STVG,VidSTG declarative,CG-STVG,m_vIoU,34.0
+STVG,VidSTG declarative,CG-STVG,vIoU@0.3,47.7
+STVG,VidSTG declarative,CG-STVG,vIoU@0.5,33.1
+STVG,VidSTG declarative,TA-STVG,m_tIoU,51.7
+STVG,VidSTG declarative,TA-STVG,m_vIoU,34.4
+STVG,VidSTG declarative,TA-STVG,vIoU@0.3,48.2
+STVG,VidSTG declarative,TA-STVG,vIoU@0.5,33.5
+STVG,VidSTG declarative,VideoGrounding-DINO,m_tIoU,52.0
+STVG,VidSTG declarative,VideoGrounding-DINO,m_vIoU,34.7
+STVG,VidSTG declarative,VideoGrounding-DINO,vIoU@0.3,48.1
+STVG,VidSTG declarative,VideoGrounding-DINO,vIoU@0.5,34.0
+STVG,VidSTG declarative,E3M,m_vIoU,16.2
+STVG,VidSTG declarative,E3M,vIoU@0.3,20.5
+STVG,VidSTG declarative,E3M,vIoU@0.5,11.9
+STVG,VidSTG declarative,PTD-4B (GRPO),m_tIoU,53.7
+STVG,VidSTG declarative,PTD-4B (GRPO),m_vIoU,38.3
+STVG,VidSTG declarative,PTD-4B (GRPO),vIoU@0.3,53.0
+STVG,VidSTG declarative,PTD-4B (GRPO),vIoU@0.5,37.5
+STVG,VidSTG declarative,SpaceVLLM-7B,m_tIoU,47.7
+STVG,VidSTG declarative,SpaceVLLM-7B,m_vIoU,27.4
+STVG,VidSTG declarative,SpaceVLLM-7B,vIoU@0.3,39.1
+STVG,VidSTG declarative,SpaceVLLM-7B,vIoU@0.5,26.2
+STVG,VidSTG declarative,STVG-o1-7B,m_tIoU,52.1
+STVG,VidSTG declarative,STVG-o1-7B,m_vIoU,33.5
+STVG,VidSTG declarative,STVG-o1-7B,vIoU@0.3,48.4
+STVG,VidSTG declarative,STVG-o1-7B,vIoU@0.5,32.0
+STVG,VidSTG declarative,DEViL-7B,m_tIoU,50.2
+STVG,VidSTG declarative,DEViL-7B,m_vIoU,33.6
+STVG,VidSTG declarative,DEViL-7B,vIoU@0.3,46.5
+STVG,VidSTG declarative,DEViL-7B,vIoU@0.5,34.0
+STVG,VidSTG declarative,BiSeek-2B,m_tIoU,53.8
+STVG,VidSTG declarative,BiSeek-2B,m_vIoU,35.8
+STVG,VidSTG declarative,BiSeek-4B,m_tIoU,54.4
+STVG,VidSTG declarative,BiSeek-4B,m_vIoU,36.7
+STVG,VidSTG interrogative,STGRN,m_tIoU,47.0
+STVG,VidSTG interrogative,STGRN,m_vIoU,18.3
+STVG,VidSTG interrogative,STGRN,vIoU@0.3,21.1
+STVG,VidSTG interrogative,STGRN,vIoU@0.5,12.8
+STVG,VidSTG interrogative,STVGBert,m_vIoU,22.5
+STVG,VidSTG interrogative,STVGBert,vIoU@0.3,26.0
+STVG,VidSTG interrogative,STVGBert,vIoU@0.5,16.0
+STVG,VidSTG interrogative,TubeDETR,m_tIoU,46.9
+STVG,VidSTG interrogative,TubeDETR,m_vIoU,25.7
+STVG,VidSTG interrogative,TubeDETR,vIoU@0.3,35.7
+STVG,VidSTG interrogative,TubeDETR,vIoU@0.5,23.2
+STVG,VidSTG interrogative,STCAT,m_tIoU,49.7
+STVG,VidSTG interrogative,STCAT,m_vIoU,28.2
+STVG,VidSTG interrogative,STCAT,vIoU@0.3,39.2
+STVG,VidSTG interrogative,STCAT,vIoU@0.5,26.6
+STVG,VidSTG interrogative,CSDVL / STVGFormer,m_vIoU,28.5
+STVG,VidSTG interrogative,CSDVL / STVGFormer,vIoU@0.3,39.9
+STVG,VidSTG interrogative,CSDVL / STVGFormer,vIoU@0.5,26.2
+STVG,VidSTG interrogative,CG-STVG,m_tIoU,49.9
+STVG,VidSTG interrogative,CG-STVG,m_vIoU,29.0
+STVG,VidSTG interrogative,CG-STVG,vIoU@0.3,40.5
+STVG,VidSTG interrogative,CG-STVG,vIoU@0.5,27.5
+STVG,VidSTG interrogative,TA-STVG,m_tIoU,50.2
+STVG,VidSTG interrogative,TA-STVG,m_vIoU,29.5
+STVG,VidSTG interrogative,TA-STVG,vIoU@0.3,41.5
+STVG,VidSTG interrogative,TA-STVG,vIoU@0.5,28.0
+STVG,VidSTG interrogative,VideoGrounding-DINO,m_tIoU,50.8
+STVG,VidSTG interrogative,VideoGrounding-DINO,m_vIoU,29.9
+STVG,VidSTG interrogative,VideoGrounding-DINO,vIoU@0.3,41.0
+STVG,VidSTG interrogative,VideoGrounding-DINO,vIoU@0.5,27.6
+STVG,VidSTG interrogative,E3M,m_vIoU,10.6
+STVG,VidSTG interrogative,E3M,vIoU@0.3,12.2
+STVG,VidSTG interrogative,E3M,vIoU@0.5,5.4
+STVG,VidSTG interrogative,PTD-4B (GRPO),m_tIoU,52.2
+STVG,VidSTG interrogative,PTD-4B (GRPO),m_vIoU,32.4
+STVG,VidSTG interrogative,PTD-4B (GRPO),vIoU@0.3,44.9
+STVG,VidSTG interrogative,PTD-4B (GRPO),vIoU@0.5,30.3
+STVG,VidSTG interrogative,SpaceVLLM-7B,m_tIoU,48.5
+STVG,VidSTG interrogative,SpaceVLLM-7B,m_vIoU,25.4
+STVG,VidSTG interrogative,SpaceVLLM-7B,vIoU@0.3,35.9
+STVG,VidSTG interrogative,SpaceVLLM-7B,vIoU@0.5,22.2
+STVG,VidSTG interrogative,STVG-o1-7B,m_tIoU,50.5
+STVG,VidSTG interrogative,STVG-o1-7B,m_vIoU,27.9
+STVG,VidSTG interrogative,STVG-o1-7B,vIoU@0.3,39.8
+STVG,VidSTG interrogative,STVG-o1-7B,vIoU@0.5,26.0
+STVG,VidSTG interrogative,DEViL-7B,m_tIoU,48.5
+STVG,VidSTG interrogative,DEViL-7B,m_vIoU,28.8
+STVG,VidSTG interrogative,DEViL-7B,vIoU@0.3,38.7
+STVG,VidSTG interrogative,DEViL-7B,vIoU@0.5,28.2
+STVG,VidSTG interrogative,BiSeek-2B,m_tIoU,52.3
+STVG,VidSTG interrogative,BiSeek-2B,m_vIoU,30.2
+STVG,VidSTG interrogative,BiSeek-4B,m_tIoU,52.5
+STVG,VidSTG interrogative,BiSeek-4B,m_vIoU,31.3
+STVG,HC-STVG v1 test,STGVT,m_vIoU,18.2
+STVG,HC-STVG v1 test,STGVT,vIoU@0.3,26.8
+STVG,HC-STVG v1 test,STGVT,vIoU@0.5,9.5
+STVG,HC-STVG v1 test,STVGBert,m_vIoU,20.4
+STVG,HC-STVG v1 test,STVGBert,vIoU@0.3,29.4
+STVG,HC-STVG v1 test,STVGBert,vIoU@0.5,11.3
+STVG,HC-STVG v1 test,TubeDETR,m_tIoU,43.7
+STVG,HC-STVG v1 test,TubeDETR,m_vIoU,32.4
+STVG,HC-STVG v1 test,TubeDETR,vIoU@0.3,49.8
+STVG,HC-STVG v1 test,TubeDETR,vIoU@0.5,23.5
+STVG,HC-STVG v1 test,STCAT,m_tIoU,49.4
+STVG,HC-STVG v1 test,STCAT,m_vIoU,35.1
+STVG,HC-STVG v1 test,STCAT,vIoU@0.3,57.7
+STVG,HC-STVG v1 test,STCAT,vIoU@0.5,30.1
+STVG,HC-STVG v1 test,CSDVL / STVGFormer,m_vIoU,36.9
+STVG,HC-STVG v1 test,CSDVL / STVGFormer,vIoU@0.3,62.2
+STVG,HC-STVG v1 test,CSDVL / STVGFormer,vIoU@0.5,34.8
+STVG,HC-STVG v1 test,CG-STVG,m_tIoU,52.8
+STVG,HC-STVG v1 test,CG-STVG,m_vIoU,38.4
+STVG,HC-STVG v1 test,CG-STVG,vIoU@0.3,61.5
+STVG,HC-STVG v1 test,CG-STVG,vIoU@0.5,36.3
+STVG,HC-STVG v1 test,TA-STVG,m_tIoU,53.0
+STVG,HC-STVG v1 test,TA-STVG,m_vIoU,39.1
+STVG,HC-STVG v1 test,TA-STVG,vIoU@0.3,63.1
+STVG,HC-STVG v1 test,TA-STVG,vIoU@0.5,36.8
+STVG,HC-STVG v1 test,VideoGrounding-DINO,m_vIoU,38.3
+STVG,HC-STVG v1 test,VideoGrounding-DINO,vIoU@0.3,62.5
+STVG,HC-STVG v1 test,VideoGrounding-DINO,vIoU@0.5,36.1
+STVG,HC-STVG v1 test,E3M,m_vIoU,19.1
+STVG,HC-STVG v1 test,E3M,vIoU@0.3,29.4
+STVG,HC-STVG v1 test,E3M,vIoU@0.5,10.6
+STVG,HC-STVG v1 test,PTD-4B (GRPO),m_tIoU,59.4
+STVG,HC-STVG v1 test,PTD-4B (GRPO),m_vIoU,45.6
+STVG,HC-STVG v1 test,PTD-4B (GRPO),vIoU@0.3,73.8
+STVG,HC-STVG v1 test,PTD-4B (GRPO),vIoU@0.5,46.7
+STVG,HC-STVG v1 test,SpaceVLLM-7B,m_tIoU,56.9
+STVG,HC-STVG v1 test,SpaceVLLM-7B,m_vIoU,39.3
+STVG,HC-STVG v1 test,SpaceVLLM-7B,vIoU@0.3,66.6
+STVG,HC-STVG v1 test,SpaceVLLM-7B,vIoU@0.5,36.9
+STVG,HC-STVG v1 test,STVG-o1-7B,m_tIoU,60.3
+STVG,HC-STVG v1 test,STVG-o1-7B,m_vIoU,44.1
+STVG,HC-STVG v1 test,STVG-o1-7B,vIoU@0.3,73.3
+STVG,HC-STVG v1 test,STVG-o1-7B,vIoU@0.5,43.5
+STVG,HC-STVG v1 test,STVG-R1-7B,m_tIoU,56.9
+STVG,HC-STVG v1 test,STVG-R1-7B,m_vIoU,39.1
+STVG,HC-STVG v1 test,STVG-R1-7B,vIoU@0.3,66.7
+STVG,HC-STVG v1 test,STVG-R1-7B,vIoU@0.5,38.6
+STVG,HC-STVG v1 test,DEViL-7B,m_tIoU,59.0
+STVG,HC-STVG v1 test,DEViL-7B,m_vIoU,43.1
+STVG,HC-STVG v1 test,DEViL-7B,vIoU@0.3,70.5
+STVG,HC-STVG v1 test,DEViL-7B,vIoU@0.5,44.3
+STVG,HC-STVG v1 test,BiSeek-2B,m_tIoU,68.0
+STVG,HC-STVG v1 test,BiSeek-2B,m_vIoU,50.1
+STVG,HC-STVG v1 test,BiSeek-2B,vIoU@0.3,83.4
+STVG,HC-STVG v1 test,BiSeek-2B,vIoU@0.5,56.1
+STVG,HC-STVG v1 test,BiSeek-4B,m_tIoU,72.2
+STVG,HC-STVG v1 test,BiSeek-4B,m_vIoU,53.4
+STVG,HC-STVG v1 test,BiSeek-4B,vIoU@0.3,87.0
+STVG,HC-STVG v1 test,BiSeek-4B,vIoU@0.5,62.6
+STVG,HC-STVG v2 val,TubeDETR,m_tIoU,53.9
+STVG,HC-STVG v2 val,TubeDETR,m_vIoU,36.4
+STVG,HC-STVG v2 val,TubeDETR,vIoU@0.3,58.8
+STVG,HC-STVG v2 val,TubeDETR,vIoU@0.5,30.6
+STVG,HC-STVG v2 val,CSDVL / STVGFormer,m_tIoU,58.1
+STVG,HC-STVG v2 val,CSDVL / STVGFormer,m_vIoU,38.7
+STVG,HC-STVG v2 val,CSDVL / STVGFormer,vIoU@0.3,65.5
+STVG,HC-STVG v2 val,CSDVL / STVGFormer,vIoU@0.5,33.8
+STVG,HC-STVG v2 val,CG-STVG,m_tIoU,60.0
+STVG,HC-STVG v2 val,CG-STVG,m_vIoU,39.5
+STVG,HC-STVG v2 val,CG-STVG,vIoU@0.3,64.5
+STVG,HC-STVG v2 val,CG-STVG,vIoU@0.5,36.3
+STVG,HC-STVG v2 val,TA-STVG,m_tIoU,60.4
+STVG,HC-STVG v2 val,TA-STVG,m_vIoU,40.2
+STVG,HC-STVG v2 val,TA-STVG,vIoU@0.3,65.8
+STVG,HC-STVG v2 val,TA-STVG,vIoU@0.5,36.7
+STVG,HC-STVG v2 val,VideoGrounding-DINO,m_vIoU,39.9
+STVG,HC-STVG v2 val,VideoGrounding-DINO,vIoU@0.3,67.1
+STVG,HC-STVG v2 val,VideoGrounding-DINO,vIoU@0.5,34.5
+STVG,HC-STVG v2 val,PTD-4B (GRPO),m_tIoU,63.1
+STVG,HC-STVG v2 val,PTD-4B (GRPO),m_vIoU,43.6
+STVG,HC-STVG v2 val,PTD-4B (GRPO),vIoU@0.3,71.0
+STVG,HC-STVG v2 val,PTD-4B (GRPO),vIoU@0.5,42.2
+STVG,HC-STVG v2 val,SpaceVLLM-7B,m_tIoU,58.0
+STVG,HC-STVG v2 val,SpaceVLLM-7B,m_vIoU,34.0
+STVG,HC-STVG v2 val,SpaceVLLM-7B,vIoU@0.3,56.9
+STVG,HC-STVG v2 val,SpaceVLLM-7B,vIoU@0.5,24.7
+STVG,HC-STVG v2 val,STVG-o1-7B,m_tIoU,63.8
+STVG,HC-STVG v2 val,STVG-o1-7B,m_vIoU,41.2
+STVG,HC-STVG v2 val,STVG-o1-7B,vIoU@0.3,68.5
+STVG,HC-STVG v2 val,STVG-o1-7B,vIoU@0.5,39.6
+STVG,HC-STVG v2 val,STVG-R1-7B,m_tIoU,61.3
+STVG,HC-STVG v2 val,STVG-R1-7B,m_vIoU,40.8
+STVG,HC-STVG v2 val,STVG-R1-7B,vIoU@0.3,67.9
+STVG,HC-STVG v2 val,STVG-R1-7B,vIoU@0.5,38.8
+STVG,HC-STVG v2 val,DEViL-7B,m_tIoU,61.7
+STVG,HC-STVG v2 val,DEViL-7B,m_vIoU,42.5
+STVG,HC-STVG v2 val,DEViL-7B,vIoU@0.3,67.3
+STVG,HC-STVG v2 val,DEViL-7B,vIoU@0.5,42.2
+STVG,HC-STVG v2 val,BiSeek-2B,m_tIoU,63.3
+STVG,HC-STVG v2 val,BiSeek-2B,m_vIoU,48.5
+STVG,HC-STVG v2 val,BiSeek-2B,vIoU@0.3,61.4
+STVG,HC-STVG v2 val,BiSeek-2B,vIoU@0.5,49.2
+STVG,HC-STVG v2 val,BiSeek-4B,m_tIoU,67.9
+STVG,HC-STVG v2 val,BiSeek-4B,m_vIoU,50.1
+STVG,HC-STVG v2 val,BiSeek-4B,vIoU@0.3,72.2
+STVG,HC-STVG v2 val,BiSeek-4B,vIoU@0.5,50.6
+RVOS,MeViS valid,LMPM (Swin-T),J&F,37.2
+RVOS,MeViS valid,LMPM (Swin-T),J,34.3
+RVOS,MeViS valid,LMPM (Swin-T),F,40.2
+RVOS,MeViS valid,VideoLISA-3.8B,J&F,44.4
+RVOS,MeViS valid,VideoLISA-3.8B,J,41.3
+RVOS,MeViS valid,VideoLISA-3.8B,F,47.6
+RVOS,MeViS valid,GLUS-7B,J&F,51.3
+RVOS,MeViS valid,GLUS-7B,J,48.5
+RVOS,MeViS valid,GLUS-7B,F,54.2
+RVOS,MeViS valid,VRS-HQ-7B,J&F,50.6
+RVOS,MeViS valid,VRS-HQ-7B,J,47.6
+RVOS,MeViS valid,VRS-HQ-7B,F,53.7
+RVOS,MeViS valid,UniPixel-7B,J&F,55.8
+RVOS,MeViS valid,UniPixel-7B,J,53.2
+RVOS,MeViS valid,UniPixel-7B,F,58.3
+RVOS,MeViS valid,VIRST-7B,J&F,62.9
+RVOS,MeViS valid,VIRST-7B,J,60.4
+RVOS,MeViS valid,VIRST-7B,F,65.4
+RVOS,MeViS valid,VideoSEG-O3-2B,J&F,55.6
+RVOS,MeViS valid,VideoSEG-O3-2B,J,52.5
+RVOS,MeViS valid,VideoSEG-O3-2B,F,58.6
+RVOS,MeViS valid,VideoSEG-O3-4B,J&F,60.0
+RVOS,MeViS valid,VideoSEG-O3-4B,J,57.0
+RVOS,MeViS valid,VideoSEG-O3-4B,F,63.0
+RVOS,MeViS valid,SetCon-8B,J&F,62.4
+RVOS,MeViS valid,BiSeek-2B,J&F,62.1
+RVOS,MeViS valid,BiSeek-2B,J,58.0
+RVOS,MeViS valid,BiSeek-2B,F,66.3
+RVOS,MeViS valid,BiSeek-4B,J&F,65.3
+RVOS,MeViS valid,BiSeek-4B,J,61.7
+RVOS,MeViS valid,BiSeek-4B,F,68.8
+RVOS,GroundMoRe test,Veason-R1-3B,J&F,23.5
+RVOS,GroundMoRe test,Veason-R1-3B,J,22.0
+RVOS,GroundMoRe test,Veason-R1-3B,F,25.0
+RVOS,GroundMoRe test,VideoSEG-O3-2B,J&F,29.1
+RVOS,GroundMoRe test,VideoSEG-O3-2B,J,27.4
+RVOS,GroundMoRe test,VideoSEG-O3-2B,F,30.7
+RVOS,GroundMoRe test,VideoSEG-O3-4B,J&F,32.0
+RVOS,GroundMoRe test,VideoSEG-O3-4B,J,30.2
+RVOS,GroundMoRe test,VideoSEG-O3-4B,F,33.7
+RVOS,GroundMoRe test,BiSeek-2B,J&F,58.0
+RVOS,GroundMoRe test,BiSeek-2B,J,57.9
+RVOS,GroundMoRe test,BiSeek-2B,F,58.1
+RVOS,GroundMoRe test,BiSeek-4B,J&F,61.9
+RVOS,GroundMoRe test,BiSeek-4B,J,61.1
+RVOS,GroundMoRe test,BiSeek-4B,F,62.7
+RVOS,ReVOS Referring,GLUS-7B,J&F,58.3
+RVOS,ReVOS Referring,GLUS-7B,J,56.0
+RVOS,ReVOS Referring,GLUS-7B,F,60.7
+RVOS,ReVOS Referring,VRS-HQ-7B,J&F,62.1
+RVOS,ReVOS Referring,VRS-HQ-7B,J,59.8
+RVOS,ReVOS Referring,VRS-HQ-7B,F,64.5
+RVOS,ReVOS Referring,UniPixel-7B,J&F,65.8
+RVOS,ReVOS Referring,UniPixel-7B,J,63.9
+RVOS,ReVOS Referring,UniPixel-7B,F,67.8
+RVOS,ReVOS Referring,Veason-R1-3B,J&F,63.0
+RVOS,ReVOS Referring,Veason-R1-3B,J,60.3
+RVOS,ReVOS Referring,Veason-R1-3B,F,65.6
+RVOS,ReVOS Referring,Veason-R1-7B,J&F,63.6
+RVOS,ReVOS Referring,Veason-R1-7B,J,60.7
+RVOS,ReVOS Referring,Veason-R1-7B,F,66.5
+RVOS,ReVOS Referring,VIRST-7B,J&F,70.8
+RVOS,ReVOS Referring,VIRST-7B,J,68.8
+RVOS,ReVOS Referring,VIRST-7B,F,72.8
+RVOS,ReVOS Referring,VideoSEG-O3-2B,J&F,67.5
+RVOS,ReVOS Referring,VideoSEG-O3-2B,J,65.0
+RVOS,ReVOS Referring,VideoSEG-O3-2B,F,70.0
+RVOS,ReVOS Referring,VideoSEG-O3-4B,J&F,70.3
+RVOS,ReVOS Referring,VideoSEG-O3-4B,J,67.7
+RVOS,ReVOS Referring,VideoSEG-O3-4B,F,72.9
+RVOS,ReVOS Referring,BiSeek-2B,J&F,71.2
+RVOS,ReVOS Referring,BiSeek-2B,J,67.8
+RVOS,ReVOS Referring,BiSeek-2B,F,74.6
+RVOS,ReVOS Referring,BiSeek-4B,J&F,74.0
+RVOS,ReVOS Referring,BiSeek-4B,J,70.9
+RVOS,ReVOS Referring,BiSeek-4B,F,77.1
+RVOS,ReVOS Reasoning,GLUS-7B,J&F,51.4
+RVOS,ReVOS Reasoning,GLUS-7B,J,48.8
+RVOS,ReVOS Reasoning,GLUS-7B,F,53.9
+RVOS,ReVOS Reasoning,VRS-HQ-7B,J&F,56.1
+RVOS,ReVOS Reasoning,VRS-HQ-7B,J,53.5
+RVOS,ReVOS Reasoning,VRS-HQ-7B,F,58.7
+RVOS,ReVOS Reasoning,UniPixel-7B,J&F,61.5
+RVOS,ReVOS Reasoning,UniPixel-7B,J,59.4
+RVOS,ReVOS Reasoning,UniPixel-7B,F,63.7
+RVOS,ReVOS Reasoning,Veason-R1-3B,J&F,56.8
+RVOS,ReVOS Reasoning,Veason-R1-3B,J,53.6
+RVOS,ReVOS Reasoning,Veason-R1-3B,F,60.0
+RVOS,ReVOS Reasoning,Veason-R1-7B,J&F,59.0
+RVOS,ReVOS Reasoning,Veason-R1-7B,J,55.8
+RVOS,ReVOS Reasoning,Veason-R1-7B,F,62.2
+RVOS,ReVOS Reasoning,VIRST-7B,J&F,66.1
+RVOS,ReVOS Reasoning,VIRST-7B,J,63.9
+RVOS,ReVOS Reasoning,VIRST-7B,F,68.3
+RVOS,ReVOS Reasoning,VideoSEG-O3-2B,J&F,62.0
+RVOS,ReVOS Reasoning,VideoSEG-O3-2B,J,59.0
+RVOS,ReVOS Reasoning,VideoSEG-O3-2B,F,65.0
+RVOS,ReVOS Reasoning,VideoSEG-O3-4B,J&F,65.1
+RVOS,ReVOS Reasoning,VideoSEG-O3-4B,J,62.4
+RVOS,ReVOS Reasoning,VideoSEG-O3-4B,F,67.9
+RVOS,ReVOS Reasoning,BiSeek-2B,J&F,68.0
+RVOS,ReVOS Reasoning,BiSeek-2B,J,64.6
+RVOS,ReVOS Reasoning,BiSeek-2B,F,71.4
+RVOS,ReVOS Reasoning,BiSeek-4B,J&F,70.2
+RVOS,ReVOS Reasoning,BiSeek-4B,J,66.9
+RVOS,ReVOS Reasoning,BiSeek-4B,F,73.6
+RVOS,ReVOS Overall,GLUS-7B,J&F,54.9
+RVOS,ReVOS Overall,VRS-HQ-7B,J&F,59.1
+RVOS,ReVOS Overall,VRS-HQ-7B,J,56.6
+RVOS,ReVOS Overall,VRS-HQ-7B,F,61.6
+RVOS,ReVOS Overall,UniPixel-7B,J&F,63.7
+RVOS,ReVOS Overall,UniPixel-7B,J,61.7
+RVOS,ReVOS Overall,UniPixel-7B,F,65.7
+RVOS,ReVOS Overall,Veason-R1-3B,J&F,59.9
+RVOS,ReVOS Overall,Veason-R1-3B,J,56.9
+RVOS,ReVOS Overall,Veason-R1-3B,F,62.8
+RVOS,ReVOS Overall,Veason-R1-7B,J&F,61.3
+RVOS,ReVOS Overall,Veason-R1-7B,J,58.2
+RVOS,ReVOS Overall,Veason-R1-7B,F,64.4
+RVOS,ReVOS Overall,VIRST-7B,J&F,68.4
+RVOS,ReVOS Overall,VIRST-7B,J,66.3
+RVOS,ReVOS Overall,VIRST-7B,F,70.6
+RVOS,ReVOS Overall,VideoSEG-O3-2B,J&F,64.8
+RVOS,ReVOS Overall,VideoSEG-O3-2B,J,62.0
+RVOS,ReVOS Overall,VideoSEG-O3-2B,F,67.5
+RVOS,ReVOS Overall,VideoSEG-O3-4B,J&F,67.7
+RVOS,ReVOS Overall,VideoSEG-O3-4B,J,65.0
+RVOS,ReVOS Overall,VideoSEG-O3-4B,F,70.4
+RVOS,ReVOS Overall,SetCon-8B,J&F,69.5
+RVOS,ReVOS Overall,BiSeek-2B,J&F,69.6
+RVOS,ReVOS Overall,BiSeek-2B,J,66.2
+RVOS,ReVOS Overall,BiSeek-2B,F,73.0
+RVOS,ReVOS Overall,BiSeek-4B,J&F,72.1
+RVOS,ReVOS Overall,BiSeek-4B,J,68.9
+RVOS,ReVOS Overall,BiSeek-4B,F,75.3
+RVOS,ReasonVOS,VideoLISA-3.8B,J&F,47.5
+RVOS,ReasonVOS,GLUS-7B,J&F,49.9
+RVOS,ReasonVOS,Veason-R1-3B,J&F,55.2
+RVOS,ReasonVOS,Veason-R1-7B,J&F,59.9
+RVOS,ReasonVOS,VideoSEG-O3-2B,J&F,60.2
+RVOS,ReasonVOS,VideoSEG-O3-4B,J&F,62.9
+RVOS,ReasonVOS,SetCon-8B,J&F,68.0
+RVOS,ReasonVOS,BiSeek-2B,J&F,68.5
+RVOS,ReasonVOS,BiSeek-4B,J&F,72.2

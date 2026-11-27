@@ -1,0 +1,101 @@
+.film-section {
+  border-top: 1px solid var(--line-soft);
+}
+.film-title > p {
+  font-size: .92rem;
+}
+.film-screening {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(14rem, 25%);
+  gap: clamp(1.15rem, 2.5vw, 2.4rem);
+  align-items: start;
+}
+.film-screen, .film-directory {
+  min-width: 0;
+}
+.film-screen video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: #080e13;
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  overflow: hidden;
+}
+.film-now {
+  display: flex;
+  justify-content: space-between;
+  gap: .7rem;
+  padding: .75rem .15rem 0;
+  color: var(--muted);
+  font-size: .88rem;
+}
+#film-time, .film-chapter-copy > span {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: .79rem;
+}
+.film-directory ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .2rem;
+}
+.film-chapter {
+  display: flex;
+  align-items: center;
+  gap: clamp(.55rem, 1vw, 1rem);
+  padding: .4rem;
+  min-height: 3.1rem;
+  border-radius: .38rem;
+  border: 1px solid transparent;
+}
+.film-chapter img {
+  flex: 0 0 31%;
+  width: 31%;
+  max-width: 6.4rem;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: .18rem;
+  background: #10171d;
+}
+.film-chapter-copy {
+  display: grid;
+  gap: .18rem;
+  min-width: 0;
+}
+.film-chapter-copy strong {
+  font-size: .94rem;
+  font-weight: 630;
+  line-height: 1.2;
+}
+.film-chapter-copy > span {
+  color: var(--muted);
+}
+.film-chapter:hover {
+  background: var(--surface);
+  border-color: var(--line-soft);
+}
+.film-chapter[aria-current=time] {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+}
+.film-chapter[aria-current=time] strong {
+  color: var(--accent);
+}
+@media (max-width: 56rem) {
+  .film-screening {grid-template-columns: 1fr; gap: .8rem;}
+  .film-directory ol {grid-template-columns: repeat(3,minmax(0,1fr));}
+  .film-chapter img {flex-basis: 32%; width: 32%;}
+}
+@media (max-width: 38rem) {
+  .film-directory ol {grid-template-columns: repeat(2,minmax(0,1fr));}
+  .film-chapter {gap: .45rem; padding: .36rem;}
+  .film-chapter img {flex-basis: 30%; width: 30%;}
+  .film-chapter-copy strong {font-size: .88rem;}
+}
+@media (max-width: 22rem) {
+  .film-chapter img {display: none;}
+}

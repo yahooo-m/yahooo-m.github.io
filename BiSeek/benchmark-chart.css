@@ -1,0 +1,51 @@
+.benchmark-explorer .results-toolbar { align-items:flex-end; flex-wrap:wrap; }
+.bench-pickers, #bench-view, .bench-legend, .bench-footer { display:flex; flex-wrap:wrap; align-items:center; gap:.65rem; }
+.bench-pickers { gap:.7rem 1rem; }
+#bench-view { gap:.12rem; padding:.18rem; background:var(--bg); border:1px solid var(--line); border-radius:.45rem; }
+#bench-view button { border-radius:.28rem; padding:.34rem .68rem; color:var(--muted); font-size:.88rem; }
+#bench-view button[aria-pressed=true] { background:var(--accent-wash); color:var(--accent); font-weight:640; }
+#benchmark-chart { --name:minmax(8.8rem,14rem); --value:3.2rem; --gap:.85rem; margin-top:1.2rem; }
+.bench-legend { gap:.6rem 1.2rem; margin-bottom:1rem; font-size:.82rem; color:var(--muted); }
+.bench-legend span { display:inline-flex; align-items:center; gap:.4rem; }
+.bench-legend span::before { content:""; display:block; width:.72rem; height:.38rem; border-radius:2px; background:var(--faint); }
+.bench-legend .series-ours::before { background:var(--accent); }
+.bench-legend .series-best::before { background:var(--violet); }
+.bench-axis,.bench-bar-row { display:grid; grid-template-columns:var(--name) minmax(0,1fr) var(--value); align-items:center; column-gap:var(--gap); }
+.bench-axis { margin-bottom:.3rem; }
+.bench-axis div { grid-column:2; position:relative; height:1.03rem; font:normal .72rem var(--mono); color:var(--muted); }
+.bench-axis span { position:absolute; left:25%; top:0; transform:translateX(-50%); }
+.bench-axis span:first-child { left:0; transform:none; }
+.bench-axis span:nth-child(3) { left:50%; }
+.bench-axis span:nth-child(4) { left:75%; }
+.bench-axis span:last-child { left:auto; right:0; transform:none; }
+#bench-ranking { list-style:none; margin:0; padding:0; }
+.bench-bar-row { min-height:1.65rem; padding:.17rem 0; }
+.bench-bar-name { overflow-wrap:anywhere; font-size:.92rem; line-height:1.26; }
+.bench-bar-track { position:relative; height:.57rem; overflow:hidden; border-radius:.13rem; background-color:var(--raised); background-image:repeating-linear-gradient(to right,transparent 0 calc(25% - 1px),var(--line) calc(25% - 1px) 25%); }
+.bench-bar-track i { display:block; height:100%; border-radius:.13rem; background:var(--faint); transform-origin:left; }
+.bench-bar-value { justify-self:end; font:580 .85rem var(--mono); color:var(--muted); }
+.bench-bar-row[data-series=ours] .bench-bar-track i { background:var(--accent); }
+.bench-bar-row[data-series=ours] .bench-bar-name,.bench-bar-row[data-series=ours] .bench-bar-value { color:var(--accent); font-weight:680; }
+.bench-bar-row[data-series=best] .bench-bar-track i { background:var(--violet); }
+.bench-bar-row[data-series=best] .bench-bar-name,.bench-bar-row[data-series=best] .bench-bar-value { color:var(--violet); }
+.bench-footer { justify-content:space-between; gap:.6rem; margin-top:1.2rem; padding-top:.85rem; border-top:1px solid var(--line-soft); }
+#bench-tour { font-size:.83rem; color:var(--muted); padding:.28rem 0; text-decoration:underline; text-underline-offset:.2rem; }
+.bench-footer .action { margin-left:auto; }
+@media(prefers-reduced-motion:no-preference) {
+  @keyframes biseek-bar-grow { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  #benchmark-chart.bars-in .bench-bar-track i { animation:biseek-bar-grow .53s cubic-bezier(.22,.8,.26,1) var(--bar-delay,0ms) both; }
+}
+@media(max-width:47rem) {
+  #benchmark-chart { --name:minmax(6.9rem,34%); --value:2.1rem; --gap:.5rem; }
+  .benchmark-explorer .results-toolbar { gap:.85rem; }
+  .bench-pickers { align-items:flex-end; gap:.55rem; }
+  .bench-pickers select { max-width:100%; padding-right:1.1rem; }
+  .bench-legend { gap:.3rem .65rem; font-size:.77rem; }
+  .bench-bar-name { font-size:.81rem; }
+  .bench-bar-value { font-size:.77rem; }
+}
+@media(max-width:23.5rem) {
+  .bench-pickers { display:grid; width:100%; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); }
+  #benchmark-chart { --name:minmax(5.5rem,32%); --gap:.32rem; }
+  .bench-axis span:nth-child(2),.bench-axis span:nth-child(4) { display:none; }
+}

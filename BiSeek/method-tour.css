@@ -1,0 +1,28 @@
+.method-explorer.pipeline { display:block; padding:clamp(.85rem,2vw,1.6rem) }
+.method-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.65rem; border-bottom:1px solid var(--line); padding-bottom:.85rem }
+.method-toolbar .stage-list { flex-direction:row; flex-wrap:wrap; padding:0; border:0; gap:.25rem }
+.method-toolbar .stage-list button { padding:.45rem .65rem }
+.method-lenses { display:grid; grid-template-columns:1.05fr 1fr; align-items:start; gap:clamp(1rem,2.6vw,2.4rem); margin-top:1.1rem }
+.method-overview { min-width:0 }
+.method-map { position:relative; background:#fff; overflow:hidden; border-radius:.4rem }
+.method-map img { display:block; width:100%; height:auto }
+.method-map button, .method-highlight { position:absolute; inset:auto; border-radius:.22rem }
+.method-map button { cursor:pointer; background:transparent; border:0; padding:0 }
+.method-map button:hover, .method-map button:focus-visible { outline:2px solid #137967; outline-offset:-2px }
+.method-highlight { pointer-events:none; border:2px solid #057c6b; box-shadow:0 0 0 150vmax rgb(14 22 25 / 18%); transition:top .4s ease,left .4s ease,width .4s ease,height .4s ease }
+.method-map .map-a, .method-map[data-region="a"] .method-highlight { left:24.6%; top:10.6%; width:75%; height:26.7% }
+.method-map .map-b, .method-map[data-region="b"] .method-highlight { left:.35%; top:42%; width:29.85%; height:53.75% }
+.method-map .map-c, .method-map[data-region="c"] .method-highlight { left:30.65%; top:42%; width:31.9%; height:53.75% }
+.method-map .map-d, .method-map[data-region="d"] .method-highlight { left:63%; top:42%; width:36.65%; height:53.75% }
+.method-overview .text-link { margin-top:.55rem }
+.method-lenses .stage-content { padding:0 }
+.method-lenses .diagram { height:clamp(9rem,17vw,14rem); min-height:0 }
+.method-lenses .stage-content h3 { margin-top:.8rem; font-size:1.18rem }
+.method-lenses .stage-content p { margin:.3rem 0 0; line-height:1.5 }
+.att-controls { flex-wrap:wrap }
+@media(max-width:45rem) {
+ .method-lenses { grid-template-columns:1fr; gap:.85rem }
+ .method-toolbar .stage-list button { font-size:.88rem; padding:.45rem .55rem }
+ .method-lenses .diagram { height:10rem }
+}
+@media(prefers-reduced-motion:reduce) { .method-highlight { transition:none } }

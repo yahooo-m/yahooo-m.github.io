@@ -1,4 +1,4 @@
-/* Scientific footage stays uncropped in every view. */
+/* Keep each encoded track within the player bounds. */
 .hero .hero-grid{grid-template-columns:minmax(17rem,.79fr) minmax(0,1.45fr);gap:clamp(1.75rem,3.6vw,3.8rem);padding-block:clamp(2.15rem,4.2vw,4.55rem)}
 .hero .intro h1{font-size:clamp(4.8rem,7.3vw,7.5rem)}
 .hero .intro h1 span{background:linear-gradient(110deg,var(--accent) 8%,var(--text) 60%,var(--violet));background-clip:text;color:transparent}
@@ -41,6 +41,22 @@
 .showcase-scenes button img{width:2.05rem;height:1.35rem;object-fit:cover;border-radius:.18rem}
 .showcase-scenes button[aria-pressed=true]{border-color:var(--line);background:var(--raised);color:var(--text)}
 .showcase-status{font-size:.82rem;color:var(--muted);padding-top:.4rem}
+.showcase-expression{display:flex;align-items:baseline;gap:.7rem;padding:.62rem .92rem;background:var(--bg);border-top:1px solid var(--line-soft)}
+.showcase-expression>span{flex:none;color:var(--accent);font:650 .72rem/1.35 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.showcase-expression p{font:590 clamp(.89rem,1.2vw,1.04rem)/1.38 var(--body);overflow-wrap:anywhere}
+.showcase-original-query{margin-top:.18rem;color:var(--muted);font-size:.79rem}
+.showcase-original-query summary{width:fit-content;cursor:pointer}
+.showcase-original-query summary:hover{color:var(--accent)}
+.showcase-original-query blockquote{margin:.3rem 0 .12rem;font-size:.88rem;line-height:1.45}
+.showcase-stage-labels{pointer-events:none;position:absolute;z-index:4;inset:.55rem 0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));justify-items:center;align-items:start}
+.showcase-side-label{max-width:calc(100% - .45rem);overflow-wrap:anywhere;padding:.22rem .52rem;border:1px solid #ffffff63;border-radius:.3rem;background:#0b141bed;color:#f2efff;font:650 clamp(.73rem,1.15vw,.92rem)/1.3 var(--body);text-align:center}
+.showcase-side-label.is-biseek{color:#a2fae2;border-color:#73dfcda6}
+.showcase-score{display:inline-block;margin-inline-start:.4rem;font:600 .78em/1.25 var(--mono);font-variant-numeric:tabular-nums}
+.showcase-annotation{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.17rem .6rem;margin:0 .12rem .22rem}
+.showcase-finding{color:var(--text);font-size:.88rem;font-weight:550;line-height:1.42;text-wrap:pretty}
+.showcase-crop{color:var(--muted);font:500 .69rem/1.32 var(--mono)}
+.showcase-annotation a{color:var(--accent);font-size:.79rem;font-weight:550;text-decoration:underline;text-underline-offset:.18em}
+.showcase-comparison .showcase-views{flex-wrap:wrap}
 @media(max-width:64rem) and (min-width:47.01rem){.hero .hero-grid{grid-template-columns:minmax(15rem,.77fr) minmax(0,1.3fr);gap:1.45rem}.showcase-heading{padding-inline:.7rem}.showcase-query{padding:.45rem}.showcase figcaption{padding-inline:.65rem}}
 @media(max-width:47rem){
  .hero .hero-grid{display:flex;padding-block:1.4rem 2.2rem;gap:0}
@@ -50,6 +66,7 @@
  .hero .intro .actions{order:3;margin-top:1rem}.hero .intro .summary{order:4}
  .showcase-stage{max-height:43vh}.showcase figcaption{padding:0 .62rem .56rem}
  .showcase-heading{padding:.5rem .64rem}.showcase-meta{font-size:.7rem}.showcase-heading strong{font-size:.89rem}
+ .showcase-expression{padding:.52rem .64rem}.showcase-stage-labels{inset-block-start:.36rem}.showcase-side-label{padding:.18rem .36rem}
  .showcase-query{padding:.45rem .47rem;column-gap:.35rem}.showcase-query .query-text{font-size:.89rem}
  .showcase-play,.showcase-views button,.showcase-cycle,.showcase-scenes button{min-height:2.55rem}
  .showcase-options{margin-top:.18rem}.showcase-scenes{padding-top:.22rem;margin-top:.18rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin}

@@ -9,7 +9,7 @@
   <meta property="og:description" content="One video–query encoding for temporal grounding, box tubes and mask sets.">
   <title>BiSeek · Fine-Grained Video Perception</title>
   <link rel="icon" href="assets/owl.webp">
-  <link rel="preload" as="script" href="assets/showcase/cases.js">
+  <link rel="preload" as="script" href="assets/showcase/cases.js?v=compare">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="method-tour.css">
   <link rel="stylesheet" href="comparison.css">
@@ -17,10 +17,10 @@
   <link rel="stylesheet" href="benchmark-chart.css">
   <link rel="stylesheet" href="ablation.css">
   <script>try { if (localStorage.getItem('biseek-theme') === 'light') document.documentElement.dataset.theme = 'light'; } catch {}</script>
-  <link rel="stylesheet" href="showcase.css">
+  <link rel="stylesheet" href="showcase.css?v=compare">
   <link rel="stylesheet" href="film-chapters.css">
-  <script src="assets/showcase/cases.js" defer></script>
-  <script src="showcase.js" defer></script>
+  <script src="assets/showcase/cases.js?v=compare" defer></script>
+  <script src="showcase.js?v=compare" defer></script>
   <script src="assets/research.js" defer></script>
   <script src="site.js" defer></script>
   <script src="film-chapters.js" defer></script>
@@ -53,13 +53,20 @@
           </div>
           <div class="actions"><a class="action primary" href="assets/biseek-preprint.pdf"><span class="doc-icon" aria-hidden="true"></span>Read paper</a><a class="action" id="watch" href="#film"><span class="play-icon" aria-hidden="true"></span>Watch film <small>3:06</small></a></div>
         </div>
-        <figure class="showcase" aria-label="Compare two referring queries in the same video">
+        <figure class="showcase" aria-label="Interactive video demonstrations">
           <div class="showcase-heading">
-            <div><span class="showcase-aperture" aria-hidden="true"></span><strong id="showcase-title">Query-guided video segmentation</strong></div>
+            <div><span class="showcase-aperture" aria-hidden="true"></span><strong id="showcase-title">Two pandas, one target</strong></div>
             <span class="showcase-meta" id="showcase-meta"></span>
           </div>
-          <div class="showcase-stage" id="showcase-stage">
-            <a class="showcase-fallback" href="assets/biseek-film.mp4"><img src="assets/showcase/gold-fish-poster.webp" alt="BiSeek segments two goldfish using different referring queries"><span>Play research film</span></a>
+          <div class="showcase-expression" hidden>
+            <span>Watch for</span>
+            <div>
+              <p></p>
+              <details class="showcase-original-query"><summary>Model query</summary><blockquote></blockquote></details>
+            </div>
+          </div>
+          <div class="showcase-stage" id="showcase-stage" style="--shot-aspect:1320 / 594">
+            <a class="showcase-fallback" href="assets/showcase/panda-compare.mp4"><img src="assets/showcase/panda-comparison-poster.webp" alt="VideoLoom follows the panda on the right while BiSeek follows the one moved to the foreground." width="1320" height="594"><span>Play comparison</span></a>
           </div>
           <figcaption id="showcase-interface" hidden>
             <div class="showcase-timeline">
@@ -68,8 +75,9 @@
               <output id="showcase-time" for="showcase-seek"></output>
             </div>
             <div class="showcase-queries" role="group" aria-label="Isolate a referring query"></div>
+            <div class="showcase-annotation" hidden><p class="showcase-finding" hidden></p><small class="showcase-crop" hidden>Matched crop · Original available</small><a href="#examples">Compare more methods</a></div>
             <div class="showcase-options">
-              <div class="showcase-views" role="group" aria-label="Video view"><button type="button" data-view="both" aria-pressed="true">Both queries</button><button type="button" data-view="input" aria-pressed="false">Original video</button></div>
+              <div class="showcase-views" role="group" aria-label="Video view"></div>
               <button class="showcase-cycle" type="button" aria-pressed="true" hidden><span aria-hidden="true" class="cycle-icon">↻</span>Cycle clips</button>
             </div>
             <div id="showcase-scenes" class="showcase-scenes" role="group" aria-label="Select a clip" hidden></div>

@@ -1,7 +1,12 @@
 (() => {
   'use strict';
-  const records = (window.BISEEK_SHOWCASE || []).filter(record =>
-    record.queries?.length === 2 && ['both','first','second','input'].every(view => record.sources?.[view])
+  const isComparison = record => Boolean(record.query && record.comparator);
+  const compareViews = ['compare','baseline','ours','input'];
+  const queryViews = ['both','first','second','input'];
+  const records = (window.BISEEK_SHOWCASE || []).filter(item =>
+    isComparison(item)
+      ? compareViews.every(view => item.sources?.[view])
+      : item.queries?.length === 2 && queryViews.every(view => item.sources?.[view])
   );
   if (!records.length) return;
 
@@ -9,6 +14,12 @@
   const stage = document.getElementById('showcase-stage');
   const scenes = document.getElementById('showcase-scenes');
   const queries = showcase.querySelector('.showcase-queries');
+  const expression = showcase.querySelector('.showcase-expression');
+  const originalQuery = expression.querySelector('details');
+  const views = showcase.querySelector('.showcase-views');
+  const finding = showcase.querySelector('.showcase-finding');
+  const annotation = showcase.querySelector('.showcase-annotation');
+  const crop = showcase.querySelector('.showcase-crop');
   const play = document.getElementById('showcase-play');
   const cycle = showcase.querySelector('.showcase-cycle');
   const seek = document.getElementById('showcase-seek');
@@ -22,7 +33,7 @@
   let players = new Map();
   let visible = true;
   let wantsPlay = !reduced.matches;
-  let cycleClips = !reduced.matches && records.length > 1;
+  let cycleChoice;
   let loops = 0;
 
   const make = (tag, className, text) => {
@@ -32,18 +43,26 @@
     return node;
   };
   const record = () => records[index];
+  const cycleClips = () => records.length > 1 && (cycleChoice ?? (!reduced.matches && !isComparison(record())));
   const frameCount = () => Math.max(1, Number(record().frames) || Math.round((active?.duration || 1) * frameRate()));
   const frameRate = () => Number(record().fps) || 24;
   const frameAt = clip => Math.max(0, Math.min(frameCount() - 1, Math.floor((clip?.currentTime || 0) * frameRate() + .0001)));
   const canPlay = () => visible && !document.hidden && !document.getElementById('viewer')?.open && (!film || film.paused);
-  const viewName = view => ({both:'Both queries',first:'Query 1',second:'Query 2',input:'Original video'})[view];
+  const viewName = view => ({
+    compare:'Side by side', baseline:record().comparator, ours:record().model,
+    both:'Both queries', first:'Query 1', second:'Query 2', input:'Original video', gt:'Ground truth'
+  })[view];
+  const labels = make('div','showcase-stage-labels');
+  const baselineLabel = make('span','showcase-side-label');
+  const oursLabel = make('span','showcase-side-label is-biseek');
+  labels.append(baselineLabel, oursLabel);
 
   function transport() {
     const running = wantsPlay && canPlay();
     play.setAttribute('aria-label', running ? 'Pause video' : 'Play video');
     play.firstElementChild.className = running ? 'pause-icon' : 'play-icon';
     play.lastElementChild.textContent = running ? 'Pause' : 'Play';
-    cycle.setAttribute('aria-pressed', String(cycleClips));
+    cycle.setAttribute('aria-pressed', String(cycleClips()));
   }
   function syncPlay() {
     transport();
@@ -70,6 +89,8 @@
       const mode = button.dataset.view;
       button.setAttribute('aria-pressed',String(mode === view || (view === 'both' && ['first','second'].includes(mode))));
     });
+    labels.hidden = view !== 'compare';
+    crop.hidden = view !== 'compare' || !record().pairedCrop;
   }
   function finishSwitch() {
     if (!pending) return;
@@ -111,7 +132,7 @@
     clip.addEventListener('ended', () => {
       if (active !== clip || pending || !wantsPlay) return;
       loops++;
-      if (cycleClips && loops * clip.duration >= 6) { chooseCase((index + 1) % records.length); return; }
+      if (cycleClips() && loops * clip.duration >= 6) { chooseCase((index + 1) % records.length); return; }
       clip.currentTime = 0;
       syncPlay();
     });
@@ -141,9 +162,11 @@
   }
   function chooseCase(next) {
     if (index === next) return;
-    // Keep the outgoing frame on screen until the incoming poster is ready.
+    const item = records[next];
+    const comparison = isComparison(item);
+    // Crossfade legacy clips without laying one comparison's labels over another clip.
     let outgoing;
-    if (active?.readyState >= 2 && !reduced.matches) {
+    if (!comparison && active?.readyState >= 2 && !isComparison(record()) && !reduced.matches) {
       outgoing = make('canvas','showcase-outgoing');
       outgoing.width = active.videoWidth;
       outgoing.height = active.videoHeight;
@@ -158,9 +181,12 @@
     }
     players = new Map();
     loops = 0;
-    const item = record();
+    showcase.classList.toggle('showcase-comparison', comparison);
+    const initialView = comparison ? 'compare' : 'both';
     const poster = make('img','showcase-poster');
-    poster.alt = 'Two referring-query predictions in ' + item.title;
+    poster.alt = comparison
+      ? item.alt || item.comparator + ' and ' + item.model + ' predictions in ' + item.title
+      : 'Two referring-query predictions in ' + item.title;
     if (item.poster) poster.src = item.poster;
     stage.replaceChildren(...(item.poster ? [poster] : []));
     if (outgoing) {
@@ -173,10 +199,42 @@
       if (item.poster) poster.decode().then(fade,fade);
       else fade();
     }
+    if (comparison) {
+      const setModelLabel = (label, name, score) => {
+        label.textContent = name;
+        if (Number.isFinite(score)) label.append(make('small','showcase-score',score.toFixed(2) + '%'));
+      };
+      setModelLabel(baselineLabel, item.comparator, item.scores?.baseline);
+      setModelLabel(oursLabel, item.model, item.scores?.ours);
+      stage.append(labels);
+    }
     if (item.width && item.height) stage.style.setProperty('--shot-aspect', item.width + ' / ' + item.height);
     document.getElementById('showcase-title').textContent = item.title;
-    document.getElementById('showcase-meta').textContent = [item.dataset,item.model].filter(Boolean).join(' · ');
-    queries.replaceChildren(...item.queries.map((query, n) => {
+    const metricNote = item.scores?.metric && 'Full-sequence ' + item.scores.metric;
+    document.getElementById('showcase-meta').textContent =
+      [item.dataset, comparison ? metricNote : item.model].filter(Boolean).join(' · ');
+    expression.hidden = !comparison;
+    expression.querySelector('p').textContent = comparison ? item.focus || item.query : '';
+    originalQuery.hidden = !comparison || !item.focus;
+    originalQuery.open = false;
+    originalQuery.querySelector('blockquote').textContent = comparison ? item.query : '';
+    annotation.hidden = !comparison;
+    finding.hidden = !item.finding;
+    finding.textContent = comparison ? item.finding || '' : '';
+    const modes = comparison
+      ? item.sources.gt ? [...compareViews,'gt'] : compareViews
+      : ['both','input'];
+    views.replaceChildren(...modes.map(view => {
+      const text = {compare:'Compare', baseline:'Baseline', ours:'BiSeek', input:comparison ? 'Original' : 'Original video'}[view] || viewName(view);
+      const button = make('button', null, text);
+      button.type = 'button';
+      button.dataset.view = view;
+      if (view === 'compare') button.setAttribute('aria-label','Compare both methods side by side');
+      if (view === 'baseline' || view === 'ours') button.setAttribute('aria-label','Show ' + viewName(view) + ' only');
+      return button;
+    }));
+    queries.hidden = comparison;
+    queries.replaceChildren(...(comparison ? [] : item.queries.map((query, n) => {
       const view = n ? 'second' : 'first';
       const button = make('button','showcase-query');
       button.type = 'button';
@@ -188,10 +246,10 @@
       button.append(mark, make('span','query-index','Query ' + (n + 1)), make('span','query-text',query.text));
       button.title = 'Show this query alone, or select it again to show both';
       return button;
-    }));
+    })));
     Array.from(scenes.children).forEach((button, n) => button.setAttribute('aria-pressed',String(n === index)));
-    markView('both');
-    showView('both',0);
+    markView(initialView);
+    showView(initialView,0);
     transport();
   }
 
@@ -218,12 +276,21 @@
     if (currentView === view && ['first','second'].includes(view)) view = 'both';
     showView(view, pending ? pending.frame : frameAt(active));
   });
+  annotation.querySelector('a').addEventListener('click', event => {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const item = window.biSeekResearch?.cases.find(entry => entry.id === record().galleryCase);
+    if (!item) return;
+    const task = document.querySelector('#task-bar [data-task="' + CSS.escape(item.task) + '"]');
+    if (task?.getAttribute('aria-pressed') === 'false') task.click();
+    const galleryCase = document.querySelector('#case-rail [data-case="' + CSS.escape(item.id) + '"]');
+    if (galleryCase?.getAttribute('aria-pressed') === 'false') galleryCase.click();
+  });
   play.addEventListener('click', () => {
     if (film && !film.paused) { wantsPlay = true; film.pause(); }
     else wantsPlay = !wantsPlay;
     syncPlay();
   });
-  cycle.addEventListener('click', () => {cycleClips = !cycleClips;loops = 0;transport();});
+  cycle.addEventListener('click', () => {cycleChoice = !cycleClips();loops = 0;transport();});
   seek.addEventListener('input', () => {
     const frame = Number(seek.value);
     if (pending) {pending.frame = frame;pending.sought = false;finishSwitch();}
@@ -231,7 +298,7 @@
     updateTime();
   });
   reduced.addEventListener('change', event => {
-    if (event.matches) {wantsPlay = false;cycleClips = false;syncPlay();}
+    if (event.matches) {wantsPlay = false;cycleChoice = false;syncPlay();}
   });
   document.addEventListener('visibilitychange',syncPlay);
   film?.addEventListener('play',syncPlay);

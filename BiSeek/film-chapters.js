@@ -63,9 +63,9 @@
     if (document.hidden) player.pause();
   });
   document.addEventListener('play', event => {
-    if (event.target === player) {
+    if (event.target instanceof HTMLVideoElement && event.target.matches('#film-player, #motion-vtg-video, #motion-stvg-video')) {
       document.querySelectorAll('video').forEach(other => {
-        if (other !== player && !other.paused) other.pause();
+        if (other !== event.target && !other.paused) other.pause();
       });
     }
   }, true);

@@ -25,7 +25,8 @@
   const seek = document.getElementById('showcase-seek');
   const time = document.getElementById('showcase-time');
   const status = document.getElementById('showcase-status');
-  const film = document.getElementById('film-player');
+  const foregroundSelector = '#film-player, #motion-vtg-video, #motion-stvg-video';
+  const findForegroundPlayer = () => Array.from(document.querySelectorAll(foregroundSelector)).find(video => !video.paused);
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   let index = -1;
   let active = null;
@@ -47,7 +48,7 @@
   const frameCount = () => Math.max(1, Number(record().frames) || Math.round((active?.duration || 1) * frameRate()));
   const frameRate = () => Number(record().fps) || 24;
   const frameAt = clip => Math.max(0, Math.min(frameCount() - 1, Math.floor((clip?.currentTime || 0) * frameRate() + .0001)));
-  const canPlay = () => visible && !document.hidden && !document.getElementById('viewer')?.open && (!film || film.paused);
+  const canPlay = () => visible && !document.hidden && !document.getElementById('viewer')?.open && !findForegroundPlayer();
   const viewName = view => ({
     compare:'Side by side', baseline:record().comparator, ours:record().model,
     both:'Both queries', first:'Query 1', second:'Query 2', input:'Original video', gt:'Ground truth'
@@ -286,7 +287,8 @@
     if (galleryCase?.getAttribute('aria-pressed') === 'false') galleryCase.click();
   });
   play.addEventListener('click', () => {
-    if (film && !film.paused) { wantsPlay = true; film.pause(); }
+    const foreground = findForegroundPlayer();
+    if (foreground) { wantsPlay = true; foreground.pause(); }
     else wantsPlay = !wantsPlay;
     syncPlay();
   });
@@ -301,8 +303,11 @@
     if (event.matches) {wantsPlay = false;cycleChoice = false;syncPlay();}
   });
   document.addEventListener('visibilitychange',syncPlay);
-  film?.addEventListener('play',syncPlay);
-  film?.addEventListener('pause',syncPlay);
+  for (const eventName of ['play','pause']) {
+    document.addEventListener(eventName, event => {
+      if (event.target instanceof HTMLVideoElement && event.target.matches(foregroundSelector)) syncPlay();
+    }, true);
+  }
   const modal = document.getElementById('viewer');
   if (modal) new MutationObserver(syncPlay).observe(modal,{attributes:true,attributeFilter:['open']});
   if ('IntersectionObserver' in window) {
